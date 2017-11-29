@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
 
-module.exports = new Sequelize('lahankosong'/*DB name*/, 'root'/*DB username*/, ''/*DB password*/, {
+module.exports = new Sequelize('lahankosong'/*DB name*/, 'root'/*DB username*/, 'gr1mr34p3r'/*DB password*/, {
 	host: 'localhost',
 	dialect: 'mysql'/*type of DBMS*/,
 
