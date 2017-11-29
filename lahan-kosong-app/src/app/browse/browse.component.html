@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row">
+    <h4 class="d-inline-block my-1 mr-1">Cari lahan berdasarkan</h4>
+    <div class="d-inline-block dropdown m-1">
+      <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownType" data-toggle="dropdown">
+        {{ selectedType }}
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownType">
+        <button class="dropdown-item px-2" type="button" (click)="setType(type)" *ngFor="let type of searchType">{{ type }}</button>
+      </div>
+    </div>
+    <div class="d-inline-block m-1" *ngIf="selectedType == 'wilayah'">
+      Ini wilayah
+      <!-- <div class="d-inline-block dropdown m-1">
+        <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownWilayah" data-toggle="dropdown">
+          {{ selectedWilayah }}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownWilayah">
+          <button class="dropdown-item px-2" type="button" (click)="setWilayah(wilayah)" *ngFor="let wilayah of searchWilayah">{{ wilayah }}</button>
+        </div>
+      </div> -->
+    </div>
+    <div *ngIf="selectedType == 'luasan'">
+      <div class="d-inline-block dropdown m-1">
+        <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownLuas" data-toggle="dropdown">
+          {{ selectedLuas }}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownLuas">
+          <button class="dropdown-item px-2" type="button" (click)="setLuas(luas)" *ngFor="let luas of searchLuas">{{ luas }}</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="selectedType == 'kemitraan'">
+      <div class="d-inline-block dropdown m-1">
+        <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownKemitraan" data-toggle="dropdown">
+          {{ selectedKemitraan }}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownKemitraan">
+          <button class="dropdown-item px-2" type="button" (click)="setKemitraan(kemitraan)" *ngFor="let kemitraan of searchKemitraan">{{ kemitraan }}</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="selectedType == 'bidang pengelolaan'">
+      <div class="d-inline-block dropdown m-1">
+        <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownBidang" data-toggle="dropdown">
+          {{ selectedBidang }}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownBidang">
+          <button class="dropdown-item px-2" type="button" (click)="setBidang(bidang)" *ngFor="let bidang of searchBidang">{{ bidang }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="map" style="width: 100%; height: 500px;"></div>
