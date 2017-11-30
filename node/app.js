@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors');
+var Token = require(__dirname + '/controllers/Token.controller');
 
 
 var app = express();
@@ -25,7 +26,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 /*Routing*/
 var registrasilahan = require(__dirname + '/routes/RegistrasiLahan.route'),
-	lahan = require(__dirname + '/routes/Lahan.route');;
+    lahan = require(__dirname + '/routes/Lahan.route');
+/*app.use((req, res, next) => {
+  if(!req.headers.token) {
+    // Cant find token
+    res.json({status: false, message: "Sorry we can't find your token, please make new request"});
+  } else {
+    Token.CheckingToken(req.headers.token, res, next);
+    next();
+  }
+});*/
 app.use('/registrasilahan', registrasilahan);
 app.use('/lahan', lahan);
 

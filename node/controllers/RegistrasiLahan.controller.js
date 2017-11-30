@@ -24,6 +24,7 @@ class RegistrasiLahan {
 		this.code;
 	}
 
+	/*Setting uploading file dan tempat penyimpanan dan cara menyimpannya*/
 	SetupMulter(res) {
 		if(this.code == 1) {
 			this.foldertujuan = '/../uploads/pemilik/';
@@ -39,7 +40,7 @@ class RegistrasiLahan {
 			filename: (req, file, cb) => {
 				var date = new Date();
 				var unique = date.getTime().toString();
-				var hash_date = crypto.createHash('sha1').update(unique).digest('hex');
+				var hash_date = crypto.createHash('sha1').update(unique + file.originalname).digest('hex');
 				var filename = hash_date + '.' +file.originalname.split('.')[file.originalname.split('.').length -1];
 				cb(null, filename);
 			}
