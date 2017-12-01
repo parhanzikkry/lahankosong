@@ -15,7 +15,7 @@ module.exports = function(sequelize, DataType) {
 		alamat_lengkap_lahan: DataType.TEXT,
 		longitude_lahan: DataType.STRING,
 		latitude_lahan: DataType.STRING,
-		luasan_lahan: DataType.DECIMAL,
+		luasan_lahan: DataType.FLOAT,
 		pengelolaan_sebelumnya_lahan: DataType.TEXT,
 		fk_id_pemilik: {
 			type: DataType.INTEGER,

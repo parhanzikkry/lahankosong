@@ -27,6 +27,11 @@ class CariLahan {
 		for(let i=0; i<data.length; i++) {
 			tempId.push(data[i].id);
 		}
+		if(tempId.length == 0) {
+			tempId = [-1];
+		}
+		let tempidlahan;
+		let temp;
 		Foto
 			.findAll({
 				where: {
@@ -34,24 +39,28 @@ class CariLahan {
 						$or: tempId
 					}
 				}
-			})
+			})	
 			.then((foto) => {
 				foto = JSON.parse(JSON.stringify(foto));
-				let tempidlahan =foto[0].fk_id_lahan;
-				let temp =[];
-				this.foto = [];
-				for(let i=0; i<foto.length; i++) {
-					if(tempidlahan != foto[i].fk_id_lahan) {
-						this.foto.push({id: tempidlahan, data: temp});
-						temp = [];
-						tempidlahan = foto[i].fk_id_lahan;
+				if(foto.length == 0) {
+					this.foto = [];
+				} else {
+					tempidlahan = foto[0].fk_id_lahan;
+					temp =[];
+					this.foto = [];
+					for(let i=0; i<foto.length; i++) {
+						if(tempidlahan != foto[i].fk_id_lahan) {
+							this.foto.push({id: tempidlahan, data: temp});
+							temp = [];
+							tempidlahan = foto[i].fk_id_lahan;
+						}
+						temp.push(foto[i].path_foto);
 					}
-					temp.push(foto[i].path_foto);
+					this.foto.push({id: tempidlahan, data: temp});
 				}
-				this.foto.push({id: tempidlahan, data: temp});
 			})
 			.catch((err) => {
-				res.jsno({status: false, code: 400, message: 'Gagal mendapatkan data foto', error: err});
+				res.json({status: false, code: 400, message: 'Gagal mendapatkan data foto', error: err});
 			})
 		Kemitraanlahan
 			.findAll({
@@ -71,18 +80,22 @@ class CariLahan {
 			})
 			.then((kemitraanlahan) => {
 				kemitraanlahan = JSON.parse(JSON.stringify(kemitraanlahan));
-				let tempidlahan =kemitraanlahan[0].fk_id_lahan;
-				this.kemitraanlahan = [];
-				let temp =[];
-				for(let i=0; i<kemitraanlahan.length; i++) {
-					if(tempidlahan != kemitraanlahan[i].fk_id_lahan) {
-						this.kemitraanlahan.push({id: tempidlahan, data: temp});
-						temp = [];
-						tempidlahan = kemitraanlahan[i].fk_id_lahan;
+				if(kemitraanlahan.length == 0) {
+					this.kemitraanlahan = [];
+				} else {
+					tempidlahan =kemitraanlahan[0].fk_id_lahan;
+					this.kemitraanlahan = [];
+					temp =[];
+					for(let i=0; i<kemitraanlahan.length; i++) {
+						if(tempidlahan != kemitraanlahan[i].fk_id_lahan) {
+							this.kemitraanlahan.push({id: tempidlahan, data: temp});
+							temp = [];
+							tempidlahan = kemitraanlahan[i].fk_id_lahan;
+						}
+						temp.push({kemitraan: kemitraanlahan[i].kemitraan.nama_kemitraan, detail: kemitraanlahan[i].detail_kemitraanlahan});
 					}
-					temp.push({kemitraan: kemitraanlahan[i].kemitraan.nama_kemitraan, detail: kemitraanlahan[i].detail_kemitraanlahan});
+					this.kemitraanlahan.push({id: tempidlahan, data: temp});
 				}
-				this.kemitraanlahan.push({id: tempidlahan, data: temp});
 				Pengelolaanlahan
 					.findAll({
 						where: {
@@ -99,24 +112,60 @@ class CariLahan {
 					})
 					.then((pengelolaanlahan) => {
 						pengelolaanlahan = JSON.parse(JSON.stringify(pengelolaanlahan));
-						tempidlahan =pengelolaanlahan[0].fk_id_lahan;
-						this.pengelolaanlahan = [];
-						temp = [];
-						for(let i=0; i<pengelolaanlahan.length; i++) {
-							if(tempidlahan != pengelolaanlahan[i].fk_id_lahan) {
-								this.pengelolaanlahan.push({id: tempidlahan, data: temp});
-								tempidlahan = pengelolaanlahan[i].fk_id_lahan;
-								temp = [];
+						if(pengelolaanlahan.length == 0) {
+							this.pengelolaanlahan = [];
+						} else {
+							tempidlahan = pengelolaanlahan[0].fk_id_lahan;
+							this.pengelolaanlahan = [];
+							temp = [];
+							for(let i=0; i<pengelolaanlahan.length; i++) {
+								if(tempidlahan != pengelolaanlahan[i].fk_id_lahan) {
+									this.pengelolaanlahan.push({id: tempidlahan, data: temp});
+									tempidlahan = pengelolaanlahan[i].fk_id_lahan;
+									temp = [];
+								}
+								temp.push({pengelolaan: pengelolaanlahan[i].pengelolaan.nama_pengelolaan, detail: pengelolaanlahan[i].detail_pengelolaanlahan});
 							}
-							temp.push({pengelolaan: pengelolaanlahan[i].pengelolaan.nama_pengelolaan, detail: pengelolaanlahan[i].detail_pengelolaanlahan});
+							this.pengelolaanlahan.push({id: tempidlahan, data: temp});
 						}
-						this.pengelolaanlahan.push({id: tempidlahan, data: temp});
 						this.lahan = [];
+						let countmitra = 0;
+						let countkelola = 0;
+						let countfoto = 0;
 						for(let i=0; i<data.length; i++) {
-							let temp = {id: data[i].id, pemilik: data[i].pemilik.nama_pemilik, alamat_pemilik: data[i].pemilik.alamat_pemilik, foto_pemilik: data[i].pemilik.foto_pemilik, alamat_lahan: data[i].alamat_lengkap_lahan, latitude: data[i].latitude_lahan, longitude: data[i].longitude_lahan, luasan_lahan: data[i].luasan_lahan, desa: data[i].village.name, sebelumnya: data[i].pengelolaan_sebelumnya_lahan, kemitraan: this.kemitraanlahan[i].data, pengelolaan: this.pengelolaanlahan[i].data, foto: this.foto[i].data};
+							let temp = {id: data[i].id, pemilik: data[i].pemilik.nama_pemilik, alamat_pemilik: data[i].pemilik.alamat_pemilik, foto_pemilik: data[i].pemilik.foto_pemilik, alamat_lahan: data[i].alamat_lengkap_lahan, latitude: data[i].latitude_lahan, longitude: data[i].longitude_lahan, luasan_lahan: data[i].luasan_lahan, desa: data[i].village.name, sebelumnya: data[i].pengelolaan_sebelumnya_lahan};
+							if(this.kemitraanlahan.length == 0) {
+								temp.kemitraan = [];
+							} else {
+								if(this.kemitraanlahan[countmitra].id == data[i].id) {
+									temp.kemitraan = this.kemitraanlahan[countmitra].data;
+									countmitra++;
+								} else {
+									temp.kemitraan = [];
+								}
+							}
+							if(this.pengelolaanlahan.length == 0) {
+								temp.pengelolaan = [];
+							} else {
+								if(this.pengelolaanlahan[countkelola].id == data[i].id) {
+									temp.pengelolaan = this.pengelolaanlahan[countkelola].data;
+									countkelola++;
+								} else {
+									temp.pengelolaan = [];
+								}
+							}
+							if(this.foto.length == 0) {
+								temp.foto=[];
+							} else {
+								if(this.foto[countfoto].id == data[i].id) {
+									temp.foto = this.foto[countfoto].data;
+									countfoto++;
+								} else {
+									temp.foto = [];
+								}
+							}
 							this.lahan.push(temp);
 						}
-						console.log(this.lahan)
 						res.json({status: true, code: 200, message: 'Berhasil mendapatkan data lahan', lahan: this.lahan});						
 					})
 			})
@@ -231,6 +280,9 @@ class CariLahan {
 				})
 				.then((pengelolaanlahan) => {
 					pengelolaanlahan = JSON.parse(JSON.stringify(pengelolaanlahan));
+					if (pengelolaanlahan.length == 0) {
+						idlahan = [-1];
+					}
 					for(let i=0; i<pengelolaanlahan.length; i++) {
 						idlahan.push(pengelolaanlahan[i].fk_id_lahan);
 					}
@@ -280,6 +332,9 @@ class CariLahan {
 				})
 				.then((kemitraanlahan) => {
 					kemitraanlahan = JSON.parse(JSON.stringify(kemitraanlahan));
+					if(kemitraanlahan.length == 0) {
+						idlahan = [-1];
+					}
 					for(let i=0; i<kemitraanlahan.length; i++) {
 						idlahan.push(kemitraanlahan[i].fk_id_lahan);
 					}

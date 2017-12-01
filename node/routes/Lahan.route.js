@@ -15,7 +15,6 @@ router.get('/detaillahan/:id', (req, res, next) => {
 });
 
 router.get('/cariberdasar/:kategori/:pilihan', (req, res, next) => {
-	console.log(req.params);
 	Lahan.SearchByCatagory(req, res);
 });
 
