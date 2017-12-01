@@ -30,15 +30,15 @@ router.get('/dataprovinsi', (req, res, next) => {
 	RL.GetDataProvinsi(req, res);
 });
 
-router.get('/datakabupatenkota', (req, res, next) => {
+router.get('/datakabupatenkota/:provinsi_id', (req, res, next) => {
 	RL.GetDataKabupatenKota(req, res);
 });
 
-router.get('/datakecamatan', (req, res, next) => {
+router.get('/datakecamatan/:regency_id', (req, res, next) => {
 	RL.GetDataKecamatan(req, res);
 });
 
-router.get('/datadesakel', (req, res, next) => {
+router.get('/datadesakel/:district_id', (req, res, next) => {
 	RL.GetDataDesaKelurahan(req, res);
 });
 

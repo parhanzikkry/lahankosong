@@ -113,9 +113,10 @@ class CariLahan {
 						this.pengelolaanlahan.push({id: tempidlahan, data: temp});
 						this.lahan = [];
 						for(let i=0; i<data.length; i++) {
-							let temp = {pemilik: data[i].pemilik.nama_pemilik, alamat_pemilik: data[i].pemilik.alamat_pemilik, foto_pemilik: data[i].pemilik.foto_pemilik, alamat_lahan: data[i].alamat_lengkap_lahan, latitude: data[i].latitude_lahan, longitude: data[i].longitude_lahan, luasan_lahan: data[i].luasan_lahan, desa: data[i].village.name, sebelumnya: data[i].pengelolaan_sebelumnya_lahan, kemitraan: this.kemitraanlahan[i].data, pengelolaan: this.pengelolaanlahan[i].data, foto: this.foto[i].data};
+							let temp = {id: data[i].id, pemilik: data[i].pemilik.nama_pemilik, alamat_pemilik: data[i].pemilik.alamat_pemilik, foto_pemilik: data[i].pemilik.foto_pemilik, alamat_lahan: data[i].alamat_lengkap_lahan, latitude: data[i].latitude_lahan, longitude: data[i].longitude_lahan, luasan_lahan: data[i].luasan_lahan, desa: data[i].village.name, sebelumnya: data[i].pengelolaan_sebelumnya_lahan, kemitraan: this.kemitraanlahan[i].data, pengelolaan: this.pengelolaanlahan[i].data, foto: this.foto[i].data};
 							this.lahan.push(temp);
 						}
+						console.log(this.lahan)
 						res.json({status: true, code: 200, message: 'Berhasil mendapatkan data lahan', lahan: this.lahan});						
 					})
 			})
@@ -133,9 +134,9 @@ class CariLahan {
 				},
 				limit: 5,
 				order: [
-					['createdAt', 'DESC']
+					['id', 'DESC']
 				],
-				attributes: ['alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
+				attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
 				include:[{
 					model: Pemilik,
 					attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik']
@@ -163,9 +164,9 @@ class CariLahan {
 					status_lahan: 'verif',
 				},
 				order: [
-					['createdAt', 'DESC']
+					['id', 'DESC']
 				],
-				attributes: ['alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
+				attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
 				include:[{
 					model: Pemilik,
 					attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik']
@@ -197,9 +198,9 @@ class CariLahan {
 					id: data.params.id
 				},
 				order: [
-					['createdAt', 'DESC']
+					['id', 'DESC']
 				],
-				attributes: ['alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
+				attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
 				include:[{
 					model: Pemilik,
 					attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik']
@@ -246,9 +247,9 @@ class CariLahan {
 								}
 							},
 							order: [
-								['createdAt', 'DESC']
+								['id', 'DESC']
 							],
-							attributes: ['alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
+							attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
 							include:[{
 								model: Pemilik,
 								attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik']
@@ -295,9 +296,9 @@ class CariLahan {
 								}
 							},
 							order: [
-								['createdAt', 'DESC']
+								['id', 'DESC']
 							],
-							attributes: ['alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
+							attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
 							include:[{
 								model: Pemilik,
 								attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik']
@@ -343,9 +344,9 @@ class CariLahan {
 						luasan_lahan: code
 					},
 					order: [
-						['createdAt', 'DESC']
+						['id', 'DESC']
 					],
-					attributes: ['alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
+					attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
 					include:[{
 						model: Pemilik,
 						attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik']

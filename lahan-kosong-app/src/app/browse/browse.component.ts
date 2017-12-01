@@ -77,11 +77,11 @@ export class BrowseComponent implements OnInit {
               longitude: item.longitude
           };
           this.lahan.push(_lahan);
-
-          const infowindow = new google.maps.InfoWindow({
+          console.log(item.latitude + ', ' + item.longitude);
+          let infowindow = new google.maps.InfoWindow({
             content: item.alamat_lahan
           });
-          const marker = new google.maps.Marker({
+          let marker = new google.maps.Marker({
             position: new google.maps.LatLng(item.latitude, item.longitude),
             map: map,
             title: item.alamat_lahan
