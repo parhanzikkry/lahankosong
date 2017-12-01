@@ -1,0 +1,17 @@
+footer {
+    border-top: 3px solid #4CAF50;
+}
+
+hr {
+    background: #fff;
+    width: 80%;
+}
+
+.text-silver {
+    color: #BDBDBD;
+}
+
+.bg-green {
+    background: #4CAF50;
+    color: #000;
+}
