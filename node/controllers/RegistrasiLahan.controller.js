@@ -133,7 +133,7 @@ class RegistrasiLahan {
 	}
 
 	GetDataKecamatan(data, res) {
-		Desakel
+		Kecamatan
 			.findAll({
 				where: {
 					regency_id: data.params.regency_id
