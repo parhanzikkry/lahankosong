@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AppService } from '../app.service';
 import { forEach } from '@angular/router/src/utils/collection';
 declare const google: any;
@@ -16,169 +17,216 @@ export class BrowseComponent implements OnInit {
   public selectedKemitraan: any;
   public selectedLuas: any;
   public selectedProvinsi: any;
-  public selectedKota: any;
+  public selectedKabupatenKota: any;
   public selectedKecamatan: any;
-  public lahan = [];
+  public showKabupatenKota: any;
+  public showKecamatan: any;
+  public map: any;
 
-  public searchType = {1: 'Bidang Pengelolaan', 2: 'Kemitraan', 3: 'Luasan', 4: 'Wilayah'};
+  public searchType = {1: 'Pengelolaan', 2: 'Kemitraan', 3: 'Luasan', 4: 'Wilayah'};
   public searchBidang = {1: 'Pertanian', 2: 'Hutan Kota', 3: 'Agroforestry', 4: 'Peternakan', 5: 'Perikanan', 6: 'Perkebunan'};
   public searchKemitraan = {1: 'Sewa', 2: 'Bagi Hasil', 3: 'Kerja Sama', 4: 'Jual'};
   public searchLuas = {1: 'Kurang dari 1 Ha', 2: '1 Ha sampai 5 Ha', 3: 'Lebih dari 5 Ha'};
+  public searchProvinsi = {};
+  public searchKabupatenKota = {};
+  public searchKecamatan = {};
 
-  constructor(private AppService: AppService) { }
+  constructor(
+    private AppService: AppService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
-    this.selectedType = 'pilih';
-    this.selectedBidang = 'pilih';
-    this.selectedKemitraan = 'pilih';
-    this.selectedLuas = 'pilih';
-    this.selectedProvinsi = 'pilih';
-    this.selectedKota = 'pilih';
-    this.selectedKecamatan = 'pilih';
+    this.selectedType = 'Pilih';
+    this.selectedBidang = 'Pilih';
+    this.selectedKemitraan = 'Pilih';
+    this.selectedLuas = 'Pilih';
+    this.selectedProvinsi = 'Pilih';
+    this.selectedKabupatenKota = 'Pilih';
+    this.selectedKecamatan = 'Pilih';
+    this.getDataProvinsi();
 
-    const map = new google.maps.Map(document.getElementById('map'), {
+    this.map = new google.maps.Map(document.getElementById('map'), {
       center: new google.maps.LatLng(-6.5971469, 106.8060388),
       scrollwheel: false,
-      zoom: 11
+      zoom: 10
     });
   }
 
-  // clearMarker() {
-  //   for (let i = 0; i < this.markers.length; i++) {
-  //     this.markers[i].setMap(null);
-  //   }
-  // }
+  go() {
+    console.log('go');
+  }
 
-  loadLahan(listLahan: any) {
-    listLahan.forEach(lahan => {
-      console.log(lahan.latitude + ', ' + lahan.longitude);
+  clearMarkers() {
+    this.AppService.markers.forEach(marker => {
+      marker.setMap(null);
     });
   }
 
   setType(type: any) {
     this.selectedType = type;
+    this.showKabupatenKota = 0;
+    this.showKecamatan = 0;
+    this.selectedBidang = 'Pilih';
+    this.selectedKemitraan = 'Pilih';
+    this.selectedLuas = 'Pilih';
+    this.selectedProvinsi = 'Pilih';
+    this.selectedKabupatenKota = 'Pilih';
+    this.selectedKecamatan = 'Pilih';
+  }
+
+  getDataProvinsi() {
+    this.AppService.getDataProvinsi()
+    .subscribe(data => {
+      data.forEach(item => {
+        this.searchProvinsi[item.id] = item.name;
+      });
+    });
+  }
+
+  getDataKabupatenKota(provinsi_id: number) {
+    this.searchKabupatenKota = {};
+    this.AppService.getDataKabupatenKota(provinsi_id)
+    .subscribe(data => {
+      data.forEach(item => {
+        this.searchKabupatenKota[item.id] = item.name;
+      });
+    });
+  }
+
+  getDataKecamatan(kabupatenKota_id: number) {
+    // this.AppService.getDataProvinsi()
+    // .subscribe(data => {
+    //   data.forEach(item => {
+    //     this.searchKecamatan[item.id] = item.name;
+    //   });
+    // });
+    this.searchKecamatan = {1: 'Belum', 2: 'Ada', 3: 'Datanya'};
+  }
+
+  setProvinsi(provinsi: any) {
+    this.selectedProvinsi = provinsi;
+    const pilihan = +Object.keys(this.searchProvinsi).find(key => this.searchProvinsi[key] === provinsi);
+    this.getDataKabupatenKota(pilihan);
+    this.showKabupatenKota = 1;
+  }
+
+  setKabupatenKota(kabupatenKota: any) {
+    this.selectedKabupatenKota = kabupatenKota;
+    const pilihan = +Object.keys(this.searchKabupatenKota).find(key => this.searchKabupatenKota[key] === kabupatenKota);
+    this.getDataKecamatan(pilihan);
+    this.showKecamatan = 1;
+  }
+
+  setKecamatan(kecamatan: any) {
+    this.clearMarkers();
+    this.selectedKecamatan = kecamatan;
+    const pilihan = +Object.keys(this.searchKecamatan).find(key => this.searchKecamatan[key] === kecamatan);
   }
 
   setBidang(bidang: any) {
-    this.lahan = [];
+    this.clearMarkers();
     this.selectedBidang = bidang;
     const pilihan = +Object.keys(this.searchBidang).find(key => this.searchBidang[key] === bidang);
-    const map = new google.maps.Map(document.getElementById('map'), {
-      center: new google.maps.LatLng(-6.5971469, 106.8060388),
-      scrollwheel: false,
-      zoom: 11
-    });
     this.AppService.getDataLahan(1, pilihan)
       .subscribe(data => {
         data.forEach(item => {
           const _kemitraan = item.kemitraan.map(function(e){ return e.kemitraan; }).join(', ');
           const _pengelolaan = item.pengelolaan.map(function(e){ return e.pengelolaan; }).join(', ');
-          const _lahan = {
-              pemilik: item.pemilik,
-              luasan: item.luasan_lahan,
-              alamat: item.alamat_lahan,
-              kemitraan: _kemitraan,
-              pengelolaan: _pengelolaan,
-              latitude: item.latitude,
-              longitude: item.longitude
-          };
-          this.lahan.push(_lahan);
-          console.log(item.latitude + ', ' + item.longitude);
-          let infowindow = new google.maps.InfoWindow({
-            content: item.alamat_lahan
+          const infowindow = new google.maps.InfoWindow({
+            content: `Info lahan :
+                      <h5 class="card-title">Lahan milik ` + item.pemilik + `</h5>
+                      <p class="card-text">
+                        <strong>Luasan</strong> : ` + item.luasan_lahan + ` Ha<br />
+                        <strong>Kemitraan</strong> : ` + _kemitraan + `<br />
+                        <strong>Pengelolaan</strong> : ` + _pengelolaan + `<br />
+                        <strong>Alamat</strong> : ` + item.alamat_lahan + `
+                      </p>
+                      <div class="text-center">
+                        <a href="/detail/` + item.id + `" class="btn btn-success btn-sm text-white">Lihat Detail</a>
+                      </div>`
           });
-          let marker = new google.maps.Marker({
+          const marker = new google.maps.Marker({
             position: new google.maps.LatLng(item.latitude, item.longitude),
-            map: map,
+            map: this.map,
             title: item.alamat_lahan
           });
           marker.addListener('click', function() {
-            infowindow.open(map, marker);
+            infowindow.open(this.map, marker);
           });
+          this.AppService.markers.push(marker);
         });
-      this.loadLahan(this.lahan);
       });
   }
 
   setKemitraan(kemitraan: any) {
-    this.lahan = [];
+    this.clearMarkers();
     this.selectedKemitraan = kemitraan;
     const pilihan = +Object.keys(this.searchKemitraan).find(key => this.searchKemitraan[key] === kemitraan);
-    const map = new google.maps.Map(document.getElementById('map'), {
-      center: new google.maps.LatLng(-6.5971469, 106.8060388),
-      scrollwheel: false,
-      zoom: 11
-    });
     this.AppService.getDataLahan(2, pilihan)
       .subscribe(data => {
         data.forEach(item => {
           const _kemitraan = item.kemitraan.map(function(e){ return e.kemitraan; }).join(', ');
           const _pengelolaan = item.pengelolaan.map(function(e){ return e.pengelolaan; }).join(', ');
-          const _lahan = {
-              pemilik: item.pemilik,
-              luasan: item.luasan_lahan,
-              alamat: item.alamat_lahan,
-              kemitraan: _kemitraan,
-              pengelolaan: _pengelolaan,
-              latitude: item.latitude,
-              longitude: item.longitude
-          };
-          this.lahan.push(_lahan);
-
           const infowindow = new google.maps.InfoWindow({
-            content: item.alamat_lahan
+            content: `Info lahan :
+                      <h5 class="card-title">Lahan milik ` + item.pemilik + `</h5>
+                      <p class="card-text">
+                        <strong>Luasan</strong> : ` + item.luasan_lahan + ` Ha<br />
+                        <strong>Kemitraan</strong> : ` + _kemitraan + `<br />
+                        <strong>Pengelolaan</strong> : ` + _pengelolaan + `<br />
+                        <strong>Alamat</strong> : ` + item.alamat_lahan + `
+                      </p>
+                      <div class="text-center">
+                        <a href="/detail/` + item.id + `" class="btn btn-success btn-sm text-white">Lihat Detail</a>
+                      </div>`
           });
           const marker = new google.maps.Marker({
             position: new google.maps.LatLng(item.latitude, item.longitude),
-            map: map,
+            map: this.map,
             title: item.alamat_lahan
           });
           marker.addListener('click', function() {
-            infowindow.open(map, marker);
+            infowindow.open(this.map, marker);
           });
+          this.AppService.markers.push(marker);
         });
-        this.loadLahan(this.lahan);
       });
   }
 
   setLuas(luas: any) {
-    this.lahan = [];
+    this.clearMarkers();
     this.selectedLuas = luas;
     const pilihan = +Object.keys(this.searchLuas).find(key => this.searchLuas[key] === luas);
-    const map = new google.maps.Map(document.getElementById('map'), {
-      center: new google.maps.LatLng(-6.5971469, 106.8060388),
-      scrollwheel: false,
-      zoom: 11
-    });
     this.AppService.getDataLahan(3, pilihan)
       .subscribe(data => {
         data.forEach(item => {
           const _kemitraan = item.kemitraan.map(function(e){ return e.kemitraan; }).join(', ');
           const _pengelolaan = item.pengelolaan.map(function(e){ return e.pengelolaan; }).join(', ');
-          const _lahan = {
-              pemilik: item.pemilik,
-              luasan: item.luasan_lahan,
-              alamat: item.alamat_lahan,
-              kemitraan: _kemitraan,
-              pengelolaan: _pengelolaan,
-              latitude: item.latitude,
-              longitude: item.longitude
-          };
-          this.lahan.push(_lahan);
-
           const infowindow = new google.maps.InfoWindow({
-            content: item.alamat_lahan
+            content: `Info lahan :
+                      <h5 class="card-title">Lahan milik ` + item.pemilik + `</h5>
+                      <p class="card-text">
+                        <strong>Luasan</strong> : ` + item.luasan_lahan + ` Ha<br />
+                        <strong>Kemitraan</strong> : ` + _kemitraan + `<br />
+                        <strong>Pengelolaan</strong> : ` + _pengelolaan + `<br />
+                        <strong>Alamat</strong> : ` + item.alamat_lahan + `
+                      </p>
+                      <div class="text-center">
+                        <a href="/detail/` + item.id + `" class="btn btn-success btn-sm text-white">Lihat Detail</a>
+                      </div>`
           });
           const marker = new google.maps.Marker({
             position: new google.maps.LatLng(item.latitude, item.longitude),
-            map: map,
+            map: this.map,
             title: item.alamat_lahan
           });
           marker.addListener('click', function() {
-            infowindow.open(map, marker);
+            infowindow.open(this.map, marker);
           });
+          this.AppService.markers.push(marker);
         });
-        this.loadLahan(this.lahan);
       });
   }
 

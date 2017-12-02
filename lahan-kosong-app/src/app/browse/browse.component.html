@@ -1,9 +1,9 @@
-<div class="container">
-  <div class="row">
-
+<div id="wrapper">
+  <div id="map" style="width: 100%; height: 500px;"></div>
+  <div id="over-map">
     <!-- Kategori -->
-    <h4 class="d-inline-block my-1 mr-1">Cari lahan berdasarkan : </h4>
-    <div class="d-inline-block dropdown m-1">
+    <h6 class="d-inline-block my-1 mr-1">Cari lahan berdasarkan : </h6>
+    <div class="d-inline-block dropup m-1">
       <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownType" data-toggle="dropdown">
         {{ selectedType }}
       </button>
@@ -13,13 +13,44 @@
     </div>
 
     <!-- Wilayah -->
-    <div class="d-inline-block m-1" *ngIf="selectedType == 'wilayah'">
-      Ini wilayah
+    <div *ngIf="selectedType == 'Wilayah'">
+      <h6 class="d-inline-block my-1 mr-1">Provinsi : </h6>
+      <div class="d-inline-block dropup m-1" >
+        <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownProvinsi" data-toggle="dropdown">
+          {{ selectedProvinsi }}
+        </button>
+        <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownProvinsi">
+          <button class="dropdown-item px-2" type="button" (click)="setProvinsi(provinsi)" *ngFor="let provinsi of objectValues(searchProvinsi)">{{ provinsi }}</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showKabupatenKota == 1">
+      <h6 class="d-inline-block my-1 mr-1">Kota/Kabupaten : </h6>
+      <div class="d-inline-block dropup m-1" >
+        <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownKabupatenKota" data-toggle="dropdown">
+          {{ selectedKabupatenKota }}
+        </button>
+        <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownKabupatenKota">
+          <button class="dropdown-item px-2" type="button" (click)="setKabupatenKota(kabupatenKota)" *ngFor="let kabupatenKota of objectValues(searchKabupatenKota)">{{ kabupatenKota }}</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showKecamatan == 1">
+      <h6 class="d-inline-block my-1 mr-1">Kecamatan : </h6>
+      <div class="d-inline-block dropup m-1" >
+        <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownKecamatan" data-toggle="dropdown">
+          {{ selectedKecamatan }}
+        </button>
+        <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownKecamatan">
+          <button class="dropdown-item px-2" type="button" (click)="setKecamatan(kecamatan)" *ngFor="let kecamatan of objectValues(searchKecamatan)">{{ kecamatan }}</button>
+        </div>
+      </div>
     </div>
 
     <!-- Bidang Pengelolaan -->
-    <div *ngIf="selectedType == 'Bidang Pengelolaan'">
-      <div class="d-inline-block dropdown m-1">
+    <div *ngIf="selectedType == 'Pengelolaan'">
+      <h6 class="d-inline-block my-1 mr-1">Bidang Pengelolaan : </h6>
+      <div class="d-inline-block dropup m-1">
         <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownBidang" data-toggle="dropdown">
           {{ selectedBidang }}
         </button>
@@ -31,7 +62,8 @@
 
     <!-- Kemitraan -->
     <div *ngIf="selectedType == 'Kemitraan'">
-      <div class="d-inline-block dropdown m-1">
+      <h6 class="d-inline-block my-1 mr-1">Jenis Kemitraan : </h6>
+      <div class="d-inline-block dropup m-1">
         <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownKemitraan" data-toggle="dropdown">
           {{ selectedKemitraan }}
         </button>
@@ -43,7 +75,8 @@
 
     <!-- Luasan -->
     <div *ngIf="selectedType == 'Luasan'">
-      <div class="d-inline-block dropdown m-1">
+      <h6 class="d-inline-block my-1 mr-1">Luas Lahan : </h6>
+      <div class="d-inline-block dropup m-1">
         <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownLuas" data-toggle="dropdown">
           {{ selectedLuas }}
         </button>
@@ -54,4 +87,3 @@
     </div>
   </div>
 </div>
-<div id="map" style="width: 100%; height: 500px;"></div>
