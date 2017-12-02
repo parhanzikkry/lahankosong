@@ -31,7 +31,7 @@ import { DetailComponent } from './detail/detail.component';
     RouterModule.forRoot([
       { path: '', component: CoverComponent },
       { path: 'browse', component: BrowseComponent },
-      { path: 'detail', component: DetailComponent },
+      { path: 'detail/:id', component: DetailComponent },
       { path: '**', component: NoContentComponent },
     ]),
     NgbModule.forRoot()

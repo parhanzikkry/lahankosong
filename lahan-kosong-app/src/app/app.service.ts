@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class AppService {
   private pathGet5NewLahan = 'http://localhost:3000/lahan/limalahanterbaru';
+  private pathGetDetailLahan = 'http://localhost:3000/lahan/detaillahan/';
   private pathGetDataLahan = 'http://localhost:3000/lahan/cariberdasar/';
 
   constructor(private http: Http) { }
@@ -14,6 +15,16 @@ export class AppService {
     const header = new Headers();
     header.append('Content-type', 'application/json');
     return this.http.get(this.pathGet5NewLahan, {headers: header})
+    .map((response: Response) => {
+        const body = response.json();
+        return body.lahan || {};
+    });
+  }
+
+  getDetailLahan(id: number) {
+    const header = new Headers();
+    header.append('Content-type', 'application/json');
+    return this.http.get(this.pathGetDetailLahan + id, {headers: header})
     .map((response: Response) => {
         const body = response.json();
         return body.lahan || {};

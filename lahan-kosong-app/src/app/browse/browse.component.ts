@@ -11,7 +11,6 @@ declare const google: any;
 })
 
 export class BrowseComponent implements OnInit {
-  public lahan: any;
   public selectedType: any;
   public selectedBidang: any;
   public selectedKemitraan: any;
@@ -19,6 +18,7 @@ export class BrowseComponent implements OnInit {
   public selectedProvinsi: any;
   public selectedKota: any;
   public selectedKecamatan: any;
+  public lahan = [];
 
   public searchType = {1: 'Bidang Pengelolaan', 2: 'Kemitraan', 3: 'Luasan', 4: 'Wilayah'};
   public searchBidang = {1: 'Pertanian', 2: 'Hutan Kota', 3: 'Agroforestry', 4: 'Peternakan', 5: 'Perikanan', 6: 'Perkebunan'};
@@ -39,7 +39,7 @@ export class BrowseComponent implements OnInit {
     const map = new google.maps.Map(document.getElementById('map'), {
       center: new google.maps.LatLng(-6.5971469, 106.8060388),
       scrollwheel: false,
-      zoom: 12
+      zoom: 11
     });
   }
 
@@ -48,6 +48,12 @@ export class BrowseComponent implements OnInit {
   //     this.markers[i].setMap(null);
   //   }
   // }
+
+  loadLahan(listLahan: any) {
+    listLahan.forEach(lahan => {
+      console.log(lahan.latitude + ', ' + lahan.longitude);
+    });
+  }
 
   setType(type: any) {
     this.selectedType = type;
@@ -60,7 +66,7 @@ export class BrowseComponent implements OnInit {
     const map = new google.maps.Map(document.getElementById('map'), {
       center: new google.maps.LatLng(-6.5971469, 106.8060388),
       scrollwheel: false,
-      zoom: 12
+      zoom: 11
     });
     this.AppService.getDataLahan(1, pilihan)
       .subscribe(data => {
@@ -90,6 +96,7 @@ export class BrowseComponent implements OnInit {
             infowindow.open(map, marker);
           });
         });
+      this.loadLahan(this.lahan);
       });
   }
 
@@ -100,7 +107,7 @@ export class BrowseComponent implements OnInit {
     const map = new google.maps.Map(document.getElementById('map'), {
       center: new google.maps.LatLng(-6.5971469, 106.8060388),
       scrollwheel: false,
-      zoom: 12
+      zoom: 11
     });
     this.AppService.getDataLahan(2, pilihan)
       .subscribe(data => {
@@ -130,6 +137,7 @@ export class BrowseComponent implements OnInit {
             infowindow.open(map, marker);
           });
         });
+        this.loadLahan(this.lahan);
       });
   }
 
@@ -140,7 +148,7 @@ export class BrowseComponent implements OnInit {
     const map = new google.maps.Map(document.getElementById('map'), {
       center: new google.maps.LatLng(-6.5971469, 106.8060388),
       scrollwheel: false,
-      zoom: 12
+      zoom: 11
     });
     this.AppService.getDataLahan(3, pilihan)
       .subscribe(data => {
@@ -170,6 +178,7 @@ export class BrowseComponent implements OnInit {
             infowindow.open(map, marker);
           });
         });
+        this.loadLahan(this.lahan);
       });
   }
 

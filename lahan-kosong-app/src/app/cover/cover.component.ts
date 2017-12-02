@@ -15,17 +15,18 @@ export class CoverComponent implements OnInit {
 
   ngOnInit() {
     this.newLahan = [];
-    this.AppService.get5NewLahan().subscribe(data => { 
+    this.AppService.get5NewLahan().subscribe(data => {
       data.forEach(item => {
-        let _kemitraan = item.kemitraan.map(function(e){ return e.kemitraan; }).join(", ");
-        let _pengelolaan = item.pengelolaan.map(function(e){ return e.pengelolaan; }).join(", ");
-        let _lahan = {
+        const _kemitraan = item.kemitraan.map(function(e){ return e.kemitraan; }).join(', ');
+        const _pengelolaan = item.pengelolaan.map(function(e){ return e.pengelolaan; }).join(', ');
+        const _lahan = {
           pemilik: item.pemilik,
           luasan: item.luasan_lahan,
           alamat: item.alamat_lahan,
           kemitraan: _kemitraan,
-          pengelolaan: _pengelolaan
-        }
+          pengelolaan: _pengelolaan,
+          id: item.id
+        };
         this.newLahan.push(_lahan);
       });
     });
