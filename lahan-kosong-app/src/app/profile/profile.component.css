@@ -1,0 +1,47 @@
+.just-space {
+    height: 20px;
+}
+
+.profile-user {
+    background: #eee;
+    border-radius: 10px;
+    border-left: 5px solid #4CAF50;
+    padding-right: 5px;
+}
+
+.table tr td {
+    border: none;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    vertical-align: middle;
+}
+
+.thead-green th {
+    background: #4CAF50;
+    color: #fff;
+    vertical-align: middle;
+    text-align: center;
+    border-top: none;
+}
+
+.table th:first-child {
+    border-radius: 10px 0px 0px 0px;
+}
+
+.table th:last-child {
+    border-radius: 0px 10px 0px 0px;  
+}
+
+a .btn-primary {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+a .btn-warning {
+    border-radius: 0px;
+}
+
+a .btn-danger {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
