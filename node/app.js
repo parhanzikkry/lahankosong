@@ -26,7 +26,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 /*Routing*/
 var registrasilahan = require(__dirname + '/routes/RegistrasiLahan.route'),
-    lahan = require(__dirname + '/routes/Lahan.route');
+    lahan = require(__dirname + '/routes/Lahan.route'),
+    auth = require(__dirname + '/routes/Auth.route');
+app.use('/auth', auth);
 /*app.use((req, res, next) => {
   if(!req.headers.token) {
     // Cant find token
