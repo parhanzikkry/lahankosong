@@ -13,6 +13,9 @@ import { CoverComponent } from './cover/cover.component';
 import { BrowseComponent } from './browse/browse.component';
 import { NoContentComponent } from './no-content/no-content.component';
 import { DetailComponent } from './detail/detail.component';
+import { AuthComponent } from './auth/auth.component';
+import { ProfileComponent } from './profile/profile.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { DetailComponent } from './detail/detail.component';
     CoverComponent,
     BrowseComponent,
     NoContentComponent,
-    DetailComponent
+    DetailComponent,
+    AuthComponent,
+    ProfileComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

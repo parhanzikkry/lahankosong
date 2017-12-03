@@ -15,47 +15,20 @@
         <li class="nav-item active">
           <a class="nav-link" routerLink="/browse"><i class="fa fa-map"></i> Peta</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navDropdown" role="button" data-toggle="dropdown">
-              <i class="fa fa-user"></i> Login
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/" data-toggle="modal" data-target="#memberModal">
+            <i class="fa fa-user"></i> Member Area
           </a>
-          <div class="dropdown-menu dropdown-menu-right pt-3 px-3">
-            <form class="form" role="form">
-              <div class="form-group">
-                <input id="usernameInput" placeholder="Username" class="form-control form-control-sm" type="text" required="">
-              </div>
-              <div class="form-group">
-                <input id="passwordInput" placeholder="Password" class="form-control form-control-sm" type="password" required="">
-              </div>
-              <div class="form-group">
-                <button type="submit" class="btn bg-green btn-block">Login</button>
-              </div>
-              <div class="form-group text-xs-center">
-                <small>Belum punya akun? <a href="#" data-toggle="modal" data-target="#registerModal">daftar sekarang</a></small>
-              </div>
-            </form>
-          </div>
         </li>
       </ul>
     </div>
   </div>
 </nav>
-<!-- Register Modal -->
-<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+<!-- Member Area Modal -->
+<div class="modal fade" id="memberModal" tabindex="-1" role="dialog" aria-labelledby="memberModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="registerModalLabel">Form Pendaftaran</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-green">Daftar</button>
-      </div>
+      <app-auth></app-auth>
     </div>
   </div>
 </div>
