@@ -1,3 +1,67 @@
-<p>
-  profile works!
-</p>
+<div class="just-space"></div>
+<div class="container">
+  <div class="profile-user">
+    <h3 class="text-center pt-2">Profil Publisher</h3><hr>
+    <div class="row">
+      <div class="col-md-3 order-md-2 text-center mb-3">
+        <img [src]="'assets/img/ipb.png'" alt="Foto Pemilik" width="70%">
+      </div>
+      <div class="col-md-9 order-1">
+        <table class="table table-profile">
+          <tr><td>Nama</td><td> : </td><td>Wawan Setyadi</td></tr>
+          <tr><td>Alamat</td><td> : </td><td>Jln. Melati V A4 No. 24</td></tr>
+          <tr><td>Email</td><td> : </td><td>wawansetyadi33@gmail.com</td></tr>
+          <tr><td>No. HP</td><td> : </td><td>08123456789</td></tr>
+        </table>
+      </div>
+    </div>
+  </div> 
+  <div class="daftar-lahan my-4">
+    <table class="table table-striped table-hover table-responsive-md">
+      <thead class="thead-green">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Pemilik</th>
+          <th scope="col">Alamat Lahan</th>
+          <th scope="col">Luas</th>
+          <th scope="col">Pengelolaan Sebelumnya</th>
+          <th scope="col">Kemitraan</th>
+          <th scope="col">Pegaturan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let lahan of lahanTerdaftar">
+          <th scope="row">{{ lahan.no }}</th>
+          <td>{{ lahan.pemilik }}</td>
+          <td>{{ lahan.alamat }}</td>
+          <td>{{ lahan.luasan }} Ha</td>
+          <td>{{ lahan.pengelolaan }}</td>
+          <td>{{ lahan.kemitraan }}</td>
+          <td class="text-center">
+            <div class="btn-group" role="group">
+              <a routerLink="/detail/{{ lahan.id }}">
+                <button type="button" class="btn btn-primary" title="Lihat">
+                  <i class="fa fa-eye"></i>
+                </button>
+              </a>
+              <a routerLink="/edit/{{ lahan.id }}">
+                <button type="button" class="btn btn-warning" title="Ubah">
+                  <i class="fa fa-pencil"></i>
+                </button>
+              </a>
+              <a routerLink="/delete/{{ lahan.id }}">
+                <button type="button" class="btn btn-danger" title="Hapus">
+                  <i class="fa fa-times"></i>
+                </button>
+              </a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tambah-lahan text-center">
+    <a routerLink="/upload" class="btn btn-success">Tambah Lahan</a>
+  </div>
+</div>
+<div class="just-space"></div>

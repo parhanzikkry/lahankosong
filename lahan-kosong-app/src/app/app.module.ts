@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -16,6 +16,7 @@ import { DetailComponent } from './detail/detail.component';
 import { AuthComponent } from './auth/auth.component';
 import { ProfileComponent } from './profile/profile.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { UploadComponent } from './upload/upload.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     DetailComponent,
     AuthComponent,
     ProfileComponent,
-    DashboardComponent
+    DashboardComponent,
+    UploadComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +41,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
       { path: '', component: CoverComponent },
       { path: 'browse', component: BrowseComponent },
       { path: 'detail/:id', component: DetailComponent },
+      { path: 'profile', component: ProfileComponent },
+      { path: 'dashboard', component: DashboardComponent },
       { path: '**', component: NoContentComponent },
     ]),
     NgbModule.forRoot()
