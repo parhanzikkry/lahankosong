@@ -8,6 +8,7 @@ export class AppService {
   private pathGet5NewLahan = 'http://localhost:3000/lahan/limalahanterbaru';
   private pathGetDetailLahan = 'http://localhost:3000/lahan/detaillahan/';
   private pathGetDataLahan = 'http://localhost:3000/lahan/cariberdasar/';
+  private pathGetLahanKecamatan = 'http://localhost:3000/lahan/lahankecamatan/';
   private pathGetDataProvinsi = 'http://localhost:3000/registrasilahan/dataprovinsi';
   private pathGetDataKabupatenKota = 'http://localhost:3000/registrasilahan/datakabupatenkota/';
   private pathGetDataKecamatan = 'http://localhost:3000/registrasilahan/datakecamatan/';
@@ -45,6 +46,16 @@ export class AppService {
     });
   }
 
+  getLahanKecamatan(kabupatenKota_id: number) {
+    const header = new Headers();
+    header.append('Content-type', 'application/json');
+    return this.http.get(this.pathGetLahanKecamatan + kabupatenKota_id, {headers: header})
+    .map((response: Response) => {
+        const body = response.json();
+        return body.lahan || {};
+    });
+  }
+
   getDataProvinsi() {
     const header = new Headers();
     header.append('Content-type', 'application/json');
@@ -74,5 +85,4 @@ export class AppService {
         return body.kecamatan || {};
     });
   }
-
 }
