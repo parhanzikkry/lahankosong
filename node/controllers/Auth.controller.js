@@ -41,16 +41,18 @@ class Auth {
 	}
 
 	Register(data, res) {
-		this.SetPassword(data.body.password);
+		console.log('masuk?', data.body.password_publisher);
+		this.SetPassword(data.body.password_publisher);
 		Publisher
 			.findOne({
 				where: {
-					username_publisher: data.body.username
+					username_publisher: data.body.username_publisher
 				}
 			})
 			.then((publisher) => {
 				publisher = JSON.parse(JSON.stringify(publisher));
-				if(publisher.length == 0) {
+				console.log('check', publisher);
+				if(publisher != null) {
 					res.json({status: false, code: 400, message: 'Username sudah tersedia', data: data.body});
 				} else {
 					Publisher
@@ -66,9 +68,9 @@ class Auth {
 						})
 						.then((info) => {
 							info = JSON.parse(JSON.stringify(info));
-							Email.SetTamplateRegister(info);
-							Email.SendEmail(info.email_publisher, res);
-							res.json({status: true, code: 400, message: 'Berhasil mendaftarkan diri', info: info});
+							// Email.SetTamplateRegister(info);
+							// Email.SendEmail(info.email_publisher, res);
+							res.json({status: true, code: 200, message: 'Berhasil mendaftarkan diri', info: info});
 						})
 						.catch((err) => {
 							res.json({status: false, code: 400, message: 'error pada saat mendaftarkan akun', error: err});
@@ -80,3 +82,5 @@ class Auth {
 			})
 	}
 }
+
+module.exports = new Auth;

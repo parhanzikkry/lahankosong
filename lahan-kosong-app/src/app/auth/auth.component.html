@@ -9,68 +9,68 @@
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="login" role="tabpanel">
-      <form class="mt-3">
+      <form [formGroup]="loginForm" class="mt-3">
         <div class="form-group">
-          <label for="username">Username :</label>
-          <input type="text" class="form-control" id="username" placeholder="Username">
+          <label for="Username">Username :</label>
+          <input type="text" class="form-control form-control" id="Username" placeholder="Username"  formControlName="username">
         </div>
         <div class="form-group">
-          <label for="password">Password :</label>
-          <input type="password" class="form-control" id="password" placeholder="Password">
+          <label for="Password">Password :</label>
+          <input type="password" class="form-control" id="Password" placeholder="Password" formControlName="password" appCapslock>
         </div>
         <div class="form-button">
           <button class="btn btn-secondary" data-dismiss="modal">Batal</button>
-          <button class="btn btn-success">Login</button>
+          <button class="btn btn-success" (click)="onLogin()">Login</button>
         </div>
       </form>
     </div>
     <div class="tab-pane" id="daftar" role="tabpanel">
-      <form  class="mt-3">
+      <form  [formGroup]="registerForm" class="mt-3">
         <div class="form-group row">
           <label for="username_publisher" class="col-sm-2 col-form-label">Username</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="username_publisher" placeholder="Username">
+            <input type="text" class="form-control" id="username_publisher" placeholder="Username" formControlName="username">
           </div>
         </div>
         <div class="form-group row">
           <label for="password_publisher" class="col-sm-2 col-form-label">Password</label>
           <div class="col-sm-10">
-            <input type="password" class="form-control" id="password_publisher" placeholder="Password">
+            <input type="password" class="form-control" id="password_publisher" placeholder="Password" formControlName="password">
           </div>
         </div>
         <div class="form-group row">
           <label for="nama_publisher" class="col-sm-2 col-form-label">Nama</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="nama_publisher" placeholder="Nama Lengkap">
+            <input type="text" class="form-control" id="nama_publisher" placeholder="Nama Lengkap" formControlName="nama">
           </div>
         </div>
         <div class="form-group row">
           <label for="email_publisher" class="col-sm-2 col-form-label">Email</label>
           <div class="col-sm-10">
-            <input type="email" class="form-control" id="email_publisher" placeholder="Email">
+            <input type="email" class="form-control" id="email_publisher" placeholder="Email" formControlName="email">
           </div>
         </div>
         <div class="form-group row">
           <label for="no_hp_publisher" class="col-sm-2 col-form-label">No. HP</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="no_hp_publisher" placeholder="Nomor HP">
+            <input type="text" class="form-control" id="no_hp_publisher" placeholder="Nomor HP" formControlName="noHp">
           </div>
         </div>
         <div class="form-group row">
           <label for="ttl_publisher" class="col-sm-2 col-form-label">TTL</label>
           <div class="col-sm-10">
-            <input type="date" class="form-control" id="ttl_publisher" placeholder="Tempat Tanggal Lahir">
+            <input type="date" class="form-control" id="ttl_publisher" placeholder="Tempat Tanggal Lahir" formControlName="TTL">
           </div>
         </div>
         <div class="form-group row">
           <label for="alamat_publisher" class="col-sm-2 col-form-label">Alamat</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="alamat_publisher" placeholder="Alamat">
+            <input type="text" class="form-control" id="alamat_publisher" placeholder="Alamat" formControlName="alamat">
           </div>
         </div>
         <div class="form-button">
           <button class="btn btn-secondary" data-dismiss="modal">Batal</button>
-          <button class="btn btn-success">Daftar</button>
+          <button class="btn btn-success" (click)="onRegister()">Daftar</button>
         </div>
       </form>
     </div>

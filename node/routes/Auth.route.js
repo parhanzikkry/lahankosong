@@ -7,6 +7,7 @@ router.post('/login', (req, res, next) => {
 });
 
 router.post('/register', (req, res, next) => {
+    console.log('masuk', req.body);
     Auth.Register(req, res);
 })
 
