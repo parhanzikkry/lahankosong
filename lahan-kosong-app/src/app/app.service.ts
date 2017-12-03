@@ -91,7 +91,6 @@ export class AppService {
         return body.kecamatan || {};
     });
   }
-<<<<<<< HEAD
 
   public Login(username: string, password:string) {
     const header = new Headers();
@@ -136,6 +135,4 @@ export class AppService {
       })
   }
 
-=======
->>>>>>> 591a92cd1615e0b3d92dc757c673311d6476328d
 }
