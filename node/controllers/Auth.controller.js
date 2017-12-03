@@ -1,7 +1,9 @@
 var crypto = require('crypto'),
 	sequelize = require('../dbconnection'),
+	mailer = require('nodemailer'),
 	Token = require(__dirname + '/Token.controller'),
-	Publisher = sequelize.import(__dirname + '/../models/publisher.model');
+	Publisher = sequelize.import(__dirname + '/../models/publisher.model')
+	Email = require(__dirname + '/Mailer.controller');
 
 class Auth {
 	constructor() {
@@ -63,6 +65,9 @@ class Auth {
 							alamat_publisher: data.body.alamat_publisher
 						})
 						.then((info) => {
+							info = JSON.parse(JSON.stringify(info));
+							Email.SetTamplateRegister(info);
+							Email.SendEmail(info.email_publisher, res);
 							res.json({status: true, code: 400, message: 'Berhasil mendaftarkan diri', info: info});
 						})
 						.catch((err) => {

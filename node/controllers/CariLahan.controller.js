@@ -266,6 +266,26 @@ class CariLahan {
 			});
 	}
 
+	GetMyLahanData(date, res) {
+		Lahan
+			.findAll({
+				where: {
+					fk_id_publisher: data.headers.id
+				},
+				attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
+				include:[{
+					model: Pemilik,
+					attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik']
+				},{
+					model: Desakel,
+					attributes: ['name']
+				}]
+			})
+			.then((lahan) => {
+				this.GetDataLain(lahan, res);
+			})
+	}
+
 	SearchByCatagory(data, res) {
 		/*mencari bedarsarkan kategori*/
 		/*1 == Pengelolaan*/

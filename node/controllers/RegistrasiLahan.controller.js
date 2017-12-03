@@ -108,7 +108,11 @@ class RegistrasiLahan {
 
 	GetDataProvinsi(data, res) {
 		Provinsi
-			.findAll()
+			.findAll({
+				order:[
+					['name']	
+				]
+			})
 			.then((provinsi) => {
 				res.json({status: true, code: 200, message: 'Berhasil mendapatkan data provinsi', provinsi: provinsi});
 			})
@@ -122,7 +126,10 @@ class RegistrasiLahan {
 			.findAll({
 				where: {
 					province_id: data.params.provinsi_id
-				}
+				},
+				order:[
+					['name']	
+				]
 			})
 			.then((kabupatenkota) => {
 				res.json({status: true, code: 200, message: 'Berhasil mendapatkan data kabupaten atau kota', kabupatenkota: kabupatenkota});
@@ -137,7 +144,10 @@ class RegistrasiLahan {
 			.findAll({
 				where: {
 					regency_id: data.params.regency_id
-				}
+				},
+				order:[
+					['name']	
+				]
 			})
 			.then((kecamatan) => {
 				res.json({status: true, code: 200, message: 'Berhasil mendapatkan data kecamatan', kecamatan: kecamatan});
@@ -152,7 +162,10 @@ class RegistrasiLahan {
 			.findAll({
 				where: {
 					district_id: data.params.district_id
-				}
+				},
+				order:[
+					['name']	
+				]
 			})
 			.then((datadesakelurahan) => {
 				res.json({status: true, code: 200, message: 'Berhasil mendapatkan semua data dasa atau kelurahan', desakelurahan: datadesakelurahan});
