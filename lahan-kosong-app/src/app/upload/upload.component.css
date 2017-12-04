@@ -1,0 +1,26 @@
+.justspace {
+    height: 30px;
+}
+
+.container {
+    background: #eee;
+    border-radius: 10px;
+    border-left: 5px solid #4CAF50;
+    padding-right: 5px;
+}
+
+.form-separator {
+    margin-left: -15px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    background: #4CAF50;
+    border-bottom-right-radius: 75%;
+    display: inline-block;
+    padding: 10px 30px 10px 10px;
+    color: #fff;
+}
+
+.form-button {
+    text-align: center;
+    margin-top: 20px;
+}

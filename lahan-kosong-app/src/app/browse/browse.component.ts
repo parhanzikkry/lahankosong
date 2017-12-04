@@ -54,10 +54,6 @@ export class BrowseComponent implements OnInit {
     });
   }
 
-  go() {
-    console.log('go');
-  }
-
   clearMarkers() {
     this.AppService.markers.forEach(marker => {
       marker.setMap(null);

@@ -41,6 +41,7 @@ import { UploadComponent } from './upload/upload.component';
       { path: '', component: CoverComponent },
       { path: 'browse', component: BrowseComponent },
       { path: 'detail/:id', component: DetailComponent },
+      { path: 'upload', component: UploadComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'dashboard', component: DashboardComponent },
       { path: '**', component: NoContentComponent },

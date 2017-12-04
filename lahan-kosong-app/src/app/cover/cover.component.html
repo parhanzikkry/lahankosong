@@ -16,10 +16,10 @@
       <div class="card-body">
         <h5 class="card-title">{{ lahan.pemilik }}</h5>
         <p class="card-text">
-          <strong>Luasan</strong> : {{ lahan.luasan }} Ha<br />
-          <strong>Kemitraan</strong> : {{ lahan.kemitraan }}<br />
-          <strong>Pengelolaan</strong> : {{ lahan.pengelolaan }}<br />
-          <strong>Alamat</strong> : {{ lahan.alamat }}
+          <strong class="text-nowrap">Luasan :</strong> {{ lahan.luasan }} Ha<br />
+          <strong class="text-nowrap">Kemitraan :</strong> {{ lahan.kemitraan }}<br />
+          <strong class="text-nowrap">Pengelolaan :</strong> {{ lahan.pengelolaan }}<br />
+          <strong class="text-nowrap">Alamat :</strong> {{ lahan.alamat }}
         </p>
       </div>
       <div class="card-footer text-center">
@@ -31,5 +31,6 @@
 
 <div class="container">
   <h4  class="d-inline-block">Don't mind me</h4>
-  <a routerLink="/profile" class="btn btn-danger d-inline-block mb-3">!!</a>
+  <a routerLink="/profile" class="btn btn-sm btn-warning d-inline-block mb-3">?</a>
+  <a routerLink="/upload" class="btn btn-sm btn-danger d-inline-block mb-3">!</a>
 </div>

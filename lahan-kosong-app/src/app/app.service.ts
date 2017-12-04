@@ -9,13 +9,13 @@ export class AppService {
   public token: string;
   private jwtHelper: JwtHelper = new JwtHelper();
   private site = 'http://localhost:3000/';
-  private pathGet5NewLahan = 'http://localhost:3000/lahan/limalahanterbaru';
-  private pathGetDetailLahan = 'http://localhost:3000/lahan/detaillahan/';
-  private pathGetDataLahan = 'http://localhost:3000/lahan/cariberdasar/';
-  private pathGetLahanKecamatan = 'http://localhost:3000/lahan/lahankecamatan/';
-  private pathGetDataProvinsi = 'http://localhost:3000/registrasilahan/dataprovinsi';
-  private pathGetDataKabupatenKota = 'http://localhost:3000/registrasilahan/datakabupatenkota/';
-  private pathGetDataKecamatan = 'http://localhost:3000/registrasilahan/datakecamatan/';
+  private pathGet5NewLahan = this.site + 'lahan/limalahanterbaru';
+  private pathGetDetailLahan = this.site + 'lahan/detaillahan/';
+  private pathGetDataLahan = this.site + 'lahan/cariberdasar/';
+  private pathGetLahanKecamatan = this.site + 'lahan/lahankecamatan/';
+  private pathGetDataProvinsi = this.site + 'registrasilahan/dataprovinsi';
+  private pathGetDataKabupatenKota = this.site + 'registrasilahan/datakabupatenkota/';
+  private pathGetDataKecamatan = this.site + 'registrasilahan/datakecamatan/';
   private pathLogin = this.site + 'auth/login';
   private pathRegister = this.site + 'auth/register';
   public markers = [];
@@ -128,7 +128,15 @@ export class AppService {
   ) {
     const header = new Headers();
     header.append('Content-type', 'application/json' );
-    const body = JSON.stringify({username_publisher: username, password_publisher: password, nama_publisher: nama, email_publisher: email, TTL_publisher: TTL, no_hp_publisher: noHp, alamat_publisher: alamat});
+    const body = JSON.stringify({
+      username_publisher: username,
+      password_publisher: password,
+      nama_publisher: nama,
+      email_publisher: email,
+      TTL_publisher: TTL,
+      no_hp_publisher: noHp,
+      alamat_publisher: alamat
+    });
     return this.http.post(this.pathRegister, body, {headers: header})
       .map((response: Response) => {
         console.log(response);
