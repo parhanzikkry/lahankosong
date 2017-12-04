@@ -18,6 +18,7 @@ export class AppService {
   private pathGetDataKecamatan = this.site + 'registrasilahan/datakecamatan/';
   private pathLogin = this.site + 'auth/login';
   private pathRegister = this.site + 'auth/register';
+  private pathMyLahan = this.site + 'lahan/mylahan'; 
   public markers = [];
 
   constructor(private http: Http) { }
@@ -155,5 +156,16 @@ export class AppService {
     } else {
       return false;
     }
+  }
+
+  public getMyLahan() {
+    const header = new Headers();
+    header.append('Content-type', 'application/json');
+    header.append('token',localStorage.getItem('currentUser'));
+    return this.http.get(this.pathMyLahan, {headers: header})
+    .map((response: Response) => {
+        const body = response.json();
+        return body.lahan || {};
+    });
   }
 }

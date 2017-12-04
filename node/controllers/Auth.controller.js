@@ -41,7 +41,6 @@ class Auth {
 	}
 
 	Register(data, res) {
-		console.log('masuk?', data.body.password_publisher);
 		this.SetPassword(data.body.password_publisher);
 		Publisher
 			.findOne({
@@ -51,7 +50,6 @@ class Auth {
 			})
 			.then((publisher) => {
 				publisher = JSON.parse(JSON.stringify(publisher));
-				console.log('check', publisher);
 				if(publisher != null) {
 					res.json({status: false, code: 400, message: 'Username sudah tersedia', data: data.body});
 				} else {
@@ -68,8 +66,8 @@ class Auth {
 						})
 						.then((info) => {
 							info = JSON.parse(JSON.stringify(info));
-							// Email.SetTamplateRegister(info);
-							// Email.SendEmail(info.email_publisher, res);
+							Email.SetTamplateRegister(Token.SetupToken(info));
+							Email.SendEmail(info.email_publisher, res);
 							res.json({status: true, code: 200, message: 'Berhasil mendaftarkan diri', info: info});
 						})
 						.catch((err) => {

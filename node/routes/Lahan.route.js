@@ -18,4 +18,8 @@ router.get('/cariberdasar/:kategori/:pilihan', (req, res, next) => {
 	Lahan.SearchByCatagory(req, res);
 });
 
+router.get('/mylahan', (req, res, next) => {
+	Lahan.GetMyLahanData(req, res);
+})
+
 module.exports = router;

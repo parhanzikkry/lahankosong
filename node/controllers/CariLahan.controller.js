@@ -9,7 +9,8 @@ var sequelize = require(__dirname + '/../dbconnection'),
 	Pengelolaan = sequelize.import(__dirname + '/../models/pengelolaan.model'),
 	Pengelolaanlahan = sequelize.import(__dirname + '/../models/pengelolaanlahan.model'),
 	Kemitraan = sequelize.import(__dirname + '/../models/kemitraan.model'),
-	Kemitraanlahan = sequelize.import(__dirname + '/../models/kemitraanlahan.model');
+	Kemitraanlahan = sequelize.import(__dirname + '/../models/kemitraanlahan.model'),
+	Token = require(__dirname + '/Token.controller');
 
 class CariLahan {
 	constructor() {
@@ -266,11 +267,15 @@ class CariLahan {
 			});
 	}
 
-	GetMyLahanData(date, res) {
+	GetMyLahanData(data, res) {
+		Lahan.belongsTo(Pemilik, {foreignKey: 'fk_id_pemilik'});
+		Lahan.belongsTo(Desakel, {foreignKey: 'fk_id_desakel'});
+		Kemitraanlahan.belongsTo(Kemitraan, {foreignKey: 'fk_id_kemitraan'});
+		Pengelolaanlahan.belongsTo(Pengelolaan, {foreignKey: 'fk_id_pengelolaan'});
 		Lahan
 			.findAll({
 				where: {
-					fk_id_publisher: data.headers.id
+					fk_id_publisher: Token.DecodeToken(JSON.parse(data.headers.token).token).token.id
 				},
 				attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
 				include:[{

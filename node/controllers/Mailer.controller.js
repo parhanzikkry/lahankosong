@@ -18,7 +18,7 @@ class Mailer {
 
     SetTamplateRegister(data) {
         this.subject = 'Verifikasi akun pada banklahan';
-        this.tampalte = `
+        this.tamplate = `
             <p>Silahkan klik tombol di bawah ini untuk memverifikasi akun anda di banklahan</p>
             <p> NB: jika anda tidak merasa mendaftarkan email anda di bank lahan, abaikan email ini.</p>
             <p><a href="http://localhost:4200/#/login/reset-password/`+ data +`">
@@ -27,13 +27,14 @@ class Mailer {
     }
 
     SendEmail(email,res) {
-		var mailOptions = {
-			from: this.sender, // sender
+        var mailOptions = {
+            from: this.sender, // sender
 			to: email, // receiver
 			subject: this.subject,  // tittle
 			html: this.tamplate
-		}
-		transport.sendMail(mailOptions, (error, info) => {
+        }
+        console.log(mailOptions)
+		this.transport.sendMail(mailOptions, (error, info) => {
 			if (error) {
 				res.json({status: false, message: 'Mail sent failed', err: error})
 			} else {
@@ -42,3 +43,5 @@ class Mailer {
 		})
 	}
 }
+
+module.exports = new Mailer;

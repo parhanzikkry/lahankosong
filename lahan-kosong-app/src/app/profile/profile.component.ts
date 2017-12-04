@@ -26,7 +26,7 @@ export class ProfileComponent implements OnInit {
       this.router.navigate(['']);
     } else { 
       this.lahanTerdaftar = [];
-      this.AppService.get5NewLahan().subscribe(data => {
+      this.AppService.getMyLahan().subscribe(data => {
         this.enum = 1;
         data.forEach(item => {
           const _kemitraan = item.kemitraan.map(function(e){ return e.kemitraan; }).join(', ');
