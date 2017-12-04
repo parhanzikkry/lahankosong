@@ -16,9 +16,10 @@ export class AppService {
   private pathGetDataProvinsi = this.site + 'registrasilahan/dataprovinsi';
   private pathGetDataKabupatenKota = this.site + 'registrasilahan/datakabupatenkota/';
   private pathGetDataKecamatan = this.site + 'registrasilahan/datakecamatan/';
+  private pathGetDataDesaKel = this.site + 'registrasilahan/datadesakel/';
   private pathLogin = this.site + 'auth/login';
   private pathRegister = this.site + 'auth/register';
-  private pathMyLahan = this.site + 'lahan/mylahan'; 
+  private pathMyLahan = this.site + 'lahan/mylahan';
   public markers = [];
 
   constructor(private http: Http) { }
@@ -93,7 +94,17 @@ export class AppService {
     });
   }
 
-  public Login(username: string, password:string) {
+  getDataDesaKel(kecamatan_id: number) {
+    const header = new Headers();
+    header.append('Content-type', 'application/json');
+    return this.http.get(this.pathGetDataDesaKel + kecamatan_id, {headers: header})
+    .map((response: Response) => {
+        const body = response.json();
+        return body.desakelurahan || {};
+    });
+  }
+
+  public Login(username: string, password: string) {
     const header = new Headers();
     header.append('Content-type', 'application/json' );
     return this.http.post(this.pathLogin, JSON.stringify({username: username, password: password}), {headers: header})
@@ -141,13 +152,13 @@ export class AppService {
     return this.http.post(this.pathRegister, body, {headers: header})
       .map((response: Response) => {
         console.log(response);
-      })
+      });
   }
 
   public CheckStatus() {
-    if(localStorage.getItem('currentUser')) {
+    if (localStorage.getItem('currentUser')) {
       const token = JSON.parse(localStorage.getItem('currentUser')).token;
-      if(!this.jwtHelper.isTokenExpired(token)) {
+      if (!this.jwtHelper.isTokenExpired(token)) {
         return this.jwtHelper.decodeToken(token).token;
       } else {
         localStorage.removeItem('currentUser');
@@ -161,7 +172,7 @@ export class AppService {
   public getMyLahan() {
     const header = new Headers();
     header.append('Content-type', 'application/json');
-    header.append('token',localStorage.getItem('currentUser'));
+    header.append('token', localStorage.getItem('currentUser'));
     return this.http.get(this.pathMyLahan, {headers: header})
     .map((response: Response) => {
         const body = response.json();
