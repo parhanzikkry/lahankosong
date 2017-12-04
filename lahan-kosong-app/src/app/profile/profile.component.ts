@@ -22,9 +22,9 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.pemilik = this.AppService.CheckStatus();
-    if(!this.pemilik) {
+    if (!this.pemilik) {
       this.router.navigate(['']);
-    } else { 
+    } else {
       this.lahanTerdaftar = [];
       this.AppService.getMyLahan().subscribe(data => {
         this.enum = 1;

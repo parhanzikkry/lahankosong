@@ -1,6 +1,6 @@
 import { Component, DoCheck } from '@angular/core';
-
 import { AppService } from '../app.service';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +9,7 @@ import { AppService } from '../app.service';
   providers: [AppService]
 })
 export class HeaderComponent implements DoCheck {
-  private login:boolean;
+  private login: boolean;
   private NamaUser: string;
   constructor(
     private AppService: AppService
@@ -17,7 +17,7 @@ export class HeaderComponent implements DoCheck {
 
   ngDoCheck() {
     this.NamaUser = this.AppService.CheckStatus().nama_publisher;
-    if(!this.NamaUser) {
+    if (!this.NamaUser) {
       this.login = false;
     } else {
       this.login = true;
@@ -25,7 +25,13 @@ export class HeaderComponent implements DoCheck {
   }
 
   public onLogout() {
-    this.AppService.Logout()
+    this.AppService.Logout();
+    swal({
+      title: 'Anda telah Logout',
+      type: 'success',
+      confirmButtonColor: '#28a745',
+      confirmButtonText: 'OK'
+    });
   }
 
 }
