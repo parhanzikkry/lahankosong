@@ -143,4 +143,12 @@ export class AppService {
       })
   }
 
+  public CheckStatus() {
+    if(localStorage.getItem('currentUser')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }

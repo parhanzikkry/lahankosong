@@ -16,13 +16,13 @@
           <a class="nav-link" routerLink="/browse"><i class="fa fa-map"></i> Peta</a>
         </li>
         <!-- Belum Login -->
-        <li class="nav-item">
+        <li *ngIf="!login" class="nav-item">
           <a class="nav-link" routerLink="/" data-toggle="modal" data-target="#memberModal">
             <i class="fa fa-user"></i> Member Area
           </a>
         </li>
         <!-- Sudah Login -->
-        <!-- <li class="nav-item dropdown">
+        <li *ngIf="login" class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navDropdown" role="button" data-toggle="dropdown">
               <i class="fa fa-user"></i> Nama User
           </a>
@@ -32,7 +32,7 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" routerLink="/">Logout</a>            
           </div>
-        </li> -->
+        </li>
       </ul>
     </div>
   </div>
