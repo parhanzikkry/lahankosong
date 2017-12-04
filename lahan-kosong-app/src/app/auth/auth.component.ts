@@ -48,7 +48,7 @@ export class AuthComponent implements OnInit {
             confirmButtonColor: '#28a745',
             confirmButtonText: 'OK'
           });
-          this.router.navigate(['']);
+          this.router.navigate(['profile']);
         } else {
           swal({
             title: 'Login Gagal',
@@ -57,7 +57,6 @@ export class AuthComponent implements OnInit {
             confirmButtonColor: '#d33',
             confirmButtonText: 'OK'
           });
-          this.router.navigate(['']);
         }
       });
   }
