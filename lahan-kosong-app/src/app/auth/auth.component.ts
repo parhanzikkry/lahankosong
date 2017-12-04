@@ -40,12 +40,12 @@ export class AuthComponent implements OnInit {
   public onLogin() {
     this.AppService.Login(this.loginForm.value.username, this.loginForm.value.password)
       .subscribe(data => {
-        console.log(data);
+        if(data) {
+          this.router.navigate(['']);
+        } else {
+          this.router.navigate(['']);
+        }
       })
-  }
-
-  public onLogout() {
-    this.AppService.Logout()
   }
 
   public onRegister() {

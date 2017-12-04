@@ -22,16 +22,20 @@ export class UploadComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.map = new google.maps.Map(document.getElementById('map'), {
-      center: new google.maps.LatLng(-6.5971469, 106.8060388),
-      scrollwheel: false,
-      zoom: 10
-    });
-
-    google.maps.event.addListener(this.map, 'click', function(event){
-      // this.addMarker(event.latLng.lat(), event.latLng.lng());
-      alert('Latitude : ' + event.latLng.lat() + ', Longitude : ' + event.latLng.lng());
-    });
+    if(!this.AppService.CheckStatus()) {
+      this.router.navigate(['']);
+    } else {
+        this.map = new google.maps.Map(document.getElementById('map'), {
+          center: new google.maps.LatLng(-6.5971469, 106.8060388),
+          scrollwheel: false,
+          zoom: 10
+        });
+    
+        google.maps.event.addListener(this.map, 'click', function(event){
+          // this.addMarker(event.latLng.lat(), event.latLng.lng());
+          alert('Latitude : ' + event.latLng.lat() + ', Longitude : ' + event.latLng.lng());
+        });
+    }
   }
 
   addMarker(lat: number, lng: number) {

@@ -145,10 +145,15 @@ export class AppService {
 
   public CheckStatus() {
     if(localStorage.getItem('currentUser')) {
-      return true;
+      const token = JSON.parse(localStorage.getItem('currentUser')).token;
+      if(!this.jwtHelper.isTokenExpired(token)) {
+        return this.jwtHelper.decodeToken(token).token;
+      } else {
+        localStorage.removeItem('currentUser');
+        return false;
+      }
     } else {
       return false;
     }
   }
-
 }
