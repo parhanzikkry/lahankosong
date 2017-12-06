@@ -16,20 +16,18 @@ export class BrowseComponent implements OnInit {
   public selectedBidang: any;
   public selectedKemitraan: any;
   public selectedLuas: any;
-  public selectedProvinsi: any;
-  public selectedKabupatenKota: any;
   public selectedKecamatan: any;
-  public showKabupatenKota: any;
-  public showKecamatan: any;
+  public selectedDesaKel: any;
+  public showDesaKel: any;
   public map: any;
 
   public searchType = {1: 'Pengelolaan', 2: 'Kemitraan', 3: 'Luasan', 4: 'Wilayah'};
   public searchBidang = {1: 'Pertanian', 3: 'Agroforestry', 4: 'Peternakan', 5: 'Perikanan', 6: 'Kehutanan'};
   public searchKemitraan = {1: 'Sewa', 2: 'Bagi Hasil', 3: 'Kerja Sama', 4: 'Jual'};
   public searchLuas = {1: 'Kurang dari 1 Ha', 2: '1 Ha sampai 5 Ha', 3: 'Lebih dari 5 Ha'};
-  public searchProvinsi = {};
-  public searchKabupatenKota = {};
+  public idKabupatenKota = 3201;
   public searchKecamatan = {};
+  public searchDesaKel = {};
 
   constructor(
     private AppService: AppService,
@@ -42,10 +40,9 @@ export class BrowseComponent implements OnInit {
     this.selectedBidang = 'Pilih';
     this.selectedKemitraan = 'Pilih';
     this.selectedLuas = 'Pilih';
-    this.selectedProvinsi = 'Pilih';
-    this.selectedKabupatenKota = 'Pilih';
     this.selectedKecamatan = 'Pilih';
-    this.getDataProvinsi();
+    this.selectedDesaKel = 'Pilih';
+    this.getDataKecamatan(this.idKabupatenKota);
 
     this.map = new google.maps.Map(document.getElementById('map'), {
       center: new google.maps.LatLng(-6.5971469, 106.8060388),
@@ -62,34 +59,12 @@ export class BrowseComponent implements OnInit {
 
   setType(type: any) {
     this.selectedType = type;
-    this.showKabupatenKota = 0;
-    this.showKecamatan = 0;
+    this.showDesaKel = 0;
     this.selectedBidang = 'Pilih';
     this.selectedKemitraan = 'Pilih';
     this.selectedLuas = 'Pilih';
-    this.selectedProvinsi = 'Pilih';
-    this.selectedKabupatenKota = 'Pilih';
     this.selectedKecamatan = 'Pilih';
-  }
-
-  getDataProvinsi() {
-    this.searchProvinsi = {};
-    this.AppService.getDataProvinsi()
-    .subscribe(data => {
-      data.forEach(item => {
-        this.searchProvinsi[item.id] = item.name;
-      });
-    });
-  }
-
-  getDataKabupatenKota(provinsi_id: number) {
-    this.searchKabupatenKota = {};
-    this.AppService.getDataKabupatenKota(provinsi_id)
-    .subscribe(data => {
-      data.forEach(item => {
-        this.searchKabupatenKota[item.id] = item.name;
-      });
-    });
+    this.selectedDesaKel = 'Pilih';
   }
 
   getDataKecamatan(kabupatenKota_id: number) {
@@ -102,18 +77,14 @@ export class BrowseComponent implements OnInit {
     });
   }
 
-  setProvinsi(provinsi: any) {
-    this.selectedProvinsi = provinsi;
-    const pilihan = +Object.keys(this.searchProvinsi).find(key => this.searchProvinsi[key] === provinsi);
-    this.getDataKabupatenKota(pilihan);
-    this.showKabupatenKota = 1;
-  }
-
-  setKabupatenKota(kabupatenKota: any) {
-    this.selectedKabupatenKota = kabupatenKota;
-    const pilihan = +Object.keys(this.searchKabupatenKota).find(key => this.searchKabupatenKota[key] === kabupatenKota);
-    this.getDataKecamatan(pilihan);
-    this.showKecamatan = 1;
+  getDataDesaKel(desaKel_id: number) {
+    this.searchDesaKel = {};
+    this.AppService.getDataDesaKel(desaKel_id)
+    .subscribe(data => {
+      data.forEach(item => {
+        this.searchDesaKel[item.id] = item.name;
+      });
+    });
   }
 
   setKecamatan(kecamatan: any) {
@@ -149,6 +120,13 @@ export class BrowseComponent implements OnInit {
         this.AppService.markers.push(marker);
       });
     });
+    this.getDataDesaKel(pilihan);
+    this.showDesaKel = 1;
+  }
+
+  setDesaKel(desaKel: any) {
+    this.selectedDesaKel = desaKel;
+    const pilihan = +Object.keys(this.searchDesaKel).find(key => this.searchDesaKel[key] === desaKel);
   }
 
   setBidang(bidang: any) {

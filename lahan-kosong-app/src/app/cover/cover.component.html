@@ -1,30 +1,16 @@
-<!-- Selamat Datang -->
-<div class="jumbotron jumbotron-fluid m-0">
-  <div class="bg-cover text-center pb-3">
-    <h1 class="display-4">Selamat datang di Bank Data</h1>
-    <p class="lead">Silahkan mencari lahan non produktif sesuai keinginan Anda di sini.</p>
-    <a routerLink="/browse" class="btn bg-green btn-lg" role="button">Cari Lahan</a>
-  </div>
-</div>
-
-<!-- Lahan Kosong Terbaru -->
-<div class="container mt-3">
-  <h3>Lahan Non Produktif Terbaru</h3><hr>
-  <div class="card-deck">
-    <div class="card" *ngFor="let lahan of newLahan">
-      <img class="card-img-top" [src]="'assets/img/lahan/tanahkosong.jpg'" alt="Foto Lahan">
-      <div class="card-body">
-        <h5 class="card-title">{{ lahan.pemilik }}</h5>
-        <p class="card-text">
-          <strong class="text-nowrap">Luasan :</strong> {{ lahan.luasan }} Ha<br />
-          <strong class="text-nowrap">Kemitraan :</strong> {{ lahan.kemitraan }}<br />
-          <strong class="text-nowrap">Pengelolaan :</strong> {{ lahan.pengelolaan }}<br />
-          <strong class="text-nowrap">Alamat :</strong> {{ lahan.alamat }}
-        </p>
-      </div>
-      <div class="card-footer text-center">
-        <a routerLink="/detail/{{ lahan.id }}" class="btn btn-success">Lihat Detail</a>
-      </div>
+<div id="wrapper">
+  <div class="jumbotron jumbotron-fluid m-0">
+    <div class="bg-cover text-center pb-3">
+      <h1 class="display-5">
+        Selamat datang <span class="d-md-none"><br /></span>di Bank Data<br />
+        Lahan Non Produktif <span class="d-md-none"><br /></span>Kabupaten Bogor
+      </h1>
+      <a routerLink="/browse" class="btn bg-green btn-lg" role="button">Cari Lahan</a>
     </div>
+  </div>
+  <div id="over-cover">
+    <h5 class="d-inline-block sponsor-label">Disponsori oleh : </h5>
+    <div class="d-inline-block sponsor-logo"><img [src]="'assets/img/ipb.png'"></div>
+    <div class="d-inline-block sponsor-logo"><img [src]="'assets/img/bappeda.png'"></div>
   </div>
 </div>

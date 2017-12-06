@@ -17,6 +17,8 @@ import { AuthComponent } from './auth/auth.component';
 import { ProfileComponent } from './profile/profile.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UploadComponent } from './upload/upload.component';
+import { HomeComponent } from './home/home.component';
+import { ContentComponent } from './content/content.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { UploadComponent } from './upload/upload.component';
     AuthComponent,
     ProfileComponent,
     DashboardComponent,
-    UploadComponent
+    UploadComponent,
+    HomeComponent,
+    ContentComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +42,7 @@ import { UploadComponent } from './upload/upload.component';
     ReactiveFormsModule,
     HttpModule,
     RouterModule.forRoot([
-      { path: '', component: CoverComponent },
+      { path: '', component: HomeComponent },
       { path: 'browse', component: BrowseComponent },
       { path: 'detail/:id', component: DetailComponent },
       { path: 'upload', component: UploadComponent },
