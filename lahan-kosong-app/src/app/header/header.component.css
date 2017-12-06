@@ -7,8 +7,30 @@
     color: #4caf50;
 }
 
-.navbar-brand, .nav-link {
+.navbar-brand img {
+    display: inline-block;
+    vertical-align: top;
+    margin: 5px -5px 0px;
+}
+
+.navbar-title {
+    display: inline-block;
     color: #fff;
+    font-size: 1.5rem;
+}
+
+.navbar-title small {
+    display: block;
+    font-size: 0.75rem;
+}
+
+.nav-link {
+    font-size: 1.2rem;
+    color: #fff;
+}
+
+.nav-item:hover a {
+    color: #FFEB3B;
 }
 
 .navbar-toggler {

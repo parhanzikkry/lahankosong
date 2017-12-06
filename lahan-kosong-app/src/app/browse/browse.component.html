@@ -14,28 +14,6 @@
 
     <!-- Wilayah -->
     <div *ngIf="selectedType == 'Wilayah'">
-      <h6 class="d-inline-block my-1 mr-1">Provinsi : </h6>
-      <div class="d-inline-block dropup m-1" >
-        <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownProvinsi" data-toggle="dropdown">
-          {{ selectedProvinsi }}
-        </button>
-        <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownProvinsi">
-          <button class="dropdown-item px-2" type="button" (click)="setProvinsi(provinsi)" *ngFor="let provinsi of objectValues(searchProvinsi)">{{ provinsi }}</button>
-        </div>
-      </div>
-    </div>
-    <div *ngIf="showKabupatenKota == 1">
-      <h6 class="d-inline-block my-1 mr-1">Kota/Kabupaten : </h6>
-      <div class="d-inline-block dropup m-1" >
-        <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownKabupatenKota" data-toggle="dropdown">
-          {{ selectedKabupatenKota }}
-        </button>
-        <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownKabupatenKota">
-          <button class="dropdown-item px-2" type="button" (click)="setKabupatenKota(kabupatenKota)" *ngFor="let kabupatenKota of objectValues(searchKabupatenKota)">{{ kabupatenKota }}</button>
-        </div>
-      </div>
-    </div>
-    <div *ngIf="showKecamatan == 1">
       <h6 class="d-inline-block my-1 mr-1">Kecamatan : </h6>
       <div class="d-inline-block dropup m-1" >
         <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownKecamatan" data-toggle="dropdown">
@@ -43,6 +21,17 @@
         </button>
         <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownKecamatan">
           <button class="dropdown-item px-2" type="button" (click)="setKecamatan(kecamatan)" *ngFor="let kecamatan of objectValues(searchKecamatan)">{{ kecamatan }}</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showDesaKel == 1">
+      <h6 class="d-inline-block my-1 mr-1">Desa/Kelurahan : </h6>
+      <div class="d-inline-block dropup m-1" >
+        <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownDesaKel" data-toggle="dropdown">
+          {{ selectedDesaKel }}
+        </button>
+        <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownDesaKel">
+          <button class="dropdown-item px-2" type="button" (click)="setDesaKel(desaKel)" *ngFor="let desaKel of objectValues(searchDesaKel)">{{ desaKel }}</button>
         </div>
       </div>
     </div>

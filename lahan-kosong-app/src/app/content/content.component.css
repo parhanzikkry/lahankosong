@@ -1,0 +1,51 @@
+.text-nowrap {
+    white-space: nowrap;
+}
+
+.bg-green {
+    background: #4CAF50;
+    color: #fff;
+}
+
+.card-deck {
+    margin-bottom: 60px;
+}
+
+.content-wrapper {
+    border-radius: 10px;
+    border: 2px solid #4CAF50;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.content-title {
+    background: #4CAF50;
+    border-radius: 7px 7px 0px 0px;
+    padding: .5rem 1rem;
+    color: #fff;
+    font-weight: bold;
+}
+
+.content-list {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+ul.leaf {
+    list-style-image: url('../../assets/img/leaf.png');
+    padding-left: 35px;
+    margin-bottom: 0px;
+}
+
+ul.leaf li {
+    margin-bottom: 5px;
+}
+
+ul.leaf li a:hover {
+    margin-left: 10px;
+}
+
+ul.leaf li a {
+    color: #4CAF50;
+    text-decoration: none;
+}

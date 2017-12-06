@@ -2,6 +2,10 @@ footer {
     border-top: 3px solid #4CAF50;
 }
 
+footer a {
+    color: #4CAF50;
+}
+
 hr {
     background: #fff;
     width: 80%;
