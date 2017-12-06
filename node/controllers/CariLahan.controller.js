@@ -268,6 +268,7 @@ class CariLahan {
 	}
 
 	GetMyLahanData(data, res) {
+		console.log(new Date(1512407809).toDateString())
 		Lahan.belongsTo(Pemilik, {foreignKey: 'fk_id_pemilik'});
 		Lahan.belongsTo(Desakel, {foreignKey: 'fk_id_desakel'});
 		Kemitraanlahan.belongsTo(Kemitraan, {foreignKey: 'fk_id_kemitraan'});
@@ -278,6 +279,9 @@ class CariLahan {
 					fk_id_publisher: Token.DecodeToken(JSON.parse(data.headers.token).token).token.id
 				},
 				attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
+				order: [
+					['id', 'DESC']
+				],
 				include:[{
 					model: Pemilik,
 					attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik']

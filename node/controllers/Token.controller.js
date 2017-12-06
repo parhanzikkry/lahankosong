@@ -6,7 +6,7 @@ class Token {
 		this.secretKey = 'l4h4nn0npr0dukt1f'
 	}
 	SetupToken(data) {
-		return jwt.sign({token:data}, this.secretKey, {expiresIn: 60*60*1000});
+		return jwt.sign({token:data}, this.secretKey, {expiresIn: 60*60});
 	}
 	CheckingToken(data, res, next) {
 		jwt.verify(data, this.secretKey, function(err, decode){
