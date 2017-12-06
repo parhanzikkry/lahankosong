@@ -4,6 +4,7 @@ var sequelize = require(__dirname + '/../dbconnection'),
 module.exports = function(sequelize, DataType) {
 	return sequelize.define('foto', {
 		path_foto: DataType.STRING,
+		caption_foto: DataType.STRING,
 		fk_id_lahan: {
 			type: DataType.INTEGER,
 			references: {

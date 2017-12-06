@@ -134,7 +134,7 @@ class CariLahan {
 						let countkelola = 0;
 						let countfoto = 0;
 						for(let i=0; i<data.length; i++) {
-							let temp = {id: data[i].id, pemilik: data[i].pemilik.nama_pemilik, alamat_pemilik: data[i].pemilik.alamat_pemilik, foto_pemilik: data[i].pemilik.foto_pemilik, alamat_lahan: data[i].alamat_lengkap_lahan, latitude: data[i].latitude_lahan, longitude: data[i].longitude_lahan, luasan_lahan: data[i].luasan_lahan, desa: data[i].village.name, sebelumnya: data[i].pengelolaan_sebelumnya_lahan};
+							let temp = {id: data[i].id, pemilik: data[i].pemilik.nama_pemilik, alamat_pemilik: data[i].pemilik.alamat_pemilik, foto_pemilik: data[i].pemilik.foto_pemilik, email_pemilik:data[i].pemilik.email_pemilik , alamat_lahan: data[i].alamat_lengkap_lahan, latitude: data[i].latitude_lahan, longitude: data[i].longitude_lahan, luasan_lahan: data[i].luasan_lahan, desa: data[i].village.name, sebelumnya: data[i].pengelolaan_sebelumnya_lahan};
 							if(this.kemitraanlahan.length == 0) {
 								temp.kemitraan = [];
 							} else {
@@ -159,7 +159,7 @@ class CariLahan {
 								temp.foto=[];
 							} else {
 								if(this.foto[countfoto].id == data[i].id) {
-									temp.foto = this.foto[countfoto].data;
+									temp.foto = {path: this.foto[countfoto].data, caption: this.foto[countfoto].caption_foto};
 									countfoto++;
 								} else {
 									temp.foto = [];
@@ -189,7 +189,7 @@ class CariLahan {
 				attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
 				include:[{
 					model: Pemilik,
-					attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik']
+					attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik', 'email_pemilik']
 				},{
 					model: Desakel,
 					attributes: ['name']
@@ -219,7 +219,7 @@ class CariLahan {
 				attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
 				include:[{
 					model: Pemilik,
-					attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik']
+					attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik', 'email_pemilik']
 				},{
 					model: Desakel,
 					attributes: ['name'],
@@ -253,7 +253,7 @@ class CariLahan {
 				attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
 				include:[{
 					model: Pemilik,
-					attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik']
+					attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik', 'email_pemilik']
 				},{
 					model: Desakel,
 					attributes: ['name']
@@ -284,7 +284,7 @@ class CariLahan {
 				],
 				include:[{
 					model: Pemilik,
-					attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik']
+					attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik', 'email_pemilik']
 				},{
 					model: Desakel,
 					attributes: ['name']
@@ -333,7 +333,7 @@ class CariLahan {
 							attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
 							include:[{
 								model: Pemilik,
-								attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik']
+								attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik', 'email_pemilik']
 							},{
 								model: Desakel,
 								attributes: ['name']
@@ -385,7 +385,7 @@ class CariLahan {
 							attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
 							include:[{
 								model: Pemilik,
-								attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik']
+								attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik', 'email_pemilik']
 							},{
 								model: Desakel,
 								attributes: ['name']
@@ -433,7 +433,7 @@ class CariLahan {
 					attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
 					include:[{
 						model: Pemilik,
-						attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik']
+						attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik', 'email_pemilik']
 					},{
 						model: Desakel,
 						attributes: ['name']

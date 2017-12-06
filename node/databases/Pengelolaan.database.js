@@ -3,10 +3,10 @@ var sequelize = require(__dirname + '/../dbconnection'),
 
 Pengelolaan
 	.bulkCreate([{
-		nama_pengelolaan: 'Pertanian',
+		nama_pengelolaan: 'Pertanian basah',
 		deskripsi_pengelolaan: 'Lahan dapat dimanfaatkan untuk bidang pertanian'
 	},{
-		nama_pengelolaan: 'Hutan kota',
+		nama_pengelolaan: 'Pertanian kering',
 		deskripsi_pengelolaan: 'Lahan dapat dimanfaatkan menjadi ruang terbuka hijau atau hutan kota'
 	},{
 		nama_pengelolaan: 'Agroforestry',
@@ -18,6 +18,6 @@ Pengelolaan
 		nama_pengelolaan: 'Perikanan',
 		deskripsi_pengelolaan: 'Lahan dapat dijadikan lahan tambak atau budidaya perikanan'
 	},{
-		nama_pengelolaan: 'Perkebunan',
+		nama_pengelolaan: 'Kehutanan',
 		deskripsi_pengelolaan: 'Lahan dapat dijadikan lahan perkebunan'
 	}])
