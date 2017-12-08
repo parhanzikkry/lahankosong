@@ -11,7 +11,7 @@ declare const google: any;
 })
 export class DetailComponent implements OnInit {
   public idLahan: any;
-  public detailLahan: any;
+  public detailLahan = {};
 
   constructor(
     private AppService: AppService,
@@ -29,15 +29,20 @@ export class DetailComponent implements OnInit {
       data.forEach(item => {
         const _kemitraan = item.kemitraan.map(function(e){ return e.kemitraan; }).join(', ');
         const _pengelolaan = item.pengelolaan.map(function(e){ return e.pengelolaan; }).join(', ');
+        const fotoArr = [];
+        for (let i = 0; i < item.foto.path.length; i++) { fotoArr.push(i); }
         this.detailLahan = {
-          nama_pemilik: item.pemilik,
-          alamat_pemilik: item.alamat_pemilik,
+          nama_pemilik: item.pemilik || '-',
+          alamat_pemilik: item.alamat_pemilik || '-',
+          email_pemilik: item.email_pemilik || '-',
           foto_pemilik: item.foto_pemilik,
-          alamat_lahan: item.alamat_lahan,
-          luasan_lahan: item.luasan_lahan,
-          lahan_sebelumnya: item.sebelumnya,
-          pengelolaan: _pengelolaan,
-          kemitraan: _kemitraan
+          alamat_lahan: item.alamat_lahan || '-',
+          luasan_lahan: item.luasan_lahan || '-',
+          lahan_sebelumnya: item.sebelumnya || '-',
+          pengelolaan: _pengelolaan || '-',
+          kemitraan: _kemitraan || '-',
+          foto: item.foto.path,
+          fotoCount: fotoArr
         };
 
         const map = new google.maps.Map(document.getElementById('map'), {

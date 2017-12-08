@@ -3,3 +3,8 @@ body {
     margin-top: 80px;
     padding-right: 0px !important;
 }
+
+.loader {
+    position: relative;
+    margin-top: -80px;
+}
