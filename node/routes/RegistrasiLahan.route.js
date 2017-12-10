@@ -10,6 +10,10 @@ router.post('/tambahpemilik', (req, res, next) => {
 	RL.TambahPemilik(req, res);
 });
 
+router.post('/tambahfotopemilik/:id', (req, res, next) => {
+	RL.TambahFotoPemilik(req, res);
+})
+
 router.post('/tambahdesakel', (req, res, next) => {
 	RL.TambahDesaKelurahan(req, res);
 });
@@ -18,7 +22,7 @@ router.post('/tambahlahan', (req, res, next) => {
 	RL.TambahLahan(req, res);
 });
 
-router.post('/tambahfoto', (req, res, next) => {
+router.post('/tambahfoto/:id', (req, res, next) => {
 	RL.TambahFoto(req, res);
 });
 

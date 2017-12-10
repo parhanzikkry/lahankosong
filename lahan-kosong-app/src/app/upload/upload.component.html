@@ -1,26 +1,26 @@
 <div class="justspace"></div>
 <div class="container">
   <h3 class="text-center pt-2">Publish Lahan</h3><hr>
-  <form  class="mt-3">
+  <form [formGroup]="formLahan" (ngSubmit)="DaftarkanLahan()" class="mt-3">
     <div class="form-separator">
       <h5>Data Pemilik</h5>
     </div>
     <div class="form-group row">
       <label for="nama_pemilik" class="col-sm-2 col-form-label">Nama Pemilik</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="nama_pemilik" placeholder="Nama Lengkap">
+        <input type="text" class="form-control" id="nama_pemilik" placeholder="Nama Lengkap" formControlName="nama_pemilik">
       </div>
     </div>
     <div class="form-group row">
       <label for="email_pemilik" class="col-sm-2 col-form-label">Email Pemilik</label>
       <div class="col-sm-10">
-        <input type="email" class="form-control" id="email_pemilik" placeholder="contoh@gmail.com">
+        <input type="email" class="form-control" id="email_pemilik" placeholder="contoh@gmail.com" formControlName="email_pemilik">
       </div>
     </div>
     <div class="form-group row">
       <label for="no_hp_pemilik" class="col-sm-2 col-form-label">No. HP Pemilik</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="no_hp_pemilik" placeholder="08xxxxxxxxxx">
+        <input type="text" class="form-control" id="no_hp_pemilik" placeholder="08xxxxxxxxxx" formControlName="no_hp_pemilik">
       </div>
     </div>
     <div class="form-group row">
@@ -32,15 +32,15 @@
     <div class="form-group row">
       <label for="alamat_pemilik" class="col-sm-2 col-form-label">Alamat Pemilik</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="alamat_pemilik" placeholder="Tempat Tinggal Saat Ini">
+        <input type="text" class="form-control" id="alamat_pemilik" placeholder="Tempat Tinggal Saat Ini" formControlName="alamat_pemilik">
       </div>
     </div>
     <div class="form-group row">
       <label for="foto_pemilik" class="col-sm-2 col-form-label">Foto Pemilik</label>
       <div class="col-sm-10">
         <label class="custom-file">
-          <input type="file" id="foto_pemilik" class="custom-file-input">
-          <span class="custom-file-control"></span>
+          <input type="file" id="foto_pemilik" class="custom-file-input" (change)="inputfotopemilik($event)">
+          <span class="custom-file-control">{{fotopemilik}}</span>
         </label>
       </div>
     </div>
@@ -50,48 +50,48 @@
     <div class="form-group row">
       <label for="alamat_lahan" class="col-sm-2 col-form-label">Alamat Lahan</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="alamat_lahan" placeholder="Alamat Lengkap Lahan">
+        <input type="text" class="form-control" id="alamat_lahan" placeholder="Alamat Lengkap Lahan" formControlName="alamat_lengkap_lahan">
       </div>
     </div>
     <div class="form-group row">
       <label for="wilayah_lahan" class="col-sm-2 col-form-label">Wilayah Lahan</label>
       <div class="col-sm-10">
-        <select class="custom-select">
-          <option selected>Pilih Provinsi</option>
-          <option (click)="setProvinsi(provinsi)" *ngFor="let provinsi of objectValues(searchProvinsi)">{{ provinsi }}</option>
+        <select class="custom-select" (change)="setProvinsi()" formControlName="provinsi_lahan">
+          <option selected disabled>Pilih Provinsi</option>
+          <option [ngValue]="provinsi" *ngFor="let provinsi of objectValues(searchProvinsi)">{{ provinsi }}</option>
         </select>
-        <select class="custom-select" *ngIf="showKabupatenKota == 1">
-          <option selected>Pilih Kabupaten/Kota</option>
-          <option (click)="setKabupatenKota(kabupatenKota)" *ngFor="let kabupatenKota of objectValues(searchKabupatenKota)">{{ kabupatenKota }}</option>
+        <select class="custom-select" *ngIf="showKabupatenKota == 1" (change)="setKabupatenKota()" formControlName="kabupatenkota_lahan">
+          <option selected disabled>Pilih Kabupaten/Kota</option>
+          <option [ngValue]="kabupatenKota" *ngFor="let kabupatenKota of objectValues(searchKabupatenKota)">{{ kabupatenKota }}</option>
         </select>
-        <select class="custom-select" *ngIf="showKecamatan == 1">
-          <option selected>Pilih Kecamatan</option>
-          <option (click)="setKecamatan(kecamatan)" *ngFor="let kecamatan of objectValues(searchKecamatan)">{{ kecamatan }}</option>
+        <select class="custom-select" *ngIf="showKecamatan == 1" (change)="setKecamatan()" formControlName="kecamatan_lahan">
+          <option selected disabled>Pilih Kecamatan</option>
+          <option [ngValue]="kecamatan" *ngFor="let kecamatan of objectValues(searchKecamatan)">{{ kecamatan }}</option>
         </select>
-        <select class="custom-select" *ngIf="showDesaKel == 1">
-          <option selected>Pilih Desa/Kelurahan</option>
-          <option (click)="setDesaKel(desaKel)" *ngFor="let desaKel of objectValues(searchDesaKel)">{{ desaKel }}</option>
+        <select class="custom-select" *ngIf="showDesaKel == 1" (change)="setDesaKel()" formControlName="desakelurahan_lahan">
+          <option selected disabled>Pilih Desa/Kelurahan</option>
+          <option [ngValue]="desaKel" *ngFor="let desaKel of objectValues(searchDesaKel)">{{ desaKel }}</option>
         </select>
       </div>
     </div>
     <div class="form-group row">
       <label for="luas_lahan" class="col-sm-2 col-form-label">Luas Lahan</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="luas_lahan" placeholder="Luas Lahan (dalam hektare)">
+        <input type="text" class="form-control" id="luas_lahan" placeholder="Luas Lahan (dalam hektare)" formControlName="luasan_lahan">
       </div>
     </div>
     <div class="form-group row">
       <label for="sebelumnya" class="col-sm-2 col-form-label">Pengelolaan Sebelumnya</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="sebelumnya" placeholder="Bidang Pengelolaan Lahan Sebelumnya">
+        <input type="text" class="form-control" id="sebelumnya" placeholder="Bidang Pengelolaan Lahan Sebelumnya" formControlName="pengelolaan_sebelumnya_lahan">
       </div>
     </div>
     <div class="form-group row">
       <label for="bidang_pengelolaan" class="col-sm-2 col-form-label">Bidang Pengelolaan</label>
       <div class="col-sm-10">
-        <select class="custom-select">
-          <option selected>Pilih Bidang Pengelolaan</option>
-          <option (click)="setBidang(bidang)" *ngFor="let bidang of objectValues(searchBidang)">{{ bidang }}</option>
+        <select class="custom-select" formControlName="nama_pengelolaanlahan" (change)="setBidang()">
+          <option selected disabled>Pilih Bidang Pengelolaan</option>
+          <option [ngValue]="bidang" *ngFor="let bidang of objectValues(searchBidang)">{{ bidang }}</option>
         </select>
         <button *ngIf="showTambahBidang == 1" class="btn btn-success">
           <i class="fa fa-plus"></i>
@@ -101,15 +101,15 @@
     <div class="form-group row">
       <label for="detail_pengelolaan" class="col-sm-2 col-form-label">Detail Pengelolaan</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="detail_pengelolaan" placeholder="Detail Pengelolaan">
+        <input type="text" class="form-control" id="detail_pengelolaan" placeholder="Detail Pengelolaan" formControlName="detail_pengelolaanlahan">
       </div>
     </div>
     <div class="form-group row">
       <label for="kemitraan" class="col-sm-2 col-form-label">Kemitraan</label>
       <div class="col-sm-10">
-        <select class="custom-select">
-          <option selected>Pilih Jenis Kemitraan</option>
-          <option (click)="setKemitraan(kemitraan)" *ngFor="let kemitraan of objectValues(searchKemitraan)">{{ kemitraan }}</option>
+        <select class="custom-select" formControlName="nama_kemitraanlahan" (change)="setKemitraan()" formControlName="nama_kemitraanlahan">
+          <option selected disabled>Pilih Jenis Kemitraan</option>
+          <option [ngValue]="kemitraan" *ngFor="let kemitraan of objectValues(searchKemitraan)">{{ kemitraan }}</option>
         </select>
         <button *ngIf="showTambahKemitraan == 1" class="btn btn-success">
           <i class="fa fa-plus"></i>
@@ -119,15 +119,15 @@
     <div class="form-group row">
       <label for="detail_kemitraan" class="col-sm-2 col-form-label">Detail Kemitraan</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="detail_kemitraan" placeholder="Detail Kemitraan">
+        <input type="text" class="form-control" id="detail_kemitraan" placeholder="Detail Kemitraan" formControlName="detail_kemitraanlahan">
       </div>
     </div>
     <div class="form-group row">
       <label for="foto_lahan" class="col-sm-2 col-form-label">Foto Lahan</label>
       <div class="col-sm-10">
         <label class="custom-file">
-          <input type="file" id="foto_lahan" class="custom-file-input">
-          <span class="custom-file-control"></span>
+          <input type="file" id="foto_lahan" class="custom-file-input" (change)="inputfotolahan($event)" multiple>
+          <span class="custom-file-control">{{fotolahan}}</span>
         </label>
       </div>
     </div>

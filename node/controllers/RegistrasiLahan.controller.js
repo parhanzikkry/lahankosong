@@ -6,6 +6,7 @@ var sequelize = require(__dirname + '/../dbconnection'),
 	Kecamatan = sequelize.import(__dirname + '/../models/kecamatan.model'),
 	Lahan = sequelize.import(__dirname + '/../models/lahan.model'),
 	Foto = sequelize.import(__dirname + '/../models/foto.model'),
+	Token = require(__dirname + '/Token.controller'),
 	Multer = require('multer'),
 	crypto = require('crypto'),
 	path = require('path'),
@@ -22,27 +23,28 @@ class RegistrasiLahan {
 		this.storage;
 		this.foldertujuan;
 		this.code;
+		this.filename;
 	}
 
 	/*Setting uploading file dan tempat penyimpanan dan cara menyimpannya*/
 	SetupMulter(res) {
 		if(this.code == 1) {
-			this.foldertujuan = '/../uploads/pemilik/';
+			this.foldertujuan = '/uploads/pemilik/';
 		} else if(this.code == 2) {
-			this.foldertujuan = '/../uploads/lahan/';
+			this.foldertujuan = '/uploads/lahan/';
 		} else {
 			res.json({status: false, code: 400, message: 'Maaf tidak bisa sembarangan upload file'});
 		}
 		this.storage = Multer.diskStorage({
 			destination: (req, file, cb) => {
-				cb(null, __dirname + this.foldertujuan);
+				cb(null, __dirname + '/..' + this.foldertujuan);
 			},
 			filename: (req, file, cb) => {
 				var date = new Date();
 				var unique = date.getTime().toString();
 				var hash_date = crypto.createHash('sha1').update(unique + file.originalname).digest('hex');
-				var filename = hash_date + '.' +file.originalname.split('.')[file.originalname.split('.').length -1];
-				cb(null, filename);
+				this.filename = hash_date + '.' +file.originalname.split('.')[file.originalname.split('.').length -1];
+				cb(null, this.filename);
 			}
 		});
 		this.upload = Multer({
@@ -76,34 +78,50 @@ class RegistrasiLahan {
 	}
 
 	TambahPemilik(data, res) {
+		Pemilik
+		.create({
+			nama_pemilik: data.body.nama_pemilik,
+			alamat_pemilik: data.body.alamat_pemilik,
+			no_hp_pemilik: data.body.no_hp_pemilik,
+			email_pemilik: data.body.email_pemilik
+		})
+		.then((hasil) => {
+			res.json({status: true, code: 200, message: 'Berhasil menambahkan data pemilik baru', info: hasil});
+		})
+		.catch((err) => {
+			res.json({status: false, code: 400, message: 'Gagal menambahkan data pemilik baru', error: err});
+		});
+	}
+
+	TambahFotoPemilik(data, res) {
 		this.code = 1;
 		this.SetupMulter(res);
-		this.upload(data, res, (err)=> {
-			if(err) {
-				res.json({status: false, code: 400, message: 'Maaf hanya gambar yang dapat diupload'});
+		this.upload(data, res, (err) => {
+			if (err) {
+				res.json({status: false, code: 400, message: 'Gagal Upload foto pemilik', error: err})
 			} else {
-				var upload_img = fs.readFileSync(__dirname + this.foldertujuan + data.files[0].filename).toString('hex',0,4);
-				if(!this.CheckMagicNumber(upload_img)) {
-					fs.unlinkSync(__dirname + dirfotopemilik + data.files[0].filename);
-					res.json({status: false, code: 400, message: 'Maaf harus gambar yang diupload'});
+				var upload_img = fs.readFileSync(__dirname + '/..' + this.foldertujuan + data.files[0].filename).toString('hex', 0,4);
+				if (!this.CheckMagicNumber(upload_img)) {
+					fs.unlinkSync(__dirname + '/..' + this.foldertujuan + data.files[0].filename);
+					res.json({status: false, code: 400, message: 'Maaf hanya format foto yang dapat diupload'});
 				} else {
 					Pemilik
-						.create({
-							nama_pemilik: data.body.nama_pemilik,
-							alamat_pemilik: data.body.alamat_pemilik,
-							no_hp_pemilik: data.body.no_hp_pemilik,
-							email_pemilik: data.body.email_pemilik,
-							foto_pemilik: data.files[0].path
+						.update({
+							foto_pemilik: this.foldertujuan + data.files[0].filename
+						}, {
+							where: {
+								id: data.params.id
+							}
 						})
-						.then((hasil) => {
-							res.json({status: true, code: 200, message: 'Berhasil menambahkan data pemilik baru', info: hasil});
+						.then((info) => {
+							res.json({status: true, code: 200, message: 'Berhasil upload foto pemilik', info: info});
 						})
 						.catch((err) => {
-							res.json({status: false, code: 400, message: 'Gagal menambahkan data pemilik baru', error: err});
-						});
+							res.json({status: false, code: 400, message: 'Gagal upload foto pemilik', error: err});
+						})
 				}
 			}
-		});
+		})
 	}
 
 	GetDataProvinsi(data, res) {
@@ -192,7 +210,7 @@ class RegistrasiLahan {
 	TambahLahan(data, res) {
 		Lahan
 			.create({
-				fk_id_deskel: data.body.fk_id_deskel,
+				fk_id_desakel: data.body.fk_id_desakel,
 				alamat_lengkap_lahan: data.body.alamat_lengkap_lahan,
 				longitude_lahan: data.body.longitude_lahan,
 				latitude_lahan: data.body.latitude_lahan,
@@ -201,7 +219,7 @@ class RegistrasiLahan {
 				fk_id_pemilik: data.body.fk_id_pemilik,
 				deskripsi_lahan: data.body.deskripsi_lahan,
 				status_lahan: 'unverif',
-				fk_id_publisher: data.body.fk_id_publisher
+				fk_id_publisher: Token.DecodeToken(JSON.parse(data.headers.token).token).token.id
 			})
 			.then((hasil) => {
 				res.json({status: true, code: 200, message: 'Berhasil menambahkan lahan baru', info: hasil});
@@ -218,27 +236,20 @@ class RegistrasiLahan {
 			if(err) {
 				res.json({status: false, code: 400, message: 'Maaf hanya gambar yang dapat diupload'});
 			} else {
+				var arrayfoto = [];
 				for(let i=0; i<data.files.length; i++) {
-					var upload_img = fs.readFileSync(__dirname + dirfotopemilik + data.files[i].filename).toString('hex',0,4);
-					if(!this.CheckMagicNumber(upload_img)) {
-						fs.unlinkSync(__dirname + dirfotolahan + data.files[i].filename);
-						res.json({status: false, code: 400, message: 'Maaf harus gambar yang diupload'});
-					} else {
-						Foto
-							.create({
-								path_foto: data.files[i].path,
-								fk_id_lahan: data.body.fk_id_lahan
-							})
-							.then((hasil) => {
-								res.json({status: true, code: 200, message: 'Berhasil menambahkan lahan baru', info: hasil});
-							})
-							.catch((err) => {
-								res.json({status: false, code: 400, message: 'Gagal menambahkan foto untuk lahan', error: err});
-							});
+					let temp = {path_foto: this.foldertujuan + data.files[i].filename, fk_id_lahan: parseInt(data.params.id)};
+					arrayfoto.push(temp);
 					}
-					
-				}
 			}
+			Foto
+				.bulkCreate(arrayfoto)
+				.then((hasil) => {
+					res.json({status: true, code: 200, message: 'Berhasil menambahkan lahan baru', info: hasil});
+				})
+				.catch((err) => {
+					res.json({status: false, code: 400, message: 'Gagal menambahkan foto untuk lahan', error: err});
+				});
 		});
 	}
 }

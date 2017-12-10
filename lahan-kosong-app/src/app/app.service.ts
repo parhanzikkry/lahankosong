@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { Subject }    from 'rxjs/Subject';
 import { JwtHelper, tokenNotExpired } from 'angular2-jwt';
 import 'rxjs/add/operator/map';
 
@@ -20,6 +21,13 @@ export class AppService {
   private pathLogin = this.site + 'auth/login';
   private pathRegister = this.site + 'auth/register';
   private pathMyLahan = this.site + 'lahan/mylahan';
+  private pathRegisterPemilik = this.site + 'registrasilahan/tambahpemilik';
+  private pathRegisterFotoPemilik = this.site + 'registrasilahan/tambahfotopemilik';
+  private pathRegisterLahan = this.site + 'registrasilahan/tambahlahan';
+  private pathRegisterFotoLahan = this.site + 'registrasilahan/tambahfoto'
+  progressObserver = new Subject<number>();
+  progress$ = this.progressObserver.asObservable();
+  progress: number = 0; 
   public markers = [];
 
   constructor(private http: Http) { }
@@ -109,7 +117,6 @@ export class AppService {
     header.append('Content-type', 'application/json' );
     return this.http.post(this.pathLogin, JSON.stringify({username: username, password: password}), {headers: header})
       .map((response: Response) => {
-        console.log(response);
         // login successful if there's a jwt token in the response
         const token = response.json() && response.json().token;
         if (token) {
@@ -151,7 +158,6 @@ export class AppService {
     });
     return this.http.post(this.pathRegister, body, {headers: header})
       .map((response: Response) => {
-        console.log(response);
       });
   }
 
@@ -177,6 +183,90 @@ export class AppService {
     .map((response: Response) => {
         const body = response.json();
         return body.lahan || {};
+    });
+  }
+
+  public daftarLahan(data: any){
+    const header = new Headers();
+    header.append('Content-type', 'application/json');
+    header.append('token', localStorage.getItem('currentUser'));
+    return this.http.post(this.pathRegisterLahan, data ,{headers: header})
+      .map((response: Response) => {
+        return response.json();
+      })
+  }
+
+  public daftarpemilik(data:any) {
+    const header = new Headers();
+    header.append('Content-type', 'application/json');
+    header.append('token', localStorage.getItem('currentUser'));
+    return this.http.post(this.pathRegisterPemilik, data, {headers: header})
+      .map((response: Response) => {
+        return response.json();
+      })
+  }
+
+  public tambahfotopemilik(data:  Array<File>, id:any) {
+    return new Promise((resolve, reject) => {
+			var formData: any = new FormData();
+      var xhr = new XMLHttpRequest();
+      for(var i = 0; i < data.length; i++) {
+				formData.append(i, data[i], data[i].name);
+      }
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200) {
+            resolve(JSON.parse(xhr.response));
+					} else {
+            reject(xhr.response);
+					}
+				}
+      }
+      setInterval(() => {}, 500);
+      xhr.upload.onprogress = (event) => {
+        this.progress = Math.round(event.loaded / event.total * 100);
+        this.progressObserver.next(this.progress);
+      };
+      xhr.open("POST", this.pathRegisterFotoPemilik + '/' + id, true);
+			xhr.setRequestHeader('token', localStorage.getItem('currentUser'));//put token to header
+			xhr.send(formData);
+    });
+  }
+
+  public tambahlahan(data: any) {
+    const header = new Headers();
+    header.append('Content-type', 'application/json');
+    header.append('token', localStorage.getItem('currentUser'));
+    return this.http.post(this.pathRegisterLahan, data, {headers: header})
+      .map((response: Response) => {
+        return response.json();
+      })
+  }
+
+  public tambahfotolahan(data: Array<File>, id:any) {
+    return new Promise((resolve, reject) => {
+			var formData: any = new FormData();
+      var xhr = new XMLHttpRequest();
+      for(var i = 0; i < data.length; i++) {
+				formData.append(i, data[i], data[i].name);
+      }
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200) {
+            resolve(JSON.parse(xhr.response));
+					} else {
+            reject(xhr.response);
+					}
+				}
+      }
+      setInterval(() => {}, 500);
+      xhr.upload.onprogress = (event) => {
+        this.progress = Math.round(event.loaded / event.total * 100);
+        this.progressObserver.next(this.progress);
+      };
+      xhr.open("POST", this.pathRegisterFotoLahan + '/' + id, true);
+			xhr.setRequestHeader('token', localStorage.getItem('currentUser'));//put token to header
+			xhr.send(formData);
     });
   }
 }
