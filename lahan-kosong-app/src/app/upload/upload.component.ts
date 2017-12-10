@@ -38,6 +38,8 @@ export class UploadComponent implements OnInit {
   private fotopemilik: any;
   private fotolahan: any;
   private iddesakel: any;
+  private idkemitraan: any;
+  private idpengelolaan: any;
 
   constructor(
     private _fb: FormBuilder,
@@ -126,7 +128,26 @@ export class UploadComponent implements OnInit {
                         let fotolahan: Array<File> = this.formLahan.value.foto_lahan;
                         this.AppService.tambahfotolahan(fotolahan, lahan.info.id)
                           .then(fotolahan => {
-                            console.log(fotolahan);
+                            let hasilfoto:any = fotolahan;
+                            console.log(hasilfoto);
+                            if(hasilfoto.status == true) {
+                              let datapengelolaanlahan = {
+                                fk_id_pengelolaan: this.idpengelolaan,
+                                detail_pengelolaanlahan: this.formLahan.value.detail_pengelolaanlahan
+                              };
+                              this.AppService.tambahpengelolaanlahan(datapengelolaanlahan, lahan.info.id)
+                                .subscribe(pengelolaan => {
+                                  if(pengelolaan.status == true) {
+                                    let datakemitraanlaan = {
+                                      fk_id_kemitraan: this.idkemitraan,
+                                      detail_kemitraanlahan: this.formLahan.value.detail_kemitraanlahan
+                                    };
+                                    this.AppService.tambahkemitraanlahan(datakemitraanlaan, lahan.info.id)
+                                      .subscribe(kemitraan => {
+                                      })
+                                  }
+                                })
+                            }
                           })
                       }
                     })  
@@ -232,12 +253,14 @@ export class UploadComponent implements OnInit {
   setBidang() {
     this.selectedBidang = this.formLahan.value.nama_pengelolaanlahan;
     const pilihan = +Object.keys(this.searchBidang).find(key => this.searchBidang[key] === this.formLahan.value.nama_pengelolaanlahan);
+    this.idpengelolaan = pilihan;
     this.showTambahBidang = 1;
   }
 
   setKemitraan() {
     this.selectedKemitraan = this.formLahan.value.nama_kemitraanlahan;
     const pilihan = +Object.keys(this.searchKemitraan).find(key => this.searchKemitraan[key] === this.formLahan.value.nama_kemitraanlahan);
+    this.idkemitraan = pilihan;
     this.showTambahKemitraan = 1;
   }
 

@@ -6,6 +6,10 @@ var sequelize = require(__dirname + '/../dbconnection'),
 	Kecamatan = sequelize.import(__dirname + '/../models/kecamatan.model'),
 	Lahan = sequelize.import(__dirname + '/../models/lahan.model'),
 	Foto = sequelize.import(__dirname + '/../models/foto.model'),
+	Pengelolaan = sequelize.import(__dirname + '/../models/pengelolaan.model'),
+	Pengelolaanlahan = sequelize.import(__dirname + '/../models/pengelolaanlahan.model'),
+	Kemitraan = sequelize.import(__dirname + '/../models/kemitraan.model'),
+	Kemitraanlahan = sequelize.import(__dirname + '/../models/kemitraanlahan.model'),
 	Token = require(__dirname + '/Token.controller'),
 	Multer = require('multer'),
 	crypto = require('crypto'),
@@ -251,6 +255,43 @@ class RegistrasiLahan {
 					res.json({status: false, code: 400, message: 'Gagal menambahkan foto untuk lahan', error: err});
 				});
 		});
+	}
+
+	TambahPengelolaanLahan(data, res) {
+		console.log(data.body);
+		var arraypengelolaanlahan = [];
+		// for(let i=0; i<data.length; i++) {
+		// 	let temp = {fk_id_lahan: data.params.id, fk_id_pengelolaan: data.body.fk_id_pengelolaan, detail_pengelolaanlahan: data.body.detail_pengelolaanlahan}
+		// 	arraypengelolaanlahan.push(temp);
+		// }
+		let temp = {fk_id_lahan: data.params.id, fk_id_pengelolaan: data.body.fk_id_pengelolaan, detail_pengelolaanlahan: data.body.detail_pengelolaanlahan}
+		arraypengelolaanlahan.push(temp);
+		Pengelolaanlahan
+			.bulkCreate(arraypengelolaanlahan)
+			.then((info) => {
+				res.json({status: true, code: 200, message: 'Berhasil menambahkan pengelolaan lahan', info: info});
+			})
+			.catch((err) => {
+				res.json({status: false, code: 400, message: 'Gagal menambahkan pengelolaan lahan', error: err});
+			})
+	}
+
+	TambahKemitraanLahan(data, res) {
+		var arraykemitraanlahan = [];
+		// for(let i=0; i<data.length; i++) {
+		// 	let temp = {fk_id_lahan: data.params.id, fk_id_kemitraan: data.body.fk_id_kemitraan, detail_kemitraanlahan: data.body.detail_kemitraanlahan}
+		// 	arraykemitraanlahan.push(temp);
+		// }
+		let temp = {fk_id_lahan: data.params.id, fk_id_kemitraan: data.body.fk_id_kemitraan, detail_kemitraanlahan: data.body.detail_kemitraanlahan}
+		arraykemitraanlahan.push(temp);
+		Kemitraanlahan
+			.bulkCreate(arraykemitraanlahan)
+			.then((info) => {
+				res.json({status: true, code: 200, message: 'Berhasil menambahkan kemitraan lahan', info: info});
+			})
+			.catch((err) => {
+				res.json({status: false, code: 400, message: 'Gagal menambahkan kemitraan lahan', error: err});
+			})
 	}
 }
 

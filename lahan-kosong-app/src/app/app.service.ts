@@ -24,7 +24,9 @@ export class AppService {
   private pathRegisterPemilik = this.site + 'registrasilahan/tambahpemilik';
   private pathRegisterFotoPemilik = this.site + 'registrasilahan/tambahfotopemilik';
   private pathRegisterLahan = this.site + 'registrasilahan/tambahlahan';
-  private pathRegisterFotoLahan = this.site + 'registrasilahan/tambahfoto'
+  private pathRegisterFotoLahan = this.site + 'registrasilahan/tambahfoto';
+  private pathRegisterPengelolaanlahan = this.site + 'registrasilahan/tambahpengelolaanlahan';
+  private pathRegisterKemitraanlahan = this.site + 'registrasilahan/tambahkemitraanlahan';
   progressObserver = new Subject<number>();
   progress$ = this.progressObserver.asObservable();
   progress: number = 0; 
@@ -268,5 +270,25 @@ export class AppService {
 			xhr.setRequestHeader('token', localStorage.getItem('currentUser'));//put token to header
 			xhr.send(formData);
     });
+  }
+
+  public tambahpengelolaanlahan(data: any, id:any) {
+    const header = new Headers();
+    header.append('Content-type', 'application/json');
+    header.append('token', localStorage.getItem('currentUser'));
+    return this.http.post(this.pathRegisterPengelolaanlahan + '/' + id , data, {headers: header})
+      .map((response: Response) => {
+        return response.json();
+      })
+  }
+
+  public tambahkemitraanlahan(data:any, id:any) {
+    const header = new Headers();
+    header.append('Content-type', 'application/json');
+    header.append('token', localStorage.getItem('currentUser'));
+    return this.http.post(this.pathRegisterKemitraanlahan + '/' + id, data, {headers: header})
+      .map((response: Response) => {
+        return response.json();
+      })
   }
 }

@@ -26,6 +26,14 @@ router.post('/tambahfoto/:id', (req, res, next) => {
 	RL.TambahFoto(req, res);
 });
 
+router.post('/tambahpengelolaanlahan/:id', (req, res, next) => {
+	RL.TambahPengelolaanLahan(req, res);
+})
+
+router.post('/tambahkemitraanlahan/:id', (req, res, next) => {
+	RL.TambahKemitraanLahan(req, res);
+})
+
 router.get('/datapemilik', (req, res, next) => {
 	RL.GetDataPemilik(req, res);
 });
