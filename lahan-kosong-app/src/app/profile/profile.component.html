@@ -49,11 +49,9 @@
                   <i class="fa fa-pencil"></i>
                 </button>
               </a>
-              <a routerLink="/delete/{{ lahan.id }}">
-                <button type="button" class="btn btn-danger" title="Hapus">
-                  <i class="fa fa-times"></i>
-                </button>
-              </a>
+              <button (click)="ngDeleted(lahan.id)" type="button" class="btn btn-danger" title="Hapus">
+                <i class="fa fa-times"></i>
+              </button>
             </div>
           </td>
         </tr>

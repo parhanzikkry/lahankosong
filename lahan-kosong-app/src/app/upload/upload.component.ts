@@ -144,6 +144,7 @@ export class UploadComponent implements OnInit {
                                     };
                                     this.AppService.tambahkemitraanlahan(datakemitraanlaan, lahan.info.id)
                                       .subscribe(kemitraan => {
+                                        this.router.navigate(['/profile']);
                                       })
                                   }
                                 })

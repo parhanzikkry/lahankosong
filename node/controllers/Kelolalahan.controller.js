@@ -9,7 +9,9 @@ var sequelize = require(__dirname + '/../dbconnection'),
     Pengelolaan = sequelize.import(__dirname + '/../models/pengelolaan.model'),
     Pengelolaanlahan = sequelize.import(__dirname + '/../models/pengelolaanlahan.model'),
     Kemitraan = sequelize.import(__dirname + '/../models/kemitraan.model'),
-    Kemitraanlahan = sequelize.import(__dirname + '/../models/kemitraanlahan.model');
+    Kemitraanlahan = sequelize.import(__dirname + '/../models/kemitraanlahan.model'),
+    Token = require(__dirname + '/Token.controller'),
+    fs = require('fs');
 
 class Kelolalahan {
     constructor() {
@@ -17,54 +19,86 @@ class Kelolalahan {
     }
 
     HapusLahanPilihan(data, res) {
-        Foto
-            .destroy({
+        Lahan
+            .findOne({
                 where: {
-                    fk_id_lahan: data.params.id
+                    id: data.params.id,
+                    fk_id_publisher: Token.DecodeToken(JSON.parse(data.headers.token).token).token.id
                 }
             })
             .then((info) => {
-                Lahan
-                    .destroy({
-                        where: {
-                            id: data.params.id
-                        }
-                    })
-                    .then((info) => {
-                        res.json({status: true, code: 200, message: 'Berhasil menghapus data lahan', info: info});
-                    })
-                    .catch((err) => {
-                        res.json({status: false, code: 400, message: 'Gagal menghapus data lahan', error: err});
-                    })
-            })
-            .catch((err) => {
-                res.json({status: false, code: 400, message: 'Gagal menghapus data foto lahan', error: err});
-            })
-        Kemitraanlahan
-            .destroy({
-                where: {
-                    fk_id_lahan: data.params.id
+                if(info == null) {
+                    res.json({status: false, code: 400, message: 'Sorry kita tidak menemukan lahan tersebut dengan authoritas dari anda'});
+                } else {
+                    Foto
+                        .findAll({
+                            where: {
+                                fk_id_lahan: data.params.id
+                            },
+                            attributes: ['path_foto']
+                        })
+                        .then((path) => {
+                            path = JSON.parse(JSON.stringify(path));
+                            for(let i=0; i<path.length; i++) {
+                                let dir = __dirname + '/..'  + path[i].path_foto;
+                                fs.unlinkSync(dir);
+                            }
+                            Foto
+                                .destroy({
+                                    where: {
+                                        fk_id_lahan: data.params.id
+                                    }
+                                })
+                                .then((info) => {
+                                    console.log('ini infonya loh',info);
+                                    Lahan
+                                        .destroy({
+                                            where: {
+                                                id: data.params.id
+                                            }
+                                        })
+                                        .then((info) => {
+                                            res.json({status: true, code: 200, message: 'Berhasil menghapus data lahan', info: info});
+                                        })
+                                        .catch((err) => {
+                                            res.json({status: false, code: 400, message: 'Gagal menghapus data lahan', error: err});
+                                        })
+                                })
+                                .catch((err) => {
+                                    res.json({status: false, code: 400, message: 'Gagal menghapus data foto lahan', error: err});
+                                })
+                            Kemitraanlahan
+                                .destroy({
+                                    where: {
+                                        fk_id_lahan: data.params.id
+                                    }
+                                })
+                                .then((info) => {
+                                    info = JSON.parse(JSON.stringify(info));
+                                })
+                                .catch((err) => {
+                                    res.json({status: false, code: 400, message: 'Gagal menghapus data kemitraan lahan', error: err});
+                                })
+                            Pengelolaanlahan
+                                .destroy({
+                                    where: {
+                                        fk_id_lahan: data.params.id
+                                    }
+                                })
+                                .then((info) => {
+                                    info = JSON.parse(JSON.stringify(info));
+                                })
+                                .catch((err) => {
+                                    res.json({status: false, code: 400, message: 'Gagal menghapus data pengelolaan lahan', error: err});
+                                })
+                        })
+                        .catch((err) => {
+                            res.json({status: false, code: 400, message: 'Gagal menemukan path foto', error: err});
+                        })
                 }
             })
-            .then((info) => {
-                info = JSON.parse(JSON.stringify(info));
-                console.log(info);
-            })
             .catch((err) => {
-                res.json({status: false, code: 400, message: 'Gagal menghapus data kemitraan lahan', error: err});
-            })
-        Pengelolaanlahan
-            .destroy({
-                where: {
-                    fk_id_lahan: data.params.id
-                }
-            })
-            .then((info) => {
-                info = JSON.parse(JSON.stringify(info));
-                console.log(info);
-            })
-            .catch((err) => {
-                res.json({status: false, code: 400, message: 'Gagal menghapus data pengelolaan lahan', error: err});
+                res.json({status: false, code: 400, message: 'Gagal mendapatkan data', error: err});
             })
     }
 
@@ -110,3 +144,5 @@ class Kelolalahan {
             })
     }
 }
+
+module.exports = new Kelolalahan;

@@ -27,7 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 /*Routing*/
 var registrasilahan = require(__dirname + '/routes/RegistrasiLahan.route'),
     lahan = require(__dirname + '/routes/Lahan.route'),
-    auth = require(__dirname + '/routes/Auth.route');
+    auth = require(__dirname + '/routes/Auth.route'),
+    kelolalahan = require(__dirname + '/routes/Kelolalahan.route');
 app.use('/auth', auth);
 /*app.use((req, res, next) => {
   if(!req.headers.token) {
@@ -40,6 +41,7 @@ app.use('/auth', auth);
 });*/
 app.use('/registrasilahan', registrasilahan);
 app.use('/lahan', lahan);
+app.use('/kelolalahan', kelolalahan);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

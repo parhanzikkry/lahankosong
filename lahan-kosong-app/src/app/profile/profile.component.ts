@@ -47,4 +47,11 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  ngDeleted(id:any) {
+    console.log('masuk gak ya');
+    this.AppService.hapuslahansaya(id)
+      .subscribe(hapus => {
+        this.ngOnInit();
+      })
+  }
 }
