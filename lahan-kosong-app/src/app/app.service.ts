@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Subject }    from 'rxjs/Subject';
+import { Subject } from 'rxjs/Subject';
 import { JwtHelper, tokenNotExpired } from 'angular2-jwt';
 import 'rxjs/add/operator/map';
 
@@ -32,8 +32,10 @@ export class AppService {
 
   progressObserver = new Subject<number>();
   progress$ = this.progressObserver.asObservable();
-  progress: number = 0; 
+  progress = 0;
   public markers = [];
+  public _latitude = 0.0;
+  public _longitude = 0.0;
 
   constructor(private http: Http) { }
 
@@ -201,50 +203,50 @@ export class AppService {
     });
   }
 
-  public daftarLahan(data: any){
+  public daftarLahan(data: any) {
     const header = new Headers();
     header.append('Content-type', 'application/json');
     header.append('token', localStorage.getItem('currentUser'));
-    return this.http.post(this.pathRegisterLahan, data ,{headers: header})
+    return this.http.post(this.pathRegisterLahan, data , {headers: header})
       .map((response: Response) => {
         return response.json();
-      })
+      });
   }
 
-  public daftarpemilik(data:any) {
+  public daftarpemilik(data: any) {
     const header = new Headers();
     header.append('Content-type', 'application/json');
     header.append('token', localStorage.getItem('currentUser'));
     return this.http.post(this.pathRegisterPemilik, data, {headers: header})
       .map((response: Response) => {
         return response.json();
-      })
+      });
   }
 
-  public tambahfotopemilik(data:  Array<File>, id:any) {
+  public tambahfotopemilik(data:  Array<File>, id: any) {
     return new Promise((resolve, reject) => {
-			var formData: any = new FormData();
-      var xhr = new XMLHttpRequest();
-      for(var i = 0; i < data.length; i++) {
-				formData.append(i, data[i], data[i].name);
+      const formData: any = new FormData();
+      const xhr = new XMLHttpRequest();
+      for (let i = 0; i < data.length; i++) {
+        formData.append(i, data[i], data[i].name);
       }
       xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-          if (xhr.status == 200) {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
             resolve(JSON.parse(xhr.response));
-					} else {
+          } else {
             reject(xhr.response);
-					}
-				}
-      }
+          }
+        }
+      };
       setInterval(() => {}, 500);
       xhr.upload.onprogress = (event) => {
         this.progress = Math.round(event.loaded / event.total * 100);
         this.progressObserver.next(this.progress);
       };
-      xhr.open("POST", this.pathRegisterFotoPemilik + '/' + id, true);
-			xhr.setRequestHeader('token', localStorage.getItem('currentUser'));//put token to header
-			xhr.send(formData);
+      xhr.open('POST', this.pathRegisterFotoPemilik + '/' + id, true);
+      xhr.setRequestHeader('token', localStorage.getItem('currentUser')); // put token to header
+      xhr.send(formData);
     });
   }
 
@@ -255,63 +257,63 @@ export class AppService {
     return this.http.post(this.pathRegisterLahan, data, {headers: header})
       .map((response: Response) => {
         return response.json();
-      })
+      });
   }
 
-  public tambahfotolahan(data: Array<File>, id:any) {
+  public tambahfotolahan(data: Array<File>, id: any) {
     return new Promise((resolve, reject) => {
-			var formData: any = new FormData();
-      var xhr = new XMLHttpRequest();
-      for(var i = 0; i < data.length; i++) {
-				formData.append(i, data[i], data[i].name);
+      const formData: any = new FormData();
+      const xhr = new XMLHttpRequest();
+      for (let i = 0; i < data.length; i++) {
+        formData.append(i, data[i], data[i].name);
       }
       xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-          if (xhr.status == 200) {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
             resolve(JSON.parse(xhr.response));
-					} else {
+          } else {
             reject(xhr.response);
-					}
-				}
-      }
+          }
+        }
+      };
       setInterval(() => {}, 500);
       xhr.upload.onprogress = (event) => {
         this.progress = Math.round(event.loaded / event.total * 100);
         this.progressObserver.next(this.progress);
       };
-      xhr.open("POST", this.pathRegisterFotoLahan + '/' + id, true);
-			xhr.setRequestHeader('token', localStorage.getItem('currentUser'));//put token to header
-			xhr.send(formData);
+      xhr.open('POST', this.pathRegisterFotoLahan + '/' + id, true);
+      xhr.setRequestHeader('token', localStorage.getItem('currentUser')); // put token to header
+      xhr.send(formData);
     });
   }
 
-  public tambahpengelolaanlahan(data: any, id:any) {
+  public tambahpengelolaanlahan(data: any, id: any) {
     const header = new Headers();
     header.append('Content-type', 'application/json');
     header.append('token', localStorage.getItem('currentUser'));
     return this.http.post(this.pathRegisterPengelolaanlahan + '/' + id , data, {headers: header})
       .map((response: Response) => {
         return response.json();
-      })
+      });
   }
 
-  public tambahkemitraanlahan(data:any, id:any) {
+  public tambahkemitraanlahan(data: any, id: any) {
     const header = new Headers();
     header.append('Content-type', 'application/json');
     header.append('token', localStorage.getItem('currentUser'));
     return this.http.post(this.pathRegisterKemitraanlahan + '/' + id, data, {headers: header})
       .map((response: Response) => {
         return response.json();
-      })
+      });
   }
 
-  public hapuslahansaya(id:any) {
+  public hapuslahansaya(id: any) {
     const header = new Headers();
     header.append('Content-type', 'application/json');
     header.append('token', localStorage.getItem('currentUser'));
     return this.http.get(this.pathHapuslahansaya + '/' + id, {headers: header})
       .map((response: Response) => {
         return response.json();
-      })
+      });
   }
 }

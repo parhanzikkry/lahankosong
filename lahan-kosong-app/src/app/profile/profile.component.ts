@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from '../app.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -47,11 +48,27 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  ngDeleted(id:any) {
-    console.log('masuk gak ya');
-    this.AppService.hapuslahansaya(id)
-      .subscribe(hapus => {
-        this.ngOnInit();
-      })
+  ngDeleted(id: any) {
+    swal({
+      title: 'Apa Anda yakin?',
+      text: 'Lahan yang telah dihapus tidak dapat dikembalikan lagi',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya',
+      cancelButtonText: 'Batal',
+    }).then((result) => {
+      if (result.value) {
+        this.AppService.hapuslahansaya(id)
+          .subscribe(hapus => {
+            this.ngOnInit();
+          });
+        swal({
+          title: 'Lahan telah terhapus',
+          type: 'success'
+        });
+      }
+    });
   }
 }

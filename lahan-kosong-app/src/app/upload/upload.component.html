@@ -56,15 +56,7 @@
     <div class="form-group row">
       <label for="wilayah_lahan" class="col-sm-2 col-form-label">Wilayah Lahan</label>
       <div class="col-sm-10">
-        <select class="custom-select" (change)="setProvinsi()" formControlName="provinsi_lahan">
-          <option selected disabled>Pilih Provinsi</option>
-          <option [ngValue]="provinsi" *ngFor="let provinsi of objectValues(searchProvinsi)">{{ provinsi }}</option>
-        </select>
-        <select class="custom-select" *ngIf="showKabupatenKota == 1" (change)="setKabupatenKota()" formControlName="kabupatenkota_lahan">
-          <option selected disabled>Pilih Kabupaten/Kota</option>
-          <option [ngValue]="kabupatenKota" *ngFor="let kabupatenKota of objectValues(searchKabupatenKota)">{{ kabupatenKota }}</option>
-        </select>
-        <select class="custom-select" *ngIf="showKecamatan == 1" (change)="setKecamatan()" formControlName="kecamatan_lahan">
+        <select class="custom-select" (change)="setKecamatan()" formControlName="kecamatan_lahan">
           <option selected disabled>Pilih Kecamatan</option>
           <option [ngValue]="kecamatan" *ngFor="let kecamatan of objectValues(searchKecamatan)">{{ kecamatan }}</option>
         </select>
@@ -78,6 +70,12 @@
       <label for="luas_lahan" class="col-sm-2 col-form-label">Luas Lahan</label>
       <div class="col-sm-10">
         <input type="text" class="form-control" id="luas_lahan" placeholder="Luas Lahan (dalam hektare)" formControlName="luasan_lahan">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="potensi" class="col-sm-2 col-form-label">Potensi</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="potensi" placeholder="Potensi Lahan">
       </div>
     </div>
     <div class="form-group row">
@@ -145,6 +143,33 @@
       <label for="longitude_lahan" class="col-sm-2 col-form-label">Longitude</label>
       <div class="col-sm-10">
         <input type="text" class="form-control" id="longitude_lahan" placeholder="Longitude Lahan" formControlName="longitude_lahan">
+      </div>
+    </d ziv>
+    <div class="form-separator">
+      <h5>Aksesibilitas Lahan</h5>
+    </div>
+    <div class="form-group row">
+      <label for="jarak_air" class="col-sm-2 col-form-label">Jarak Dengan Air</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="jarak_air" placeholder="Jarak Lahan Dengan Air">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="jarak_jalan" class="col-sm-2 col-form-label">Jarak Dengan Jalan</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="jarak_jalan" placeholder="Jarak Lahan Dengan Jalan">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="keterangan_jalan" class="col-sm-2 col-form-label">Keterangan Jalan</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="keterangan_jalan" placeholder="Apakah jalan dapat dimasuki mobil, motor, atau hanya pejalan kaki?">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="jarak_pasar" class="col-sm-2 col-form-label">Jarak Dengan Pasar</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="jarak_pasar" placeholder="Jarak Lahan dengan Pasar">
       </div>
     </div>
     <div class="form-button">
