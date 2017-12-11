@@ -20,6 +20,7 @@ class CariLahan {
 		this.pengelolaanlahan;
 		this.kemitraanlahan;
 		this.foto;
+		this.attributes = ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan', 'status_lahan'];
 	}
 
 	GetDataLain(data, res) {
@@ -134,7 +135,7 @@ class CariLahan {
 						let countkelola = 0;
 						let countfoto = 0;
 						for(let i=0; i<data.length; i++) {
-							let temp = {id: data[i].id, pemilik: data[i].pemilik.nama_pemilik, alamat_pemilik: data[i].pemilik.alamat_pemilik, foto_pemilik: data[i].pemilik.foto_pemilik, email_pemilik:data[i].pemilik.email_pemilik , alamat_lahan: data[i].alamat_lengkap_lahan, latitude: data[i].latitude_lahan, longitude: data[i].longitude_lahan, luasan_lahan: data[i].luasan_lahan, desa: data[i].village.name, sebelumnya: data[i].pengelolaan_sebelumnya_lahan};
+							let temp = {id: data[i].id, pemilik: data[i].pemilik.nama_pemilik, alamat_pemilik: data[i].pemilik.alamat_pemilik, foto_pemilik: data[i].pemilik.foto_pemilik, email_pemilik:data[i].pemilik.email_pemilik , alamat_lahan: data[i].alamat_lengkap_lahan, latitude: data[i].latitude_lahan, longitude: data[i].longitude_lahan, luasan_lahan: data[i].luasan_lahan, desa: data[i].village.name, sebelumnya: data[i].pengelolaan_sebelumnya_lahan, status: data[i].status_lahan};
 							if(this.kemitraanlahan.length == 0) {
 								temp.kemitraan = [];
 							} else {
@@ -186,7 +187,7 @@ class CariLahan {
 				order: [
 					['id', 'DESC']
 				],
-				attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
+				attributes: this.attributes,
 				include:[{
 					model: Pemilik,
 					attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik', 'email_pemilik']
@@ -216,7 +217,7 @@ class CariLahan {
 				order: [
 					['id', 'DESC']
 				],
-				attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
+				attributes: this.attributes,
 				include:[{
 					model: Pemilik,
 					attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik', 'email_pemilik']
@@ -249,7 +250,7 @@ class CariLahan {
 				order: [
 					['id', 'DESC']
 				],
-				attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
+				attributes: this.attributes,
 				include:[{
 					model: Pemilik,
 					attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik', 'email_pemilik']
@@ -284,7 +285,7 @@ class CariLahan {
 				order: [
 					['id', 'DESC']
 				],
-				attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
+				attributes: this.attributes,
 				include:[{
 					model: Pemilik,
 					attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik', 'email_pemilik']
@@ -312,7 +313,7 @@ class CariLahan {
 				where: {
 					fk_id_publisher: Token.DecodeToken(JSON.parse(data.headers.token).token).token.id
 				},
-				attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
+				attributes: this.attributes,
 				order: [
 					['id', 'DESC']
 				],
@@ -364,7 +365,7 @@ class CariLahan {
 							order: [
 								['id', 'DESC']
 							],
-							attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
+							attributes: this.attributes,
 							include:[{
 								model: Pemilik,
 								attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik', 'email_pemilik']
@@ -416,7 +417,7 @@ class CariLahan {
 							order: [
 								['id', 'DESC']
 							],
-							attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
+							attributes: this.attributes,
 							include:[{
 								model: Pemilik,
 								attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik', 'email_pemilik']
@@ -464,7 +465,7 @@ class CariLahan {
 					order: [
 						['id', 'DESC']
 					],
-					attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
+					attributes: this.attributes,
 					include:[{
 						model: Pemilik,
 						attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik', 'email_pemilik']
@@ -482,6 +483,34 @@ class CariLahan {
 		} else {
 			res.json({status: false, code: 400, message: 'Hanya ada 3 jenis kategori yang bisa dicari', kategori: data.params.kategori})
 		}
+	}
+
+	GetLahanSortedByIdAndStatus(data, res) {
+		Lahan.belongsTo(Pemilik, {foreignKey: 'fk_id_pemilik'});
+		Lahan.belongsTo(Desakel, {foreignKey: 'fk_id_desakel'});
+		Kemitraanlahan.belongsTo(Kemitraan, {foreignKey: 'fk_id_kemitraan'});
+		Pengelolaanlahan.belongsTo(Pengelolaan, {foreignKey: 'fk_id_pengelolaan'});
+		Lahan
+			.findAll({
+				order: [
+					['status_lahan'],
+					['id', 'DESC']
+				],
+				attributes: this.attributes,
+				include:[{
+					model: Pemilik,
+					attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik', 'email_pemilik']
+				},{
+					model: Desakel,
+					attributes: ['name']
+				}]
+			})
+			.then((fivelahan) => {
+				this.GetDataLain(fivelahan, res);
+			})
+			.catch((err) => {
+				res.json({status: false, code: 400, message: 'Gagal mendapatkan Semua lahan', error: err});
+			});
 	}
 }
 

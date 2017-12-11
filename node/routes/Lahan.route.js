@@ -24,6 +24,10 @@ router.get('/cariberdasar/:kategori/:pilihan', (req, res, next) => {
 
 router.get('/mylahan', (req, res, next) => {
 	Lahan.GetMyLahanData(req, res);
-})
+});
+
+router.get('/sortedbyidandstatus', (req, res, next) => {
+	Lahan.GetLahanSortedByIdAndStatus(req, res);
+});
 
 module.exports = router;

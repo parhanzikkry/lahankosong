@@ -116,8 +116,8 @@ export class UploadComponent implements OnInit {
                   let datalahan = {
                     fk_id_desakel: this.iddesakel,
                     alamat_lengkap_lahan: this.formLahan.value.alamat_lengkap_lahan,
-                    longitude_lahan: this.formLahan.value.longitude_lahan,
-                    latitude_lahan: this.formLahan.value.latitude_lahan,
+                    longitude_lahan: parseFloat(this.formLahan.value.longitude_lahan),
+                    latitude_lahan: parseFloat(this.formLahan.value.latitude_lahan),
                     luasan_lahan: this.formLahan.value.luasan_lahan,
                     pengelolaan_sebelumnya_lahan: this.formLahan.value.pengelolaan_sebelumnya_lahan,
                     fk_id_pemilik: pemilik.info.id,
@@ -131,7 +131,6 @@ export class UploadComponent implements OnInit {
                         this.AppService.tambahfotolahan(fotolahan, lahan.info.id)
                           .then(fotolahan => {
                             let hasilfoto:any = fotolahan;
-                            console.log(hasilfoto);
                             if(hasilfoto.status == true) {
                               let datapengelolaanlahan = {
                                 fk_id_pengelolaan: this.idpengelolaan,
@@ -147,20 +146,17 @@ export class UploadComponent implements OnInit {
                                     this.AppService.tambahkemitraanlahan(datakemitraanlaan, lahan.info.id)
                                       .subscribe(kemitraan => {
                                         this.router.navigate(['/profile']);
-                                      })
+                                      });
                                   }
-                                })
+                                });
                             }
-                          })
+                          });
                       }
-                    })  
+                    });
                 }
-              })
+              });
           }
         });
-      // this.AppService.daftarLahan(this.formLahan.value)
-      //   .subscribe(data => {
-      //   })
     }
   }
 

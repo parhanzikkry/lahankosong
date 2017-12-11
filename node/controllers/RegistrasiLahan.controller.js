@@ -226,9 +226,11 @@ class RegistrasiLahan {
 				fk_id_publisher: Token.DecodeToken(JSON.parse(data.headers.token).token).token.id
 			})
 			.then((hasil) => {
+				console.log('masuk hasil');
 				res.json({status: true, code: 200, message: 'Berhasil menambahkan lahan baru', info: hasil});
 			})
 			.catch((err) => {
+				console.log('masuk err', err);
 				res.json({status: false, code: 400, message: 'Gagal menambahkan lahan baru', error: err});
 			});
 	}
