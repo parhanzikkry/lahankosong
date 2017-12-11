@@ -89,6 +89,7 @@ export class BrowseComponent implements OnInit {
 
   setKecamatan(kecamatan: any) {
     this.clearMarkers();
+    this.selectedDesaKel = 'Pilih';
     this.selectedKecamatan = kecamatan;
     const pilihan = +Object.keys(this.searchKecamatan).find(key => this.searchKecamatan[key] === kecamatan);
     this.AppService.getLahanKecamatan(pilihan)
