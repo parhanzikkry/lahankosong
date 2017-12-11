@@ -33,6 +33,10 @@
     color: #FFEB3B;
 }
 
+.nav-item:hover a.dropdown-item {
+    color: #000;
+}
+
 .navbar-toggler {
     color: #fff;
     border-color: #fff;

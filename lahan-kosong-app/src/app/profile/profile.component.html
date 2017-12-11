@@ -26,6 +26,7 @@
           <th scope="col">Luas</th>
           <th scope="col">Bidang Pengelolaan</th>
           <th scope="col">Kemitraan</th>
+          <th scope="col">Status</th>
           <th scope="col">Pegaturan</th>
         </tr>
       </thead>
@@ -37,8 +38,12 @@
           <td>{{ lahan.luasan }} Ha</td>
           <td>{{ lahan.pengelolaan }}</td>
           <td>{{ lahan.kemitraan }}</td>
+          <td>Terverifikasi</td>
           <td class="text-center">
             <div class="btn-group" role="group">
+              <!-- <button type="button" class="btn btn-secondary" title="Belum Terverifikasi" disabled>
+                <i class="fa fa-eye"></i>
+              </button> -->
               <a routerLink="/detail/{{ lahan.id }}">
                 <button type="button" class="btn btn-primary" title="Lihat">
                   <i class="fa fa-eye"></i>
