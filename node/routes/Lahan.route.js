@@ -10,6 +10,10 @@ router.get('/lahankecamatan/:fk_id', (req, res, next) => {
 	Lahan.DaftarLahanPerkecamatan(req, res);
 });
 
+router.get('/lahandesakelurahan/:fk_id', (req, res, next) => {
+	Lahan.DaftarLahanPerdesakelurahan(req, res);
+});
+
 router.get('/detaillahan/:id', (req, res, next) => {
 	Lahan.GetDetailDataLahan(req, res);
 });

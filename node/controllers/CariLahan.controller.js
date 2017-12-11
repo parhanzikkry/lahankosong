@@ -236,6 +236,40 @@ class CariLahan {
 			});
 	}
 
+	DaftarLahanPerdesakelurahan(data, res) {
+		Lahan.belongsTo(Pemilik, {foreignKey: 'fk_id_pemilik'});
+		Lahan.belongsTo(Desakel, {foreignKey: 'fk_id_desakel'});
+		Kemitraanlahan.belongsTo(Kemitraan, {foreignKey: 'fk_id_kemitraan'});
+		Pengelolaanlahan.belongsTo(Pengelolaan, {foreignKey: 'fk_id_pengelolaan'});
+		Lahan
+			.findAll({
+				where: {
+					status_lahan: 'verif',
+				},
+				order: [
+					['id', 'DESC']
+				],
+				attributes: ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan'],
+				include:[{
+					model: Pemilik,
+					attributes: ['nama_pemilik', 'alamat_pemilik', 'foto_pemilik', 'email_pemilik']
+				},{
+					model: Desakel,
+					attributes: ['name'],
+					where: {
+						id: data.params.fk_id
+					}
+				}]
+			})
+			.then((lahan) => {
+				console.log(lahan);
+				this.GetDataLain(lahan, res);
+			})
+			.catch((err) => {
+				res.json({status: false, code: 400, message: 'Gagal mendapatkan lahan di kecamatan yang dicari', error: err});
+			});
+	}
+
 	GetDetailDataLahan(data, res) {
 		Lahan.belongsTo(Pemilik, {foreignKey: 'fk_id_pemilik'});
 		Lahan.belongsTo(Desakel, {foreignKey: 'fk_id_desakel'});

@@ -125,8 +125,38 @@ export class BrowseComponent implements OnInit {
   }
 
   setDesaKel(desaKel: any) {
+    this.clearMarkers();
     this.selectedDesaKel = desaKel;
     const pilihan = +Object.keys(this.searchDesaKel).find(key => this.searchDesaKel[key] === desaKel);
+    this.AppService.getLahanDesaKelurahan(pilihan)
+    .subscribe(data => {
+      data.forEach(item => {
+        const _kemitraan = item.kemitraan.map(function(e){ return e.kemitraan; }).join(', ');
+        const _pengelolaan = item.pengelolaan.map(function(e){ return e.pengelolaan; }).join(', ');
+        const infowindow = new google.maps.InfoWindow({
+          content: `Info lahan :
+                    <h5 class="card-title">Lahan milik ` + item.pemilik + `</h5>
+                    <p class="card-text">
+                      <strong>Luasan</strong> : ` + item.luasan_lahan + ` Ha<br />
+                      <strong>Kemitraan</strong> : ` + _kemitraan + `<br />
+                      <strong>Pengelolaan</strong> : ` + _pengelolaan + `<br />
+                      <strong>Alamat</strong> : ` + item.alamat_lahan + `
+                    </p>
+                    <div class="text-center">
+                      <a href="/detail/` + item.id + `" class="btn btn-success btn-sm text-white">Lihat Detail</a>
+                    </div>`
+        });
+        const marker = new google.maps.Marker({
+          position: new google.maps.LatLng(item.latitude, item.longitude),
+          map: this.map,
+          title: item.alamat_lahan
+        });
+        marker.addListener('click', function() {
+          infowindow.open(this.map, marker);
+        });
+        this.AppService.markers.push(marker);
+      });
+    });
   }
 
   setBidang(bidang: any) {

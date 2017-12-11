@@ -14,6 +14,7 @@ export class AppService {
   private pathGetDetailLahan = this.site + 'lahan/detaillahan/';
   private pathGetDataLahan = this.site + 'lahan/cariberdasar/';
   private pathGetLahanKecamatan = this.site + 'lahan/lahankecamatan/';
+  private pathGetLahanDesaKelurahan = this.site + 'lahan/lahandesakelurahan/';
   private pathGetDataProvinsi = this.site + 'registrasilahan/dataprovinsi';
   private pathGetDataKabupatenKota = this.site + 'registrasilahan/datakabupatenkota/';
   private pathGetDataKecamatan = this.site + 'registrasilahan/datakecamatan/';
@@ -70,6 +71,16 @@ export class AppService {
     const header = new Headers();
     header.append('Content-type', 'application/json');
     return this.http.get(this.pathGetLahanKecamatan + kabupatenKota_id, {headers: header})
+    .map((response: Response) => {
+        const body = response.json();
+        return body.lahan || {};
+    });
+  }
+
+  getLahanDesaKelurahan(id: any) {
+    const header = new Headers();
+    header.append('Content-type', 'application/json');
+    return this.http.get(this.pathGetLahanDesaKelurahan + id, {headers: header})
     .map((response: Response) => {
         const body = response.json();
         return body.lahan || {};
