@@ -33,9 +33,9 @@ class RegistrasiLahan {
 	/*Setting uploading file dan tempat penyimpanan dan cara menyimpannya*/
 	SetupMulter(res) {
 		if(this.code == 1) {
-			this.foldertujuan = '/uploads/pemilik/';
+			this.foldertujuan = '/dist/assets/img/pemilik/';
 		} else if(this.code == 2) {
-			this.foldertujuan = '/uploads/lahan/';
+			this.foldertujuan = '/dist/assets/img/lahan/';
 		} else {
 			res.json({status: false, code: 400, message: 'Maaf tidak bisa sembarangan upload file'});
 		}
@@ -102,6 +102,7 @@ class RegistrasiLahan {
 		this.SetupMulter(res);
 		this.upload(data, res, (err) => {
 			if (err) {
+				console.log('masuk', err);
 				res.json({status: false, code: 400, message: 'Gagal Upload foto pemilik', error: err})
 			} else {
 				var upload_img = fs.readFileSync(__dirname + '/..' + this.foldertujuan + data.files[0].filename).toString('hex', 0,4);
@@ -111,7 +112,7 @@ class RegistrasiLahan {
 				} else {
 					Pemilik
 						.update({
-							foto_pemilik: this.foldertujuan + data.files[0].filename
+							foto_pemilik: 'assets/img/pemilik/' + data.files[0].filename
 						}, {
 							where: {
 								id: data.params.id
@@ -231,11 +232,9 @@ class RegistrasiLahan {
 				fk_id_publisher: Token.DecodeToken(JSON.parse(data.headers.token).token).token.id
 			})
 			.then((hasil) => {
-				console.log('masuk hasil');
 				res.json({status: true, code: 200, message: 'Berhasil menambahkan lahan baru', info: hasil});
 			})
 			.catch((err) => {
-				console.log('masuk err', err);
 				res.json({status: false, code: 400, message: 'Gagal menambahkan lahan baru', error: err});
 			});
 	}
@@ -249,13 +248,14 @@ class RegistrasiLahan {
 			} else {
 				var arrayfoto = [];
 				for(let i=0; i<data.files.length; i++) {
-					let temp = {path_foto: this.foldertujuan + data.files[i].filename, fk_id_lahan: parseInt(data.params.id)};
+					let temp = {path_foto: 'assets/img/lahan/' +data.files[i].filename, fk_id_lahan: parseInt(data.params.id)};
 					arrayfoto.push(temp);
 					}
 			}
 			Foto
 				.bulkCreate(arrayfoto)
 				.then((hasil) => {
+					console.log('masuk');
 					res.json({status: true, code: 200, message: 'Berhasil menambahkan lahan baru', info: hasil});
 				})
 				.catch((err) => {
@@ -265,7 +265,6 @@ class RegistrasiLahan {
 	}
 
 	TambahPengelolaanLahan(data, res) {
-		console.log(data.body);
 		var arraypengelolaanlahan = [];
 		// for(let i=0; i<data.length; i++) {
 		// 	let temp = {fk_id_lahan: data.params.id, fk_id_pengelolaan: data.body.fk_id_pengelolaan, detail_pengelolaanlahan: data.body.detail_pengelolaanlahan}
