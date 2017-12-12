@@ -28,10 +28,17 @@ export class ProfileComponent implements OnInit {
     } else {
       this.lahanTerdaftar = [];
       this.AppService.getMyLahan().subscribe(data => {
+        console.log(data);
         this.enum = 1;
         data.forEach(item => {
           const _kemitraan = item.kemitraan.map(function(e){ return e.kemitraan; }).join(', ');
           const _pengelolaan = item.pengelolaan.map(function(e){ return e.pengelolaan; }).join(', ');
+          var status;
+          if(item.status == 'verif') {
+            status = 'Terverifikasi';
+          } else {
+            status = 'Belum Terverifikasi';
+          }
           const _lahan = {
             pemilik: item.pemilik,
             luasan: item.luasan_lahan,
@@ -39,7 +46,8 @@ export class ProfileComponent implements OnInit {
             kemitraan: _kemitraan,
             pengelolaan: _pengelolaan,
             id: item.id,
-            no: this.enum
+            no: this.enum,
+            status: status
           };
           this.lahanTerdaftar.push(_lahan);
           this.enum++;

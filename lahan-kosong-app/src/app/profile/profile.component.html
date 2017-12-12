@@ -38,13 +38,13 @@
           <td>{{ lahan.luasan }} Ha</td>
           <td>{{ lahan.pengelolaan }}</td>
           <td>{{ lahan.kemitraan }}</td>
-          <td>Terverifikasi</td>
+          <td >{{ lahan.status }}</td>
           <td class="text-center">
             <div class="btn-group" role="group">
-              <!-- <button type="button" class="btn btn-secondary" title="Belum Terverifikasi" disabled>
+              <button *ngIf="lahan.status == 'Belum Terverifikasi'" type="button" class="btn btn-secondary" title="Belum Terverifikasi" disabled>
                 <i class="fa fa-eye"></i>
-              </button> -->
-              <a routerLink="/detail/{{ lahan.id }}">
+              </button>
+              <a *ngIf="lahan.status == 'Terverifikasi'" routerLink="/detail/{{ lahan.id }}">
                 <button type="button" class="btn btn-primary" title="Lihat">
                   <i class="fa fa-eye"></i>
                 </button>

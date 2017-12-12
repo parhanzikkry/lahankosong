@@ -20,7 +20,7 @@ class CariLahan {
 		this.pengelolaanlahan;
 		this.kemitraanlahan;
 		this.foto;
-		this.attributes = ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan', 'status_lahan'];
+		this.attributes = ['id', 'alamat_lengkap_lahan', 'luasan_lahan', 'id', 'latitude_lahan', 'longitude_lahan', 'pengelolaan_sebelumnya_lahan', 'status_lahan', 'jarak_air_lahan', 'jarak_jalan_lahan', 'keterangan_jalan_lahan', 'jarak_pasar_lahan', 'potensi_lahan'];
 	}
 
 	GetDataLain(data, res) {
@@ -135,7 +135,7 @@ class CariLahan {
 						let countkelola = 0;
 						let countfoto = 0;
 						for(let i=0; i<data.length; i++) {
-							let temp = {id: data[i].id, pemilik: data[i].pemilik.nama_pemilik, alamat_pemilik: data[i].pemilik.alamat_pemilik, foto_pemilik: data[i].pemilik.foto_pemilik, email_pemilik:data[i].pemilik.email_pemilik , alamat_lahan: data[i].alamat_lengkap_lahan, latitude: data[i].latitude_lahan, longitude: data[i].longitude_lahan, luasan_lahan: data[i].luasan_lahan, desa: data[i].village.name, sebelumnya: data[i].pengelolaan_sebelumnya_lahan, status: data[i].status_lahan};
+							let temp = {id: data[i].id, pemilik: data[i].pemilik.nama_pemilik, alamat_pemilik: data[i].pemilik.alamat_pemilik, foto_pemilik: data[i].pemilik.foto_pemilik, email_pemilik:data[i].pemilik.email_pemilik , alamat_lahan: data[i].alamat_lengkap_lahan, latitude: data[i].latitude_lahan, longitude: data[i].longitude_lahan, luasan_lahan: data[i].luasan_lahan, desa: data[i].village.name, sebelumnya: data[i].pengelolaan_sebelumnya_lahan, jarak_air_lahan:data[i].jarak_air_lahan, jarak_jalan_lahan: data[i].jarak_jalan_lahan, keterangan_jalan_lahan: data[i].keterangan_jalan_lahan, jarak_pasar_lahan: data[i].jarak_pasar_lahan, potensi_lahan: data[i].potensi_lahan, status: data[i].status_lahan};
 							if(this.kemitraanlahan.length == 0) {
 								temp.kemitraan = [];
 							} else {
