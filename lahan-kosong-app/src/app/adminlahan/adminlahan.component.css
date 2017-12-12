@@ -1,0 +1,30 @@
+.table th {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.table th:first-child {
+    border-radius: 10px 0px 0px 0px;
+}
+
+.table th:last-child {
+    border-radius: 0px 10px 0px 0px;  
+}
+
+a .btn-primary {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+a .btn-warning {
+    border-radius: 0px;
+}
+
+a .btn-danger {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}

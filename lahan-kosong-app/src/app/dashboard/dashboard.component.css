@@ -1,0 +1,15 @@
+.justspace {
+    height: 40px;
+}
+
+.card-header {
+    background: #28a745;
+}
+
+.nav-item a {
+    color: #fff;
+}
+
+.nav-item a.active {
+    color: #000;
+}

@@ -17,10 +17,10 @@ export class DetailComponent implements OnInit {
     private AppService: AppService,
     private activatedRoute: ActivatedRoute
   ) {
-      this.activatedRoute.params.subscribe((params: Params) => {
-        const id = params['id'];
-        this.idLahan = id;
-      });
+    this.activatedRoute.params.subscribe((params: Params) => {
+      const id = params['id'];
+      this.idLahan = id;
+    });
   }
 
   ngOnInit() {

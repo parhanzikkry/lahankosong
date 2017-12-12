@@ -19,6 +19,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { UploadComponent } from './upload/upload.component';
 import { HomeComponent } from './home/home.component';
 import { ContentComponent } from './content/content.component';
+import { AdminlahanComponent } from './adminlahan/adminlahan.component';
+import { AdminverifComponent } from './adminverif/adminverif.component';
+import { AdminpublisherComponent } from './adminpublisher/adminpublisher.component';
+import { EditComponent } from './edit/edit.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +38,11 @@ import { ContentComponent } from './content/content.component';
     DashboardComponent,
     UploadComponent,
     HomeComponent,
-    ContentComponent
+    ContentComponent,
+    AdminlahanComponent,
+    AdminverifComponent,
+    AdminpublisherComponent,
+    EditComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +53,7 @@ import { ContentComponent } from './content/content.component';
       { path: '', component: HomeComponent },
       { path: 'browse', component: BrowseComponent },
       { path: 'detail/:id', component: DetailComponent },
+      { path: 'edit/:id', component: EditComponent },
       { path: 'upload', component: UploadComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'dashboard', component: DashboardComponent },
