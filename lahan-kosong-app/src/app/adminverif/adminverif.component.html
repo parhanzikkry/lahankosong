@@ -11,16 +11,16 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let i of Arr(5).fill(1)">
-        <th scope="row">1</th>
-        <td>Yang</td>
-        <td>Cantik</td>
-        <td>2 Ha</td>
-        <td>Pertanian</td>
-        <td>Saham</td>
+      <tr *ngFor="let lahan of lahanTerdaftar">
+        <th scope="row">{{ lahan.no }}</th>
+        <td>{{ lahan.pemilik }}</td>
+        <td>{{ lahan.alamat }}</td>
+        <td>{{ lahan.luasan }} Ha</td>
+        <td>{{ lahan.pengelolaan }}</td>
+        <td>{{ lahan.kemitraan }}</td>
         <td class="text-center">
           <div class="btn-group" role="group">
-            <a routerLink="/">
+            <a routerLink="/detail/{{ lahan.id }}">
               <button type="button" class="btn btn-primary" title="Lihat">
                 <i class="fa fa-eye"></i>
               </button>

@@ -24,6 +24,7 @@ export class DetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.idLahan);
     this.AppService.getDetailLahan(this.idLahan).subscribe(data => {
       data.forEach(item => {
         const _kemitraan = item.kemitraan.map(function(e){ return e.kemitraan; }).join(', ');

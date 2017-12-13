@@ -22,6 +22,8 @@ export class AppService {
   private pathLogin = this.site + 'auth/login';
   private pathRegister = this.site + 'auth/register';
   private pathMyLahan = this.site + 'lahan/mylahan';
+  private pathVerifiedLahan = this.site + 'lahan/verifiedlahan';
+  private pathUnverifiedLahan = this.site + 'lahan/unverifiedlahan';
   private pathRegisterPemilik = this.site + 'registrasilahan/tambahpemilik';
   private pathRegisterFotoPemilik = this.site + 'registrasilahan/tambahfotopemilik';
   private pathRegisterLahan = this.site + 'registrasilahan/tambahlahan';
@@ -29,6 +31,8 @@ export class AppService {
   private pathRegisterPengelolaanlahan = this.site + 'registrasilahan/tambahpengelolaanlahan';
   private pathRegisterKemitraanlahan = this.site + 'registrasilahan/tambahkemitraanlahan';
   private pathHapuslahansaya = this.site + 'kelolalahan/hapuslahansaya';
+  private pathPublisherData = this.site + 'kelolalahan/datapublisher';
+  private pathDeletePublisher = this.site + 'kelolalahan/hapusdatapublisher/';
 
   progressObserver = new Subject<number>();
   progress$ = this.progressObserver.asObservable();
@@ -316,4 +320,48 @@ export class AppService {
         return response.json();
       });
   }
+
+  public verifiedlahan() {
+    const header = new Headers();
+    header.append('Content-type', 'application/json');
+    header.append('token', localStorage.getItem('currentUser'));
+    return this.http.get(this.pathVerifiedLahan, {headers: header})
+    .map((response: Response) => {
+      const body = response.json();
+      return body.lahan || {};
+    });
+  }
+
+  public unverifiedlahan() {
+    const header = new Headers();
+    header.append('Content-type', 'application/json');
+    header.append('token', localStorage.getItem('currentUser'));
+    return this.http.get(this.pathUnverifiedLahan, {headers: header})
+    .map((response: Response) => {
+      const body = response.json();
+      return body.lahan || {};
+    });
+  }
+
+  public publisherdata() {
+    const header = new Headers();
+    header.append('Content-type', 'application/json');
+    header.append('token', localStorage.getItem('currentUser'));
+    return this.http.get(this.pathPublisherData, {headers: header})
+    .map((response: Response) => {
+      const body = response.json();
+      return body.data || {};
+    });
+  }
+
+  public deletepublisher(id: any) {
+    const header = new Headers();
+    header.append('Content-type', 'application/json');
+    header.append('token', localStorage.getItem('currentUser'));
+    return this.http.get(this.pathDeletePublisher + id, {headers: header})
+      .map((response: Response) => {
+        return response;
+      })
+  }
+
 }

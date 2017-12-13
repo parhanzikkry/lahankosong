@@ -11,16 +11,16 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let i of Arr(5).fill(1)">
-        <th scope="row">1</th>
-        <td>Nanya</td>
-        <td>C9</td>
-        <td>3 Ha</td>
-        <td>Bogor</td>
-        <td>Mahal</td>
+      <tr *ngFor="let data of publisher">
+        <th scope="row">{{ data.no }}</th>
+        <td>{{ data.nama }}</td>
+        <td>{{ data.email }}</td>
+        <td>{{ data.nohp }}</td>
+        <td>{{ data.ttl }}</td>
+        <td>{{ data.alamat }}</td>
         <td class="text-center">
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-danger" title="Hapus">
+            <button (click)="ngDelete(data.id)" type="button" class="btn btn-danger" title="Hapus">
               <i class="fa fa-times"></i> Delete
             </button>
           </div>

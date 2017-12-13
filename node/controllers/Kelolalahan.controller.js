@@ -10,6 +10,7 @@ var sequelize = require(__dirname + '/../dbconnection'),
     Pengelolaanlahan = sequelize.import(__dirname + '/../models/pengelolaanlahan.model'),
     Kemitraan = sequelize.import(__dirname + '/../models/kemitraan.model'),
     Kemitraanlahan = sequelize.import(__dirname + '/../models/kemitraanlahan.model'),
+    Publisher = sequelize.import(__dirname + '/../models/publisher.model'),
     Token = require(__dirname + '/Token.controller'),
     fs = require('fs');
 
@@ -141,6 +142,32 @@ class Kelolalahan {
             })
             .catch((err) => {
                 res.json({status: false, code: 400, message: 'Gagal memperbarui data lahan', error: err});
+            })
+    }
+
+    GetDataPublisher(data, res) {
+        Publisher
+            .findAll()
+            .then((publisher) => {
+                res.json({status: true, code: 200, message: 'Berhasil mendapatkan data publisher', data: publisher})
+            })
+            .catch((err) => {
+                res.json({status: false, code: 400, message: 'Gagal mendapatkan data publisher', error: err});
+            })
+    }
+
+    HapusDataPublisher(data, res) {
+        Publisher
+            .destroy({
+                where: {
+                    id: data.params.id
+                }
+            })
+            .then((info) => {
+                res.json({status: true, code: 200, message: 'Berhasil menghapus data publisher', info: info});
+            })
+            .catch((err) => {
+                res.json({status: false, code: 400, message: 'Gagal menghapus data publisher', error: err});
             })
     }
 }
