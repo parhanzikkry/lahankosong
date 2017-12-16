@@ -1,0 +1,33 @@
+<div class="justspace"></div>
+<div class="container">
+  <h3 class="text-center pt-2">Create Post</h3><hr>
+  <form class="mt-3">
+    <div class="form-group row">
+      <label for="judul_post" class="col-sm-2 col-form-label">Judul</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="judul_post" placeholder="Judul Post">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="kategori_post" class="col-sm-2 col-form-label">Kategori</label>
+      <div class="col-sm-10">
+        <select class="custom-select">
+          <option selected disabled>Pilih Kategori</option>
+          <option value="model">Model Pemanfaatan Lahan Non Produktif</option>
+          <option value="peluang">Peluang Usaha Lahan Non Produktif</option>
+          <option value="berita">Berita</option>
+        </select>
+      </div>
+    </div>
+    <ckeditor 
+      [config]="{extraPlugins: 'divarea'}" 
+      [(ngModel)]="ckeditorContent" 
+      debounce="500" 
+      name="post_content">
+    </ckeditor>
+    <div class="form-button">
+      <button type="submit" class="btn btn-success">Publish</button>
+    </div>
+  </form>
+</div>
+<div class="justspace"></div>

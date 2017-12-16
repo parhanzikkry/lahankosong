@@ -265,31 +265,32 @@ class RegistrasiLahan {
 	}
 
 	TambahPengelolaanLahan(data, res) {
+		console.log(data.body)
 		var arraypengelolaanlahan = [];
-		// for(let i=0; i<data.length; i++) {
-		// 	let temp = {fk_id_lahan: data.params.id, fk_id_pengelolaan: data.body.fk_id_pengelolaan, detail_pengelolaanlahan: data.body.detail_pengelolaanlahan}
-		// 	arraypengelolaanlahan.push(temp);
-		// }
-		let temp = {fk_id_lahan: data.params.id, fk_id_pengelolaan: data.body.fk_id_pengelolaan, detail_pengelolaanlahan: data.body.detail_pengelolaanlahan}
-		arraypengelolaanlahan.push(temp);
+		for(let i=0; i<data.body.fk_id_pengelolaan.length; i++) {
+			let temp = {fk_id_lahan: data.params.id, fk_id_pengelolaan: data.body.fk_id_pengelolaan[i], detail_pengelolaanlahan: data.body.detail_pengelolaanlahan}
+			arraypengelolaanlahan.push(temp);
+		}
+		// let temp = {fk_id_lahan: data.params.id, fk_id_pengelolaan: data.body.fk_id_pengelolaan, detail_pengelolaanlahan: data.body.detail_pengelolaanlahan}
+		// arraypengelolaanlahan.push(temp);
 		Pengelolaanlahan
 			.bulkCreate(arraypengelolaanlahan)
 			.then((info) => {
 				res.json({status: true, code: 200, message: 'Berhasil menambahkan pengelolaan lahan', info: info});
 			})
 			.catch((err) => {
+				console.log(err);
 				res.json({status: false, code: 400, message: 'Gagal menambahkan pengelolaan lahan', error: err});
 			})
 	}
 
 	TambahKemitraanLahan(data, res) {
+		console.log(data.body)
 		var arraykemitraanlahan = [];
-		// for(let i=0; i<data.length; i++) {
-		// 	let temp = {fk_id_lahan: data.params.id, fk_id_kemitraan: data.body.fk_id_kemitraan, detail_kemitraanlahan: data.body.detail_kemitraanlahan}
-		// 	arraykemitraanlahan.push(temp);
-		// }
-		let temp = {fk_id_lahan: data.params.id, fk_id_kemitraan: data.body.fk_id_kemitraan, detail_kemitraanlahan: data.body.detail_kemitraanlahan}
-		arraykemitraanlahan.push(temp);
+		for(let i=0; i<data.body.fk_id_kemitraan.length; i++) {
+			let temp = {fk_id_lahan: data.params.id, fk_id_kemitraan: data.body.fk_id_kemitraan[i], detail_kemitraanlahan: data.body.detail_kemitraanlahan}
+			arraykemitraanlahan.push(temp);
+		}
 		Kemitraanlahan
 			.bulkCreate(arraykemitraanlahan)
 			.then((info) => {

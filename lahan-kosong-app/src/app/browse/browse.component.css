@@ -26,3 +26,7 @@
     border-right: 2px solid #4CAF50;
     border-top-right-radius: 20px;
 }
+
+agm-map {
+  height: 575px;
+}

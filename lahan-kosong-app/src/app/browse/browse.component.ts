@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AppService } from '../app.service';
 import { forEach } from '@angular/router/src/utils/collection';
-declare const google: any;
 
 @Component({
   selector: 'app-browse',
@@ -19,7 +18,10 @@ export class BrowseComponent implements OnInit {
   public selectedKecamatan: any;
   public selectedDesaKel: any;
   public showDesaKel: any;
-  public map: any;
+  public lat: number = -6.5971469;
+  public lng: number = 106.8060388;
+  public zoom: number = 10;
+  public markers: marker[];
 
   public searchType = {1: 'Pengelolaan', 2: 'Kemitraan', 3: 'Luasan', 4: 'Wilayah'};
   public searchBidang = {1: 'Pertanian Basah', 2: 'Petanian Kering', 3: 'Agroforestry', 4: 'Peternakan', 5: 'Perikanan', 6: 'Kehutanan'};
@@ -43,18 +45,6 @@ export class BrowseComponent implements OnInit {
     this.selectedKecamatan = 'Pilih';
     this.selectedDesaKel = 'Pilih';
     this.getDataKecamatan(this.idKabupatenKota);
-
-    this.map = new google.maps.Map(document.getElementById('map'), {
-      center: new google.maps.LatLng(-6.5971469, 106.8060388),
-      scrollwheel: false,
-      zoom: 10
-    });
-  }
-
-  clearMarkers() {
-    this.AppService.markers.forEach(marker => {
-      marker.setMap(null);
-    });
   }
 
   setType(type: any) {
@@ -88,7 +78,7 @@ export class BrowseComponent implements OnInit {
   }
 
   setKecamatan(kecamatan: any) {
-    this.clearMarkers();
+    this.markers = [];
     this.selectedDesaKel = 'Pilih';
     this.selectedKecamatan = kecamatan;
     const pilihan = +Object.keys(this.searchKecamatan).find(key => this.searchKecamatan[key] === kecamatan);
@@ -97,28 +87,17 @@ export class BrowseComponent implements OnInit {
       data.forEach(item => {
         const _kemitraan = item.kemitraan.map(function(e){ return e.kemitraan; }).join(', ');
         const _pengelolaan = item.pengelolaan.map(function(e){ return e.pengelolaan; }).join(', ');
-        const infowindow = new google.maps.InfoWindow({
-          content: `Info lahan :
-                    <h5 class="card-title">Lahan milik ` + item.pemilik + `</h5>
-                    <p class="card-text">
-                      <strong>Luasan</strong> : ` + item.luasan_lahan + ` Ha<br />
-                      <strong>Kemitraan</strong> : ` + _kemitraan + `<br />
-                      <strong>Pengelolaan</strong> : ` + _pengelolaan + `<br />
-                      <strong>Alamat</strong> : ` + item.alamat_lahan + `
-                    </p>
-                    <div class="text-center">
-                      <a href="/detail/` + item.id + `" class="btn btn-success btn-sm text-white">Lihat Detail</a>
-                    </div>`
+        this.markers.push({
+          id: item.id,
+          lat: item.latitude,
+          lng: item.longitude,
+          pemilik: item.pemilik,
+          luas: item.luasan_lahan,
+          alamat: item.alamat_lahan,
+          kemitraan: _kemitraan,
+          pengelolaan: _pengelolaan,
+          draggable: false
         });
-        const marker = new google.maps.Marker({
-          position: new google.maps.LatLng(item.latitude, item.longitude),
-          map: this.map,
-          title: item.alamat_lahan
-        });
-        marker.addListener('click', function() {
-          infowindow.open(this.map, marker);
-        });
-        this.AppService.markers.push(marker);
       });
     });
     this.getDataDesaKel(pilihan);
@@ -126,7 +105,7 @@ export class BrowseComponent implements OnInit {
   }
 
   setDesaKel(desaKel: any) {
-    this.clearMarkers();
+    this.markers = [];
     this.selectedDesaKel = desaKel;
     const pilihan = +Object.keys(this.searchDesaKel).find(key => this.searchDesaKel[key] === desaKel);
     this.AppService.getLahanDesaKelurahan(pilihan)
@@ -134,34 +113,23 @@ export class BrowseComponent implements OnInit {
       data.forEach(item => {
         const _kemitraan = item.kemitraan.map(function(e){ return e.kemitraan; }).join(', ');
         const _pengelolaan = item.pengelolaan.map(function(e){ return e.pengelolaan; }).join(', ');
-        const infowindow = new google.maps.InfoWindow({
-          content: `Info lahan :
-                    <h5 class="card-title">Lahan milik ` + item.pemilik + `</h5>
-                    <p class="card-text">
-                      <strong>Luasan</strong> : ` + item.luasan_lahan + ` Ha<br />
-                      <strong>Kemitraan</strong> : ` + _kemitraan + `<br />
-                      <strong>Pengelolaan</strong> : ` + _pengelolaan + `<br />
-                      <strong>Alamat</strong> : ` + item.alamat_lahan + `
-                    </p>
-                    <div class="text-center">
-                      <a href="/detail/` + item.id + `" class="btn btn-success btn-sm text-white">Lihat Detail</a>
-                    </div>`
+        this.markers.push({
+          id: item.id,
+          lat: item.latitude,
+          lng: item.longitude,
+          pemilik: item.pemilik,
+          luas: item.luasan_lahan,
+          alamat: item.alamat_lahan,
+          kemitraan: _kemitraan,
+          pengelolaan: _pengelolaan,
+          draggable: false
         });
-        const marker = new google.maps.Marker({
-          position: new google.maps.LatLng(item.latitude, item.longitude),
-          map: this.map,
-          title: item.alamat_lahan
-        });
-        marker.addListener('click', function() {
-          infowindow.open(this.map, marker);
-        });
-        this.AppService.markers.push(marker);
       });
     });
   }
 
   setBidang(bidang: any) {
-    this.clearMarkers();
+    this.markers = [];
     this.selectedBidang = bidang;
     const pilihan = +Object.keys(this.searchBidang).find(key => this.searchBidang[key] === bidang);
     this.AppService.getDataLahan(1, pilihan)
@@ -169,34 +137,23 @@ export class BrowseComponent implements OnInit {
         data.forEach(item => {
           const _kemitraan = item.kemitraan.map(function(e){ return e.kemitraan; }).join(', ');
           const _pengelolaan = item.pengelolaan.map(function(e){ return e.pengelolaan; }).join(', ');
-          const infowindow = new google.maps.InfoWindow({
-            content: `Info lahan :
-                      <h5 class="card-title">Lahan milik ` + item.pemilik + `</h5>
-                      <p class="card-text">
-                        <strong>Luasan</strong> : ` + item.luasan_lahan + ` Ha<br />
-                        <strong>Kemitraan</strong> : ` + _kemitraan + `<br />
-                        <strong>Pengelolaan</strong> : ` + _pengelolaan + `<br />
-                        <strong>Alamat</strong> : ` + item.alamat_lahan + `
-                      </p>
-                      <div class="text-center">
-                        <a href="/detail/` + item.id + `" class="btn btn-success btn-sm text-white">Lihat Detail</a>
-                      </div>`
+          this.markers.push({
+            id: item.id,
+            lat: item.latitude,
+            lng: item.longitude,
+            pemilik: item.pemilik,
+            luas: item.luasan_lahan,
+            alamat: item.alamat_lahan,
+            kemitraan: _kemitraan,
+            pengelolaan: _pengelolaan,
+            draggable: false
           });
-          const marker = new google.maps.Marker({
-            position: new google.maps.LatLng(item.latitude, item.longitude),
-            map: this.map,
-            title: item.alamat_lahan
-          });
-          marker.addListener('click', function() {
-            infowindow.open(this.map, marker);
-          });
-          this.AppService.markers.push(marker);
         });
       });
   }
 
   setKemitraan(kemitraan: any) {
-    this.clearMarkers();
+    this.markers = [];
     this.selectedKemitraan = kemitraan;
     const pilihan = +Object.keys(this.searchKemitraan).find(key => this.searchKemitraan[key] === kemitraan);
     this.AppService.getDataLahan(2, pilihan)
@@ -204,34 +161,23 @@ export class BrowseComponent implements OnInit {
         data.forEach(item => {
           const _kemitraan = item.kemitraan.map(function(e){ return e.kemitraan; }).join(', ');
           const _pengelolaan = item.pengelolaan.map(function(e){ return e.pengelolaan; }).join(', ');
-          const infowindow = new google.maps.InfoWindow({
-            content: `Info lahan :
-                      <h5 class="card-title">Lahan milik ` + item.pemilik + `</h5>
-                      <p class="card-text">
-                        <strong>Luasan</strong> : ` + item.luasan_lahan + ` Ha<br />
-                        <strong>Kemitraan</strong> : ` + _kemitraan + `<br />
-                        <strong>Pengelolaan</strong> : ` + _pengelolaan + `<br />
-                        <strong>Alamat</strong> : ` + item.alamat_lahan + `
-                      </p>
-                      <div class="text-center">
-                        <a href="/detail/` + item.id + `" class="btn btn-success btn-sm text-white">Lihat Detail</a>
-                      </div>`
+          this.markers.push({
+            id: item.id,
+            lat: item.latitude,
+            lng: item.longitude,
+            pemilik: item.pemilik,
+            luas: item.luasan_lahan,
+            alamat: item.alamat_lahan,
+            kemitraan: _kemitraan,
+            pengelolaan: _pengelolaan,
+            draggable: false
           });
-          const marker = new google.maps.Marker({
-            position: new google.maps.LatLng(item.latitude, item.longitude),
-            map: this.map,
-            title: item.alamat_lahan
-          });
-          marker.addListener('click', function() {
-            infowindow.open(this.map, marker);
-          });
-          this.AppService.markers.push(marker);
         });
       });
   }
 
   setLuas(luas: any) {
-    this.clearMarkers();
+    this.markers = [];
     this.selectedLuas = luas;
     const pilihan = +Object.keys(this.searchLuas).find(key => this.searchLuas[key] === luas);
     this.AppService.getDataLahan(3, pilihan)
@@ -239,28 +185,17 @@ export class BrowseComponent implements OnInit {
         data.forEach(item => {
           const _kemitraan = item.kemitraan.map(function(e){ return e.kemitraan; }).join(', ');
           const _pengelolaan = item.pengelolaan.map(function(e){ return e.pengelolaan; }).join(', ');
-          const infowindow = new google.maps.InfoWindow({
-            content: `Info lahan :
-                      <h5 class="card-title">Lahan milik ` + item.pemilik + `</h5>
-                      <p class="card-text">
-                        <strong>Luasan</strong> : ` + item.luasan_lahan + ` Ha<br />
-                        <strong>Kemitraan</strong> : ` + _kemitraan + `<br />
-                        <strong>Pengelolaan</strong> : ` + _pengelolaan + `<br />
-                        <strong>Alamat</strong> : ` + item.alamat_lahan + `
-                      </p>
-                      <div class="text-center">
-                        <a href="/detail/` + item.id + `" class="btn btn-success btn-sm text-white">Lihat Detail</a>
-                      </div>`
+          this.markers.push({
+            id: item.id,
+            lat: item.latitude,
+            lng: item.longitude,
+            pemilik: item.pemilik,
+            luas: item.luasan_lahan,
+            alamat: item.alamat_lahan,
+            kemitraan: _kemitraan,
+            pengelolaan: _pengelolaan,
+            draggable: false
           });
-          const marker = new google.maps.Marker({
-            position: new google.maps.LatLng(item.latitude, item.longitude),
-            map: this.map,
-            title: item.alamat_lahan
-          });
-          marker.addListener('click', function() {
-            infowindow.open(this.map, marker);
-          });
-          this.AppService.markers.push(marker);
         });
       });
   }
@@ -272,4 +207,21 @@ export class BrowseComponent implements OnInit {
   objectValues(obj) {
     return Object.keys(obj).map(key => obj[key]);
   }
+
+  strToNum(value: string): number {
+    return +value;
+  }
+}
+
+interface marker {
+  id: number;
+  lat: number;
+  lng: number;
+  pemilik: string;
+  luas: string;
+  alamat: string;
+  kemitraan: string;
+  pengelolaan: string;
+	label?: string;
+	draggable: boolean;
 }

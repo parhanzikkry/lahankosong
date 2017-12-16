@@ -20,6 +20,9 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.admin = this.AppService.CheckStatus();
     if (this.admin.role != 'admin') {
+      if(this.admin.role == 'publisher') {
+        this.router.navigate(['/profile']);  
+      }
       this.router.navigate(['']);
     }
   }

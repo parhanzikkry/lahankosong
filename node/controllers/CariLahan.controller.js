@@ -72,8 +72,7 @@ class CariLahan {
 					}
 				},
 				include: [{
-					model: Kemitraan,
-					attributes: ['id', 'nama_kemitraan']
+					model: Kemitraan
 				}],
 				order: [
 					['fk_id_lahan', 'DESC']
@@ -98,9 +97,10 @@ class CariLahan {
 					}
 					this.kemitraanlahan.push({id: tempidlahan, data: temp});
 				}
+				console.log(this.kemitraanlahan);
 				Pengelolaanlahan
-					.findAll({
-						where: {
+				.findAll({
+					where: {
 							fk_id_lahan: {
 								$or: tempId
 							}

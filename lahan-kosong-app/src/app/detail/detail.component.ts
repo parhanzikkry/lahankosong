@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AppService } from '../app.service';
-declare const google: any;
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-detail',
@@ -10,11 +10,19 @@ declare const google: any;
   providers: [AppService]
 })
 export class DetailComponent implements OnInit {
+  private login: boolean;
+  private NamaUser: string;
+  private status: any;
+  
   public idLahan: any;
+  public lat: number = -6.5971469;
+  public lng: number = 106.8060388;
+  public zoom: number = 10;
   public detailLahan = {};
 
   constructor(
     private AppService: AppService,
+    private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
     this.activatedRoute.params.subscribe((params: Params) => {
@@ -23,8 +31,24 @@ export class DetailComponent implements OnInit {
     });
   }
 
+  ngDoCheck() {
+    this.status = this.AppService.CheckStatus();
+    if (!this.status) {
+      this.login = false;
+    } else {
+      if(this.status.role == 'admin') {
+        this.NamaUser = this.status.nama_admin;
+        this.login = true;
+      } else if(this.status.role == 'publisher') {
+        this.NamaUser = this.status.nama_publisher;
+        this.login = true;
+      } else {
+        this.login = false;
+      }
+    }
+  }
+
   ngOnInit() {
-    console.log(this.idLahan);
     this.AppService.getDetailLahan(this.idLahan).subscribe(data => {
       data.forEach(item => {
         const _kemitraan = item.kemitraan.map(function(e){ return e.kemitraan; }).join(', ');
@@ -47,27 +71,45 @@ export class DetailComponent implements OnInit {
           pengelolaan: _pengelolaan || '-',
           kemitraan: _kemitraan || '-',
           foto: item.foto.path,
-          fotoCount: fotoArr
+          fotoCount: fotoArr,
+          latitude: item.latitude,
+          longitude: item.longitude,
+          status: item.status
         };
-
-        const map = new google.maps.Map(document.getElementById('map'), {
-          center: new google.maps.LatLng(item.latitude, item.longitude),
-          scrollwheel: false,
-          zoom: 12
-        });
-        const infowindow = new google.maps.InfoWindow({
-          content: item.alamat_lahan
-        });
-        const marker = new google.maps.Marker({
-          position: new google.maps.LatLng(item.latitude, item.longitude),
-          map: map,
-          title: 'Posisi Lahan'
-        });
-        marker.addListener('click', function() {
-          infowindow.open(map, marker);
-        });
       });
     });
+  }
+
+  onVerif() {
+    this.AppService.veriflahanini(this.idLahan)
+      .subscribe(data => {
+        if (data.status) {
+          swal({
+            title: 'Lahan Terverifikasi',
+            text: 'Silahkan klik OK untuk melanjutkan',
+            type: 'success',
+            confirmButtonColor: '#28a745',
+            confirmButtonText: 'OK'
+          });
+          this.router.navigate(['dashboard']);
+        } else {
+          swal({
+            title: 'Verifikasi Gagal',
+            text: 'Silahkan coba lagi',
+            type: 'error',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK'
+          });
+        }
+      })
+  }
+
+  strToNum(value: string): number {
+    return +value;
+  }
+
+  valPlus(value: string): number {
+    return +value + 1;
   }
 
 }

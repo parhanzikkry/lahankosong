@@ -5,6 +5,8 @@ import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AgmCoreModule } from '@agm/core';
+import { CKEditorModule } from 'ng2-ckeditor';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -23,6 +25,7 @@ import { AdminlahanComponent } from './adminlahan/adminlahan.component';
 import { AdminverifComponent } from './adminverif/adminverif.component';
 import { AdminpublisherComponent } from './adminpublisher/adminpublisher.component';
 import { EditComponent } from './edit/edit.component';
+import { PostComponent } from './post/post.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,8 @@ import { EditComponent } from './edit/edit.component';
     AdminlahanComponent,
     AdminverifComponent,
     AdminpublisherComponent,
-    EditComponent
+    EditComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,
@@ -57,9 +61,14 @@ import { EditComponent } from './edit/edit.component';
       { path: 'upload', component: UploadComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'dashboard', component: DashboardComponent },
+      { path: 'post', component: PostComponent },
       { path: '**', component: NoContentComponent },
     ]),
-    NgbModule.forRoot()
+    CKEditorModule,
+    NgbModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDeTMHQ3sm7_RXFEBlAbVRrHwCH6sOTSUU'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

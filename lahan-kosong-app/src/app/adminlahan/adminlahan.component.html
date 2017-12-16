@@ -20,12 +20,12 @@
       <td>{{ lahan.kemitraan }}</td>
       <td class="text-center">
         <div class="btn-group" role="group">
-          <a routerLink="/detail/{{ lahan.id }}">
+          <a href="/detail/{{ lahan.id }}">
             <button type="button" class="btn btn-primary" title="Lihat">
               <i class="fa fa-eye"></i>
             </button>
           </a>
-          <button type="button" class="btn btn-danger" title="Hapus">
+          <button (click)="ngDeleted(lahan.id)" type="button" class="btn btn-danger" title="Hapus">
             <i class="fa fa-times"></i>
           </button>
         </div>

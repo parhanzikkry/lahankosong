@@ -21,37 +21,36 @@ class Kelolalahan {
 
     HapusLahanPilihan(data, res) {
         Lahan
-            .findOne({
-                where: {
-                    id: data.params.id,
-                    fk_id_publisher: Token.DecodeToken(JSON.parse(data.headers.token).token).token.id
-                }
-            })
-            .then((info) => {
-                if(info == null) {
-                    res.json({status: false, code: 400, message: 'Sorry kita tidak menemukan lahan tersebut dengan authoritas dari anda'});
-                } else {
-                    Foto
-                        .findAll({
-                            where: {
-                                fk_id_lahan: data.params.id
-                            },
-                            attributes: ['path_foto']
-                        })
-                        .then((path) => {
-                            path = JSON.parse(JSON.stringify(path));
-                            for(let i=0; i<path.length; i++) {
-                                let dir = __dirname + '/..'  + path[i].path_foto;
-                                fs.unlinkSync(dir);
-                            }
-                            Foto
-                                .destroy({
-                                    where: {
-                                        fk_id_lahan: data.params.id
+        .findOne({
+            where: {
+                id: data.params.id,
+                fk_id_publisher: Token.DecodeToken(JSON.parse(data.headers.token).token).token.id
+            }
+        })
+        .then((info) => {
+            if(info == null) {
+                res.json({status: false, code: 400, message: 'Sorry kita tidak menemukan lahan tersebut dengan authoritas dari anda'});
+            } else {
+                Foto
+                    .findAll({
+                        where: {
+                            fk_id_lahan: data.params.id
+                        },
+                        attributes: ['path_foto']
+                    })
+                    .then((path) => {
+                        path = JSON.parse(JSON.stringify(path));
+                        for(let i=0; i<path.length; i++) {
+                            let dir = __dirname + '/../dist/'  + path[i].path_foto;
+                            fs.unlinkSync(dir);
+                        }
+                        Foto
+                            .destroy({
+                                where: {
+                                    fk_id_lahan: data.params.id
                                     }
                                 })
                                 .then((info) => {
-                                    console.log('ini infonya loh',info);
                                     Lahan
                                         .destroy({
                                             where: {
@@ -66,6 +65,7 @@ class Kelolalahan {
                                         })
                                 })
                                 .catch((err) => {
+                                    console.log(err);
                                     res.json({status: false, code: 400, message: 'Gagal menghapus data foto lahan', error: err});
                                 })
                             Kemitraanlahan
@@ -94,15 +94,16 @@ class Kelolalahan {
                                 })
                         })
                         .catch((err) => {
+                            console.log(err)
                             res.json({status: false, code: 400, message: 'Gagal menemukan path foto', error: err});
                         })
-                }
-            })
-            .catch((err) => {
-                res.json({status: false, code: 400, message: 'Gagal mendapatkan data', error: err});
-            })
+                    }
+                })
+                .catch((err) => {
+                    res.json({status: false, code: 400, message: 'Gagal mendapatkan data', error: err});
+                })
     }
-
+                
     VerifikasiLahanPilihan(data, res) {
         Lahan
             .update({

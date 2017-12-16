@@ -8,7 +8,7 @@
             <img class="d-block mx-auto" [attr.src]="foto" height="400px">
           </a>
           <div class="carousel-caption">
-            <h3>Foto lahan {{ i }}</h3>
+            <h3>Foto lahan {{ valPlus(i) }}</h3>
           </div>
         </ng-template>
       </ngb-carousel>
@@ -84,10 +84,17 @@
   <div class="row mb-3">
     <h3 class="subtitle">Lokasi Lahan</h3><hr>
   </div>
-  <div class="row">
-    <div id="map" style="width: 100%; height: 500px; margin-bottom: 40px;"></div>      
-  </div>
-  <div class="row">
+    <agm-map [latitude]="strToNum(detailLahan.latitude)" 
+             [longitude]="strToNum(detailLahan.longitude)"
+             [zoom]="zoom">
+      <agm-marker [latitude]="strToNum(detailLahan.latitude)"
+                  [longitude]="strToNum(detailLahan.longitude)">
+        <agm-info-window>
+          {{ detailLahan.alamat_lahan }}
+        </agm-info-window>
+      </agm-marker>
+    </agm-map>      
+  <div class="row mt-4">
     <h3 class="subtitle">Aksesibilitas Lahan</h3><hr>
   </div>
   <div class="row">
@@ -113,6 +120,9 @@
         <td>{{ detailLahan.jarak_pasar_lahan }}</td>
       </tr>
     </table>
+  </div>
+  <div *ngIf="status.role == 'admin' && detailLahan.status == 'unverif'" class="row verif-button">
+    <div (click)="onVerif()" class="btn btn-success">Verif</div>
   </div>
   <div class="justspace"></div>
 </div>

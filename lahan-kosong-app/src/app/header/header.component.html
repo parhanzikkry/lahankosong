@@ -31,8 +31,9 @@
               <i class="fa fa-user"></i> {{NamaUser}}
           </a>
           <div class="dropdown-menu dropdown-menu-right pt-3 px-3">
-            <a class="dropdown-item" routerLink="/profile">Profile</a>
-            <a class="dropdown-item" routerLink="/upload">Tambah Lahan</a>
+            <a *ngIf="status.role == 'admin'"  class="dropdown-item" routerLink="/dashboard">dashboad</a>
+            <a *ngIf="status.role == 'publisher'" class="dropdown-item" routerLink="/profile">Profile</a>
+            <a *ngIf="status.role == 'publisher'" class="dropdown-item" routerLink="/upload">Tambah Lahan</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" (click)="onLogout()" routerLink="/">Logout</a>            
           </div>

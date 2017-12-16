@@ -26,6 +26,9 @@ export class ProfileComponent implements OnInit {
     if (!this.pemilik) {
       this.router.navigate(['']);
     } else {
+      if(this.pemilik.role == 'admin') {
+        this.router.navigate(['/dashboard']);
+      }
       this.lahanTerdaftar = [];
       this.AppService.getMyLahan().subscribe(data => {
         this.enum = 1;

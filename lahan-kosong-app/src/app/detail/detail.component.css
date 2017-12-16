@@ -8,3 +8,12 @@
 .justspace {
     height: 40px;
 }
+
+agm-map {
+    height: 400px;
+}
+
+.verif-button .btn {
+    display: inline-block;
+    margin: auto;
+}

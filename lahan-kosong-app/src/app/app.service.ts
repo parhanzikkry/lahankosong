@@ -33,6 +33,7 @@ export class AppService {
   private pathHapuslahansaya = this.site + 'kelolalahan/hapuslahansaya';
   private pathPublisherData = this.site + 'kelolalahan/datapublisher';
   private pathDeletePublisher = this.site + 'kelolalahan/hapusdatapublisher/';
+  private pathVerifLahanIni = this.site + 'kelolalahan/veriflahanini/';
 
   progressObserver = new Subject<number>();
   progress$ = this.progressObserver.asObservable();
@@ -138,6 +139,7 @@ export class AppService {
     header.append('Content-type', 'application/json' );
     return this.http.post(this.pathLogin, JSON.stringify({username: username, password: password}), {headers: header})
       .map((response: Response) => {
+        console.log(response);
         // login successful if there's a jwt token in the response
         const token = response.json() && response.json().token;
         if (token) {
@@ -317,6 +319,7 @@ export class AppService {
     header.append('token', localStorage.getItem('currentUser'));
     return this.http.get(this.pathHapuslahansaya + '/' + id, {headers: header})
       .map((response: Response) => {
+        console.log(response);
         return response.json();
       });
   }
@@ -361,6 +364,16 @@ export class AppService {
     return this.http.get(this.pathDeletePublisher + id, {headers: header})
       .map((response: Response) => {
         return response;
+      })
+  }
+
+  public veriflahanini(id:any) {
+    const header = new Headers();
+    header.append('Content-type', 'application/json');
+    header.append('token', localStorage.getItem('currentUser'));
+    return this.http.get(this.pathVerifLahanIni + id, {headers: header})
+      .map((response: Response) => {
+        return response.json();
       })
   }
 

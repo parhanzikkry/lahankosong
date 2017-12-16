@@ -11,16 +11,25 @@ import swal from 'sweetalert2';
 export class HeaderComponent implements DoCheck {
   private login: boolean;
   private NamaUser: string;
+  private status: any;
   constructor(
     private AppService: AppService
   ) { }
 
   ngDoCheck() {
-    this.NamaUser = this.AppService.CheckStatus().nama_publisher;
-    if (!this.NamaUser) {
+    this.status = this.AppService.CheckStatus();
+    if (!this.status) {
       this.login = false;
     } else {
-      this.login = true;
+      if(this.status.role == 'admin') {
+        this.NamaUser = this.status.nama_admin;
+        this.login = true;
+      } else if(this.status.role == 'publisher') {
+        this.NamaUser = this.status.nama_publisher;
+        this.login = true;
+      } else {
+        this.login = false;
+      }
     }
   }
 

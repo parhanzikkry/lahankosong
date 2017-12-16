@@ -39,7 +39,8 @@ export class AuthComponent implements OnInit {
 
   public onLogin() {
     this.AppService.Login(this.loginForm.value.username, this.loginForm.value.password)
-      .subscribe(data => {
+    .subscribe(data => {
+      console.log(data);
         if (data) {
           swal({
             title: 'Login Berhasil',
@@ -48,7 +49,12 @@ export class AuthComponent implements OnInit {
             confirmButtonColor: '#28a745',
             confirmButtonText: 'OK'
           });
-          this.router.navigate(['profile']);
+          var role = this.AppService.CheckStatus();
+          if(role.role == 'admin') {
+            this.router.navigate(['dashboard']);
+          } else if(role.role == 'publisher') {
+            this.router.navigate(['profile']);
+          }
         } else {
           swal({
             title: 'Login Gagal',
@@ -62,7 +68,6 @@ export class AuthComponent implements OnInit {
   }
 
   public onRegister() {
-    console.log(`ini datanya= ${this.registerForm.value}`, this.registerForm.value);
     this.AppService.RegisterPublisher(
       this.registerForm.value.username,
       this.registerForm.value.password,

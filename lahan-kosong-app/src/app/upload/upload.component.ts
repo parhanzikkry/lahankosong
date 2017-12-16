@@ -6,7 +6,6 @@ import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { AppService } from '../app.service';
 import { validateConfig } from '@angular/router/src/config';
 import swal from 'sweetalert2';
-declare const google: any;
 
 @Component({
   selector: 'app-upload',
@@ -15,17 +14,25 @@ declare const google: any;
   providers: [AppService]
 })
 export class UploadComponent implements OnInit {
-  public selectedBidang: any;
+  public selectedBidang: any = [];
   public selectedKemitraan: any;
   public selectedKecamatan: any;
   public selectedDesaKel: any;
   public showDesaKel: any;
-  public showTambahBidang: any;
-  public showTambahKemitraan: any;
+  public showTambahBidang: any = 0;
+  public indexbidang: any = [''];
+  public booltambahbidang: boolean = false;
+  public showTambahKemitraan: any = 0;
+  public indexkemitraan: any = [''];
+  public booltambahkemitraan: any = false;
   public idKabupatenKota = 3201;
   public searchKecamatan = {};
   public searchDesaKel = {};
-  public map: any;
+  public lat: number = -6.5971469;
+  public lng: number = 106.8060388;
+  public zoom: number = 10;
+  public pointLat: number;
+  public pointLng: number;
 
   public searchBidang = {1: 'Pertanian Basah', 2: 'Petanian Kering', 3: 'Agroforestry', 4: 'Peternakan', 5: 'Perikanan', 6: 'Kehutanan'};
   public searchKemitraan = {1: 'Sewa', 2: 'Bagi Hasil', 3: 'Kerja Sama', 4: 'Jual'};
@@ -34,8 +41,8 @@ export class UploadComponent implements OnInit {
   private fotopemilik: any;
   private fotolahan: any;
   private iddesakel: any;
-  private idkemitraan: any;
-  private idpengelolaan: any;
+  private idkemitraan: any =[];
+  private idpengelolaan: any = [];
 
   constructor(
     private _fb: FormBuilder,
@@ -73,24 +80,17 @@ export class UploadComponent implements OnInit {
         foto_lahan: ['', Validators.required]
       });
 
-      this.selectedBidang = 'Pilih Bidang Pengelolaan';
-      this.selectedKemitraan = 'Pilih Jenis Kemitraan';
+      this.selectedBidang = [];
+      this.selectedKemitraan = [];
       this.selectedKecamatan = 'Pilih Kecamatan';
       this.selectedDesaKel = 'Pilih Desa/Kelurahan';
       this.getDataKecamatan(this.idKabupatenKota);
-
-      this.map = new google.maps.Map(document.getElementById('map'), {
-        center: new google.maps.LatLng(-6.5971469, 106.8060388),
-        scrollwheel: false,
-        zoom: 10
-      });
-
-      google.maps.event.addListener(this.map, 'click', function(event){
-        alert(
-          'Berikut adalah koordinat titik yang Anda pilih\n\nLatitude : ' + event.latLng.lat() + '\nLongitude : ' + event.latLng.lng()
-        );
-      });
     }
+  }
+
+  mapClicked($event: any) {
+    this.pointLat = $event.coords.lat;
+    this.pointLng = $event.coords.lng;
   }
 
   DaftarkanLahan() {
@@ -225,20 +225,42 @@ export class UploadComponent implements OnInit {
     this.iddesakel = pilihan;
   }
 
-  setBidang() {
-    this.selectedBidang = this.formLahan.value.nama_pengelolaanlahan;
+  setBidang(i:number) {
     const pilihan = +Object.keys(this.searchBidang)
-                      .find(key => this.searchBidang[key] === this.formLahan.value.nama_pengelolaanlahan);
-    this.idpengelolaan = pilihan;
-    this.showTambahBidang = 1;
+    .find(key => this.searchBidang[key] === this.formLahan.value.nama_pengelolaanlahan);
+    if(i == this.selectedBidang.length) {
+      this.selectedBidang.push(this.formLahan.value.nama_pengelolaanlahan);
+      this.idpengelolaan.push(pilihan);
+    } else {
+      this.idpengelolaan[i] = pilihan;
+      this.selectedBidang[i] = this.formLahan.value.nama_pengelolaanlahan;
+    }
+    this.booltambahbidang = true;
+  }
+  
+  tambahBidang() {
+    this.showTambahBidang += 1;
+    this.indexbidang.push('');
+    this.booltambahbidang = false;
   }
 
-  setKemitraan() {
-    this.selectedKemitraan = this.formLahan.value.nama_kemitraanlahan;
+  setKemitraan(i:number) {
     const pilihan = +Object.keys(this.searchKemitraan)
-                      .find(key => this.searchKemitraan[key] === this.formLahan.value.nama_kemitraanlahan);
-    this.idkemitraan = pilihan;
-    this.showTambahKemitraan = 1;
+                    .find(key => this.searchKemitraan[key] === this.formLahan.value.nama_kemitraanlahan);
+    if(i == this.selectedKemitraan.length) {
+      this.selectedKemitraan.push(this.formLahan.value.nama_kemitraanlahan);
+      this.idkemitraan.push(pilihan);
+    } else {
+      this.selectedKemitraan[i] = this.formLahan.value.nama_kemitraanlahan;
+      this.idkemitraan[i] = pilihan;
+    }
+    this.booltambahkemitraan = true;
+  }
+
+  tambahKemitraan() {
+    this.showTambahKemitraan += 1;
+    this.indexkemitraan.push('');
+    this.booltambahkemitraan = false;
   }
 
   objectKeys(obj) {
@@ -247,6 +269,10 @@ export class UploadComponent implements OnInit {
 
   objectValues(obj) {
     return Object.keys(obj).map(key => obj[key]);
+  }
+
+  strToNum(value: string): number {
+    return +value;
   }
 
 }

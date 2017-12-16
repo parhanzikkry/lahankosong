@@ -1,5 +1,23 @@
 <div id="wrapper">
-  <div id="map" style="width: 100%; height: 575px;"></div>
+  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+    <agm-marker *ngFor="let marker of markers"
+                [latitude]="strToNum(marker.lat)"
+                [longitude]="strToNum(marker.lng)">
+      <agm-info-window>
+        Info lahan :
+        <h5 class="card-title">Lahan milik {{ marker.pemilik }}</h5>
+        <p class="card-text">
+          <strong>Luasan</strong> : {{ marker.luas }} Ha<br />
+          <strong>Kemitraan</strong> : {{ marker.kemitraan }}<br />
+          <strong>Pengelolaan</strong> : {{ marker.pengelolaan }}<br />
+          <strong>Alamat</strong> : {{ marker.alamat }}
+        </p>
+        <div class="text-center">
+          <a href="/detail/{{ marker.id }}" class="btn btn-success btn-sm text-white">Lihat Detail</a>
+        </div>
+      </agm-info-window>
+    </agm-marker>
+  </agm-map>
   <div id="over-map">
     <!-- Kategori -->
     <h6 class="d-inline-block my-1 mr-1">Cari lahan berdasarkan : </h6>

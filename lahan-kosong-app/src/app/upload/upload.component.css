@@ -28,3 +28,8 @@
 span.custom-file-control {
     overflow: hidden;
 }
+
+agm-map {
+  height: 400px;
+  margin: 10px;
+}

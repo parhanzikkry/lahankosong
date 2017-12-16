@@ -22,42 +22,45 @@ class Auth {
 		} else {
 			Admin
 				.findOne({
-					username_admin: data.body.username,
-					password_admin: this.password
+					where: {
+						username_admin: data.body.username,
+						password_admin: this.password
+					}
 				})
 				.then((admin) => {
 					admin = JSON.parse(JSON.stringify(admin));
 					if(admin == null || admin.length == 0) {
 						Publisher
-						.findOne({
-							where: {
-								username_publisher: data.body.username,
-								password_publisher: this.password
-							}
-						})
-						.then((publisher) => {
-							publisher = JSON.parse(JSON.stringify(publisher));
-							if(publisher.length == 0) {
-								res.json({status: false, code: 400, message: 'Username dan password tidak ditemukan', info: data.body});
-							} else {
-								publisher.role = 'publisher';
-								res.json({status: true, code: 200, message: 'Authentifikasi berhasil', token: Token.SetupToken(publisher)});
-							}
-						})
-						.catch((err) => {
-							admin.role = 'admin';
-							res.json({status: false, code: 400, message: 'Authentifikasi gagal', error: err});
-						})
+							.findOne({
+								where: {
+									username_publisher: data.body.username,
+									password_publisher: this.password
+								}
+							})
+							.then((publisher) => {
+								publisher = JSON.parse(JSON.stringify(publisher));
+								if(publisher.length == 0) {
+									res.json({status: false, code: 400, message: 'Username dan password tidak ditemukan', info: data.body});
+								} else {
+									publisher.role = 'publisher';
+									res.json({status: true, code: 200, message: 'Authentifikasi berhasil', token: Token.SetupToken(publisher)});
+								}
+							})
+							.catch((err) => {
+								res.json({status: false, code: 400, message: 'Authentifikasi gagal', error: err});
+							})
 					} else {
-						res.json({status: true, code: 200, message: 'Welcome back admin', token: Token.SetupToken(publisher)});
+						admin.role = 'admin';
+						res.json({status: true, code: 200, message: 'Welcome back admin', token: Token.SetupToken(admin)});
 					}
 				})
 				.catch((err) => {
+					console.log(err);
 					res.json({status: false, code: 400, message: 'Authentifikasi gagal', error: err});
 				})
+			}
 		}
-	}
-
+		
 	Register(data, res) {
 		this.SetPassword(data.body.password_publisher);
 		Publisher
