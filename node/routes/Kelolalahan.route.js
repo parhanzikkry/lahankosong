@@ -6,4 +6,12 @@ router.get('/hapuslahansaya/:id', (req, res, next) => {
     Kelolalahan.HapusLahanPilihan(req, res);
 });
 
+router.get('/datapublisher', (req, res, next) => {
+    Kelolalahan.GetDataPublisher(req, res);
+});
+
+router.get('/hapusdatapublisher/:id', (req, res, next) => {
+    Kelolalahan.HapusDataPublisher(req, res);
+});
+
 module.exports = router

@@ -1,5 +1,5 @@
 var sequelize = require(__dirname + '/../dbconnection'),
-	Kecamatan = sequelize.import(__dirname + '/kecamatan.model')
+	Kecamatan = sequelize.import(__dirname + '/kecamatan.model');
 
 module.exports = function(sequelize, DataType) {
 	return sequelize.define('village', {

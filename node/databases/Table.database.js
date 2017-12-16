@@ -12,43 +12,51 @@ var sequelize = require(__dirname + '/../dbconnection'),
 	Pengelolaan = sequelize.import(__dirname + '/../models/pengelolaan.model'),
 	Pengelolaanlahan = sequelize.import(__dirname + '/../models/pengelolaanlahan.model'),
 	Publisher = sequelize.import(__dirname + '/../models/publisher.model'),
-	Foto = sequelize.import(__dirname + '/../models/foto.model');
-
-Admin
-	.sync()
-Kemitraan
-	.sync()
-Pemilik
-	.sync()
-Publisher
-	.sync()
-Pengelolaan
-	.sync()
-Provinsi
+	Foto = sequelize.import(__dirname + '/../models/foto.model'),
+	Post = sequelize.import(__dirname + '/../models/post.model'),
+	Postfoto = sequelize.import(__dirname + '/../models/postfoto.model');
+	
+Post
 	.sync()
 	.then(() => {
-		KabKota
+		Postfoto
+			.sync()
+	})
+Admin
+.sync()
+Kemitraan
+.sync()
+Pemilik
+.sync()
+Publisher
+.sync()
+Pengelolaan
+.sync()
+Provinsi
+.sync()
+.then(() => {
+	KabKota
+	.sync()
+	.then(() => {
+		Kecamatan
+		.sync()
+		.then(() => {
+			Desakel
 			.sync()
 			.then(() => {
-				Kecamatan
+				Lahan
+				.sync()
+				.then(() => {
+					Kemitraanlahan
+						.sync()
+						Pengelolaanlahan
+						.sync()
+						Aksesbilitas
+						.sync()
+					Foto
 					.sync()
-					.then(() => {
-						Desakel
-							.sync()
-							.then(() => {
-								Lahan
-									.sync()
-									.then(() => {
-										Kemitraanlahan
-											.sync()
-										Pengelolaanlahan
-											.sync()
-										Aksesbilitas
-											.sync()
-										Foto
-											.sync()
-									})
-							})
 					})
+				})
 			})
+		})
 	})

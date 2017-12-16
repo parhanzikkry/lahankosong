@@ -30,4 +30,12 @@ router.get('/sortedbyidandstatus', (req, res, next) => {
 	Lahan.GetLahanSortedByIdAndStatus(req, res);
 });
 
+router.get('/verifiedlahan', (req, res, next) => {
+	Lahan.GetVerifiedLahan(req, res);
+});
+
+router.get('/unverifiedlahan', (req, res, next) => {
+	Lahan.GetUnverifiedLahan(req, res);
+});
+
 module.exports = router;

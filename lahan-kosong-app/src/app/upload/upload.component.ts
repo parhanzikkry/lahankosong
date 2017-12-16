@@ -132,7 +132,6 @@ export class UploadComponent implements OnInit {
                         this.AppService.tambahfotolahan(fotolahan, lahan.info.id)
                           .then(fotolahan => {
                             let hasilfoto: any = fotolahan;
-                            console.log(hasilfoto);
                             if (hasilfoto.status === true) {
                               const datapengelolaanlahan = {
                                 fk_id_pengelolaan: this.idpengelolaan,

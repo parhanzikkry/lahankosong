@@ -24,12 +24,6 @@
       </div>
     </div>
     <div class="form-group row">
-      <label for="ttl_pemilik" class="col-sm-2 col-form-label">Tanggal Lahir Pemilik</label>
-      <div class="col-sm-10">
-        <input value="{{detailLahan.no_hp_pemilik}}" type="date" class="form-control" id="ttl_pemilik">
-      </div>
-    </div>
-    <div class="form-group row">
       <label for="alamat_pemilik" class="col-sm-2 col-form-label">Alamat Pemilik</label>
       <div class="col-sm-10">
         <input value="{{detailLahan.alamat_pemilik}}" type="text" class="form-control" id="alamat_pemilik" placeholder="Tempat Tinggal Saat Ini" formControlName="alamat_pemilik">
@@ -57,11 +51,11 @@
       <label for="wilayah_lahan" class="col-sm-2 col-form-label">Wilayah Lahan</label>
       <div class="col-sm-10">
         <select class="custom-select" (change)="setKecamatan()" formControlName="kecamatan_lahan">
-          <option selected disabled>Pilih Kecamatan</option>
+          <option selected disabled>{{detailLahan.kecamatan_lahan}}</option>
           <option [ngValue]="kecamatan" *ngFor="let kecamatan of objectValues(searchKecamatan)">{{ kecamatan }}</option>
         </select>
-        <select class="custom-select" *ngIf="showDesaKel == 1" (change)="setDesaKel()" formControlName="desakelurahan_lahan">
-          <option selected disabled>Pilih Desa/Kelurahan</option>
+        <select class="custom-select" (change)="setDesaKel()" formControlName="desakelurahan_lahan">
+          <option selected disabled>{{detailLahan.desa_lahan}}</option>
           <option [ngValue]="desaKel" *ngFor="let desaKel of objectValues(searchDesaKel)">{{ desaKel }}</option>
         </select>
       </div>
@@ -88,7 +82,7 @@
       <label for="bidang_pengelolaan" class="col-sm-2 col-form-label">Bidang Pengelolaan</label>
       <div class="col-sm-10">
         <select class="custom-select" formControlName="nama_pengelolaanlahan" (change)="setBidang()">
-          <option selected disabled>Pilih Bidang Pengelolaan</option>
+          <option selected disabled>{{detailLahan.pengelolaan}}</option>
           <option [ngValue]="bidang" *ngFor="let bidang of objectValues(searchBidang)">{{ bidang }}</option>
         </select>
         <button *ngIf="showTambahBidang == 1" class="btn btn-success">
@@ -106,7 +100,7 @@
       <label for="kemitraan" class="col-sm-2 col-form-label">Kemitraan</label>
       <div class="col-sm-10">
         <select class="custom-select" formControlName="nama_kemitraanlahan" (change)="setKemitraan()" formControlName="nama_kemitraanlahan">
-          <option selected disabled>Pilih Jenis Kemitraan</option>
+          <option selected disabled>{{detailLahan.kemitraan}}</option>
           <option [ngValue]="kemitraan" *ngFor="let kemitraan of objectValues(searchKemitraan)">{{ kemitraan }}</option>
         </select>
         <button *ngIf="showTambahKemitraan == 1" class="btn btn-success">

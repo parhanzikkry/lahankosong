@@ -3,7 +3,8 @@ var crypto = require('crypto'),
 	mailer = require('nodemailer'),
 	Token = require(__dirname + '/Token.controller'),
 	Publisher = sequelize.import(__dirname + '/../models/publisher.model')
-	Email = require(__dirname + '/Mailer.controller');
+	Email = require(__dirname + '/Mailer.controller'),
+	Admin = sequelize.import(__dirname + '/../models/admin.model');
 
 class Auth {
 	constructor() {
@@ -19,19 +20,36 @@ class Auth {
 		if(!data.body.username || !data.body.password) {
 			res.json({status: false, code: 400, message: 'Harap isi username dan passwordnya terlebih dahulu'});
 		} else {
-			Publisher
+			Admin
 				.findOne({
-					where: {
-						username_publisher: data.body.username,
-						password_publisher: this.password
-					}
+					username_admin: data.body.username,
+					password_admin: this.password
 				})
-				.then((publisher) => {
-					publisher = JSON.parse(JSON.stringify(publisher));
-					if(publisher.length == 0) {
-						res.json({status: false, code: 400, message: 'Username dan password tidak ditemukan', info: data.body});
+				.then((admin) => {
+					admin = JSON.parse(JSON.stringify(admin));
+					if(admin == null || admin.length == 0) {
+						Publisher
+						.findOne({
+							where: {
+								username_publisher: data.body.username,
+								password_publisher: this.password
+							}
+						})
+						.then((publisher) => {
+							publisher = JSON.parse(JSON.stringify(publisher));
+							if(publisher.length == 0) {
+								res.json({status: false, code: 400, message: 'Username dan password tidak ditemukan', info: data.body});
+							} else {
+								publisher.role = 'publisher';
+								res.json({status: true, code: 200, message: 'Authentifikasi berhasil', token: Token.SetupToken(publisher)});
+							}
+						})
+						.catch((err) => {
+							admin.role = 'admin';
+							res.json({status: false, code: 400, message: 'Authentifikasi gagal', error: err});
+						})
 					} else {
-						res.json({status: true, code: 200, message: 'Authentifikasi berhasil', token: Token.SetupToken(publisher)});
+						res.json({status: true, code: 200, message: 'Welcome back admin', token: Token.SetupToken(publisher)});
 					}
 				})
 				.catch((err) => {
