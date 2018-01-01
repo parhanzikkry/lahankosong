@@ -63,7 +63,7 @@ import { PostComponent } from './post/post.component';
       { path: 'dashboard', component: DashboardComponent },
       { path: 'post', component: PostComponent },
       { path: '**', component: NoContentComponent },
-    ]),
+    ], {useHash: true}),
     CKEditorModule,
     NgbModule.forRoot(),
     AgmCoreModule.forRoot({

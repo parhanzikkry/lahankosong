@@ -12,11 +12,11 @@ import swal from 'sweetalert2';
 export class DetailComponent implements OnInit {
   private login: boolean;
   private NamaUser: string;
-  private status: any;
+  public status: any;
   
   public idLahan: any;
-  public lat: number = -6.5971469;
-  public lng: number = 106.8060388;
+  public pointLat: number;
+  public pointLng: number;
   public zoom: number = 10;
   public detailLahan = {};
 
@@ -72,10 +72,10 @@ export class DetailComponent implements OnInit {
           kemitraan: _kemitraan || '-',
           foto: item.foto.path,
           fotoCount: fotoArr,
-          latitude: item.latitude,
-          longitude: item.longitude,
           status: item.status
         };
+        this.pointLat = this.strToNum(item.latitude);
+        this.pointLng = this.strToNum(item.longitude);
       });
     });
   }

@@ -119,6 +119,7 @@ export class AppService {
     header.append('Content-type', 'application/json');
     return this.http.get(this.pathGetDataKecamatan + kabupatenkota_id, {headers: header})
     .map((response: Response) => {
+      console.log(response);
         const body = response.json();
         return body.kecamatan || {};
     });

@@ -22,7 +22,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(__dirname + '/dist'));
+app.use(express.static(path.join(__dirname, 'dist/')));
 /*Routing*/
 var registrasilahan = require(__dirname + '/routes/RegistrasiLahan.route'),
     lahan = require(__dirname + '/routes/Lahan.route'),

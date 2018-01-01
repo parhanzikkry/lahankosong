@@ -84,11 +84,11 @@
   <div class="row mb-3">
     <h3 class="subtitle">Lokasi Lahan</h3><hr>
   </div>
-    <agm-map [latitude]="strToNum(detailLahan.latitude)" 
-             [longitude]="strToNum(detailLahan.longitude)"
+    <agm-map [latitude]="pointLat" 
+             [longitude]="pointLng"
              [zoom]="zoom">
-      <agm-marker [latitude]="strToNum(detailLahan.latitude)"
-                  [longitude]="strToNum(detailLahan.longitude)">
+      <agm-marker [latitude]="pointLat"
+                  [longitude]="pointLng">
         <agm-info-window>
           {{ detailLahan.alamat_lahan }}
         </agm-info-window>

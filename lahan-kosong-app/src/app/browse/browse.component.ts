@@ -58,9 +58,11 @@ export class BrowseComponent implements OnInit {
   }
 
   getDataKecamatan(kabupatenKota_id: number) {
+    console.log('masuk sini loh');
     this.searchKecamatan = {};
     this.AppService.getDataKecamatan(kabupatenKota_id)
     .subscribe(data => {
+      console.log(data);
       data.forEach(item => {
         this.searchKecamatan[item.id] = item.name;
       });

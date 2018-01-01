@@ -9,7 +9,7 @@ import swal from 'sweetalert2';
   providers: [AppService]
 })
 export class HeaderComponent implements DoCheck {
-  private login: boolean;
+  public login: boolean;
   private NamaUser: string;
   private status: any;
   constructor(

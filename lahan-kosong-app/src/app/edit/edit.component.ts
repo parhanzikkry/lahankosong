@@ -51,8 +51,8 @@ export class EditComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private AppService: AppService,
-    private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { 
     this.route.params.subscribe((params: Params) => {
       const id = params['id'];

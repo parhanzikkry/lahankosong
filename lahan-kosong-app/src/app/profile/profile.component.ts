@@ -31,6 +31,7 @@ export class ProfileComponent implements OnInit {
       }
       this.lahanTerdaftar = [];
       this.AppService.getMyLahan().subscribe(data => {
+        console.log(data);
         this.enum = 1;
         data.forEach(item => {
           const _kemitraan = item.kemitraan.map(function(e){ return e.kemitraan; }).join(', ');
